@@ -25,6 +25,18 @@ and deployed to GitHub Pages via GitHub Actions.
 hugo server -D
 ```
 
+## Deploying
+
+```bash
+./deploy.sh                  # build locally, commit any changes, push, wait for the live deploy
+./deploy.sh "my message"     # same, with your own commit message
+./deploy.sh --no-watch       # push and exit immediately, don't wait for GitHub Actions
+```
+
+It runs a local Hugo build first and refuses to push if that fails, so a
+broken build never reaches GitHub Pages. Nothing to push (no local changes,
+already in sync with `origin/main`) is a normal, silent no-op.
+
 ## Content structure
 
 Most identity/profile content lives in **config and data files**, not

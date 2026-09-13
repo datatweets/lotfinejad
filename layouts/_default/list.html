@@ -1,18 +1,19 @@
 {{ define "main" }}
-<div class="page-head">
-  <h1 class="page-title">{{ .Title }}</h1>
-  {{ with .Content }}<div class="page-sub">{{ . }}</div>{{ end }}
+<div class="wrap"><div class="cols">
+<div class="stack">
+  <section class="card"><div class="pad">
+    <h1 style="font-size:28px">{{ .Title }}</h1>
+    {{ with .Content }}<div class="excerpt" style="margin-block-start:10px">{{ . }}</div>{{ end }}
+  </div></section>
+  <section class="card"><div class="post-list">
+    {{ range .Pages }}
+    <article class="post-item">
+      <h3 class="post-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      {{ with .Summary }}<p class="excerpt">{{ . }}</p>{{ end }}
+    </article>
+    {{ end }}
+  </div></section>
 </div>
-<div class="grid">
-  {{ range .Pages }}
-    <a class="card" href="{{ .RelPermalink }}">
-      <div class="card-cover">{{ partial "card-cover.html" "#0a66c2" }}</div>
-      <div class="card-body">
-        <p class="card-title">{{ .Title }}</p>
-        {{ with .Summary }}<p class="card-excerpt">{{ . }}</p>{{ end }}
-        {{ with .Params.date }}<div class="card-meta"><span class="bidi-num">{{ partial "icon.html" "calendar" }}{{ .Format "2006-01-02" }}</span></div>{{ end }}
-      </div>
-    </a>
-  {{ end }}
-</div>
+<aside class="rail">{{ partial "rail-links.html" . }}</aside>
+</div></div>
 {{ end }}

@@ -1,7 +1,11 @@
 {{ define "main" }}
-<article class="prose">
-  <h1>{{ .Title }}</h1>
-  {{ with .Params.date }}<p class="meta bidi-num">{{ .Format "2006-01-02" }}</p>{{ end }}
-  {{ .Content }}
-</article>
+<div class="wrap"><div class="cols">
+<div class="stack">
+  <section class="card"><div class="pad">
+    <h1 style="font-size:28px">{{ .Title }}</h1>
+    <div class="prose" style="margin-block-start:14px">{{ .Content }}</div>
+  </div></section>
+</div>
+<aside class="rail">{{ partial "rail-links.html" . }}</aside>
+</div></div>
 {{ end }}

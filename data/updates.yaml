@@ -1,0 +1,4 @@
+- text: 'به‌روزرسانی مخزن <span class="lat" dir="ltr">airflow-pyspark-k8s</span> با Helm chart تازه'
+  jdate: [1405, 6, 17]
+- text: 'افزودن فصل ارزیابی به <span class="lat" dir="ltr">langchain-mastery</span>'
+  jdate: [1405, 6, 11]

@@ -1,0 +1,12 @@
+{{- /*
+  Long-form Jalali (Hijri Shamsi) date, e.g. "۲۰ شهریور ۱۴۰۵".
+  Dates are authored directly as [year, month, day] in front matter
+  (jdate = [1405, 6, 20]) — this is a lookup/formatting helper, not a
+  Gregorian→Jalali calendar conversion.
+  Usage: {{ partial "jalali-long.html" .Params.jdate }}
+*/ -}}
+{{- $months := slice "فروردین" "اردیبهشت" "خرداد" "تیر" "مرداد" "شهریور" "مهر" "آبان" "آذر" "دی" "بهمن" "اسفند" -}}
+{{- $y := index . 0 -}}
+{{- $m := index . 1 -}}
+{{- $d := index . 2 -}}
+{{- partial "fa-digits.html" $d }} {{ index $months (sub $m 1) }} {{ partial "fa-digits.html" $y -}}

@@ -1,40 +1,84 @@
 {{ define "main" }}
-<article class="prose">
-  <h1>{{ .Title }}</h1>
-  {{ .Content }}
+<div class="wrap"><div class="cols">
+<div class="stack">
 
-  {{ $resume := site.Data.resume }}
+  <section class="card"><div class="pad">
+    <div class="card-head">
+      <div><span class="eyebrow lat">Resume</span><h1 style="font-size:28px">{{ .Title }}</h1></div>
+      <button class="btn btn-plain no-print" id="printBtn" type="button">{{ partial "icon.html" "print" }}چاپ / ذخیره PDF</button>
+    </div>
+    <p class="headline" style="font-size:16px">{{ site.Params.author }} · {{ site.Params.headline }}</p>
+    <div class="note no-print" style="margin-block-start:16px">
+      {{ partial "icon.html" "sparkle" }}
+      <span>موردهایی که با خط‌چین نارنجی مشخص شده‌اند در سایت فعلی هنوز نمونه‌اند؛ آن‌ها را با نام واقعی شرکت و مدرک جایگزین کنید.</span>
+    </div>
+  </div></section>
 
-  {{ with $resume.experience }}
-  <h2>تجربه‌ی کاری</h2>
-  <ul class="timeline">
-    {{ range . }}
-    <li>
-      <strong>{{ .role }}</strong> — {{ .company }}
-      <div class="period bidi-num">{{ .period }}</div>
-      {{ with .description }}<p>{{ . }}</p>{{ end }}
-    </li>
+  <section class="card"><div class="pad">
+    <div class="card-head"><h2>تجربه‌ی کاری</h2></div>
+    <div class="tl">
+      {{ range site.Data.experience }}
+      <div class="tl-item">
+        <div class="logo-sq">{{ partial "icon.html" "cpu" }}</div>
+        <div>
+          <div class="tl-role{{ if .rolePh }} ph{{ end }}">{{ .role }}</div>
+          <div class="tl-org{{ if .orgPh }} ph{{ end }}">{{ .org }}</div>
+          <div class="tl-when">{{ .when }}</div>
+          {{ with .desc }}<p class="tl-desc">{{ . }}</p>{{ end }}
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div></section>
+
+  <section class="card"><div class="pad">
+    <div class="card-head"><h2>تحصیلات</h2></div>
+    <div class="tl">
+      {{ range site.Data.education }}
+      <div class="tl-item">
+        <div class="logo-sq">{{ partial "icon.html" "doc" }}</div>
+        <div>
+          <div class="tl-role{{ if .rolePh }} ph{{ end }}">{{ .role }}</div>
+          <div class="tl-org{{ if .orgPh }} ph{{ end }}">{{ .org }}</div>
+          <div class="tl-when">{{ .when }}</div>
+          {{ with .desc }}<p class="tl-desc">{{ . }}</p>{{ end }}
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div></section>
+
+  <section class="card"><div class="pad">
+    <div class="card-head"><h2>مهارت‌ها</h2></div>
+    {{ range site.Data.skills }}
+    <div class="skill-group">
+      <h3>{{ .group }}</h3>
+      <div class="tagrow">{{ range .items }}<span class="tag{{ if findRE "[A-Za-z]" . }} lat{{ end }}">{{ . }}</span>{{ end }}</div>
+    </div>
     {{ end }}
-  </ul>
-  {{ end }}
+  </div></section>
 
-  {{ with $resume.education }}
-  <h2>تحصیلات</h2>
-  <ul class="timeline">
-    {{ range . }}
-    <li>
-      <strong>{{ .degree }}</strong> — {{ .institution }}
-      <div class="period bidi-num">{{ .period }}</div>
-    </li>
-    {{ end }}
-  </ul>
-  {{ end }}
+  <section class="card"><div class="pad">
+    <div class="card-head"><h2>نوشته‌ها و پروژه‌های شاخص</h2></div>
+    <div class="rail-list">
+      {{ range where site.RegularPages "Section" "posts" }}
+      <div class="rail-row block">
+        <a href="{{ .RelPermalink }}" style="color:var(--ink);font-weight:600">{{ .Title }}</a>
+        <div class="meta tight" style="margin-block-start:4px"><span>{{ with .Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }}</span></div>
+      </div>
+      {{ end }}
+      {{ range first 3 site.Data.projects }}
+      <div class="rail-row">
+        <span class="lat" style="color:var(--accent);font-weight:600">{{ .name }}</span>
+        <span>{{ partial "fa-digits.html" .stars }} ستاره</span>
+      </div>
+      {{ end }}
+    </div>
+  </div></section>
 
-  {{ with $resume.skills }}
-  <h2>مهارت‌ها</h2>
-  <ul class="tag-list">
-    {{ range . }}<li class="bidi-ltr">{{ . }}</li>{{ end }}
-  </ul>
-  {{ end }}
-</article>
+</div>
+<aside class="rail">
+  {{ partial "rail-links.html" . }}
+</aside>
+</div></div>
 {{ end }}

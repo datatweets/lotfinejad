@@ -1,0 +1,13 @@
+<section class="card"><div class="pad">
+  <div class="card-head"><h2>تازه‌ترین نوشته</h2></div>
+  <div class="rail-list">
+    {{ range first 3 (where site.RegularPages "Section" "posts") }}
+    <div class="rail-row block">
+      <a href="{{ .RelPermalink }}" style="color:var(--ink);font-weight:600;font-size:14.5px;line-height:1.6">{{ .Title }}</a>
+      <div class="meta tight" style="margin-block-start:5px">
+        <span>{{ with .Params.jdate }}{{ partial "jalali-num.html" . }}{{ end }}</span>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</div></section>

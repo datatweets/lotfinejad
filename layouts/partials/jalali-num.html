@@ -1,0 +1,8 @@
+{{- /*
+  Numeric Jalali date, e.g. "۱۴۰۵/۰۶/۲۰".
+  Usage: {{ partial "jalali-num.html" .Params.jdate }}
+*/ -}}
+{{- $y := index . 0 -}}
+{{- $m := printf "%02d" (index . 1) -}}
+{{- $d := printf "%02d" (index . 2) -}}
+{{- partial "fa-digits.html" (printf "%d/%s/%s" $y $m $d) -}}

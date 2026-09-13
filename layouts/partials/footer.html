@@ -1,8 +1,10 @@
 <footer class="site-footer">
-  <div class="container">
-    <p>
-      © {{ now.Format "2006" }} {{ site.Params.author }}
-      {{ with site.Params.githubUser }} · <span class="bidi-ltr"><a href="https://github.com/{{ . }}">GitHub</a></span>{{ end }}
-    </p>
+  <div class="footer-inner">
+    <span>© {{ partial "fa-digits.html" "1405" }} {{ site.Params.author }}</span>
+    <span class="footer-links">
+      <a href="{{ "posts/" | relLangURL }}">مقالات</a>
+      <a href="{{ "resume/" | relLangURL }}">رزومه</a>
+      {{ range site.Data.links }}<a href="{{ .href }}" target="_blank" rel="noopener">{{ .title }}</a>{{ end }}
+    </span>
   </div>
 </footer>

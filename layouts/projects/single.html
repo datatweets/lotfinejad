@@ -1,15 +1,40 @@
 {{ define "main" }}
-<article class="prose">
-  <h1>{{ .Title }}</h1>
-  {{ with .Params.stack }}
-    <ul class="tag-list">
-      {{ range . }}<li class="bidi-ltr">{{ . }}</li>{{ end }}
-    </ul>
-  {{ end }}
-  {{ .Content }}
-  <p>
-    {{ with .Params.repo }}<a class="bidi-ltr" href="{{ . }}">مخزن کد (GitHub)</a>{{ end }}
-    {{ with .Params.demo }} · <a class="bidi-ltr" href="{{ . }}">نمایش زنده</a>{{ end }}
-  </p>
-</article>
+<div class="wrap"><div class="cols">
+<div class="stack">
+
+  <section class="card"><div class="pad">
+    <span class="eyebrow lat">Open source</span>
+    <h1 style="font-size:28px">{{ .Title }}</h1>
+    <p class="excerpt" style="font-size:15.5px;max-width:62ch">مخزن‌های عمومی‌ام روی GitHub؛ بیشترشان آموزشی‌اند و برای این ساخته شده‌اند که یک ایده‌ی مهندسی داده یا هوش مصنوعی را از صفر تا اجرا نشان دهند.</p>
+    <div class="actions">
+      <a class="btn btn-ghost" href="https://github.com/{{ site.Params.githubUser }}?tab=repositories" target="_blank" rel="noopener">{{ partial "icon.html" "ext" }}همه‌ی مخزن‌ها در GitHub</a>
+    </div>
+  </div></section>
+
+  <section class="card"><div class="pad">
+    <div class="proj-grid">
+      {{ range site.Data.projects }}
+      <a class="proj" href="https://github.com/{{ $.Site.Params.githubUser }}/{{ .name }}" target="_blank" rel="noopener">
+        <span class="proj-name">{{ .name }}</span>
+        <p>{{ .desc }}</p>
+        <div class="tagrow">
+          {{ range .tags }}<span class="tag{{ if findRE "[A-Za-z]" . }} lat{{ end }}">{{ . }}</span>{{ end }}
+        </div>
+        <div class="proj-foot">
+          <span class="lang"><i></i><span class="lat">{{ .lang }}</span></span>
+          <span class="dot"></span>
+          <span>{{ partial "fa-digits.html" .stars }} ستاره</span>
+        </div>
+      </a>
+      {{ end }}
+    </div>
+  </div></section>
+
+</div>
+<aside class="rail">
+  {{ partial "rail-skills.html" . }}
+  {{ partial "rail-links.html" . }}
+  {{ partial "rail-latest.html" . }}
+</aside>
+</div></div>
 {{ end }}

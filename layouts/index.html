@@ -1,93 +1,88 @@
 {{ define "main" }}
-<div class="cover">{{ partial "hero-cover.html" . }}</div>
+<div class="wrap"><div class="cols">
+<div class="stack">
 
-<div class="hero">
-  <div class="avatar">
-    {{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="{{ site.Params.author }}">
-    {{ else }}{{ site.Params.avatarInitial }}{{ end }}
-  </div>
-  <div class="hero-body">
-    <h1 class="name">{{ site.Params.author }}</h1>
-    <p class="headline">
-      <em class="placeholder">{{ site.Params.headlinePlaceholder }}</em>
-      {{ with site.Params.heroTagline }} · {{ . }}{{ end }}
-    </p>
-    {{ with site.Params.bio }}<p class="bio">{{ . }}</p>{{ end }}
-    {{ with site.Params.focusTags }}
-    <ul class="tag-list">
-      {{ range . }}<li>{{ . }}</li>{{ end }}
-    </ul>
-    {{ end }}
-    <div class="cta-row">
-      <a class="btn btn-primary" href="{{ "about/" | relLangURL }}">
-        {{ partial "icon.html" "mail" }}
-        ارتباط با من
-      </a>
-      <a class="btn btn-ghost" href="{{ "resume/" | relLangURL }}">
-        {{ partial "icon.html" "resume" }}
-        مشاهده رزومه
-      </a>
-      <div class="social">
-        {{ with site.Params.githubUser }}
-        <a class="bidi-ltr" href="https://github.com/{{ . }}">{{ partial "icon.html" "link" }}گیت‌هاب</a>
-        {{ end }}
-        {{ with site.Params.linkedinUser }}
-        <a class="bidi-ltr" href="https://linkedin.com/in/{{ . }}">{{ partial "icon.html" "link" }}لینکدین</a>
-        {{ end }}
+  <section class="card lift">
+    <div class="cover"><span class="cover-tag lat">{{ site.Params.coverTag }}</span></div>
+    <div class="profile-body">
+      <div class="avatar">
+        {{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="{{ site.Params.author }}">
+        {{ else }}{{ site.Params.monoInitial }}{{ end }}
+      </div>
+      <div class="identity"><div>
+        <h1>{{ site.Params.author }}</h1>
+        <p class="headline">{{ site.Params.headline }}</p>
+      </div></div>
+      <p class="excerpt" style="font-size:15.5px;max-width:56ch">{{ site.Params.tagline }}</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}ارتباط با من</a>
+        <a class="btn btn-ghost" href="{{ "resume/" | relLangURL }}">{{ partial "icon.html" "doc" }}مشاهده‌ی رزومه</a>
+        <a class="btn btn-plain" href="https://github.com/{{ site.Params.githubUser }}" target="_blank" rel="noopener">{{ partial "icon.html" "ext" }}GitHub</a>
       </div>
     </div>
-  </div>
+  </section>
+
+  <section class="card"><div class="pad">
+    <div class="card-head"><h2>درباره</h2><a class="link-more" href="{{ "about/" | relLangURL }}">بیشتر</a></div>
+    <p class="excerpt" style="font-size:15.5px;max-width:66ch">{{ index site.Params.about 0 }}</p>
+  </div></section>
+
+  <section class="card">
+    <div class="pad" style="padding-block-end:0"><div class="card-head"><h2>حوزه‌های تمرکز</h2></div></div>
+    <div class="focus">
+      {{ range site.Data.focus }}
+      <div class="focus-item">{{ partial "icon.html" .icon }}<h3>{{ .title }}</h3><p>{{ .desc }}</p></div>
+      {{ end }}
+    </div>
+  </section>
+
+  {{ $posts := where site.RegularPages "Section" "posts" }}
+  <section class="card">
+    <div class="pad" style="padding-block-end:12px"><div class="card-head" style="margin-block-end:0">
+      <div><span class="eyebrow lat">Featured</span><h2>مقالات برگزیده</h2></div>
+      <a class="link-more" href="{{ "posts/" | relLangURL }}">همه‌ی مقالات</a>
+    </div></div>
+    <div class="post-list">
+      {{ range $i, $p := $posts }}
+      <article class="post-item">
+        <div class="post-top">
+          <span class="featured-num">{{ partial "fa-digits.html" (add $i 1) }}</span>
+          <span class="meta tight">
+            <span class="cat">{{ $p.Params.category }}</span>
+            <span>{{ with $p.Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }}</span>
+            <span class="dot"></span>
+            <span>{{ partial "fa-digits.html" $p.Params.readMinutes }} دقیقه مطالعه</span>
+          </span>
+        </div>
+        <h3 class="post-title"><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></h3>
+        <p class="excerpt">{{ $p.Params.summary }}</p>
+      </article>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="card"><div class="pad">
+    <div class="card-head"><h2>به‌روزرسانی‌های اخیر</h2></div>
+    <div class="rail-list">
+      {{ with index $posts 0 }}
+      <div class="rail-row block">
+        <b style="font-weight:600">انتشار مقاله‌ی «{{ .Title }}»</b>
+        <div class="meta tight" style="margin-block-start:4px"><span>{{ with .Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }}</span></div>
+      </div>
+      {{ end }}
+      {{ range site.Data.updates }}
+      <div class="rail-row block">
+        <b style="font-weight:600">{{ .text | markdownify }}</b>
+        <div class="meta tight" style="margin-block-start:4px"><span>{{ partial "jalali-long.html" .jdate }}</span></div>
+      </div>
+      {{ end }}
+    </div>
+  </div></section>
+
 </div>
-
-{{ with .Content }}<section class="block prose">{{ . }}</section>{{ end }}
-
-{{ $posts := where site.RegularPages "Section" "posts" }}
-{{ with $posts }}
-<section class="block">
-  <div class="section-head">
-    <h2 class="section-title">به‌روزرسانی‌های اخیر</h2>
-  </div>
-  <div class="updates">
-    {{ range first 3 . }}
-    <div class="update">
-      <div class="update-icon">{{ partial "icon.html" "note" }}</div>
-      <div class="update-body">
-        <div class="update-top">
-          <span>مقاله‌ی تازه</span><span>·</span>
-          <span class="bidi-num">{{ with .Params.pdate }}{{ . }}{{ else }}{{ .Date.Format "2006-01-02" }}{{ end }}</span>
-        </div>
-        <p class="update-title">{{ .Title }}</p>
-        {{ $permalink := .RelPermalink }}
-        {{ with .Params.summary }}<p class="update-desc">{{ . }} <a href="{{ $permalink }}">مطالعه مقاله</a></p>{{ end }}
-      </div>
-    </div>
-    {{ end }}
-  </div>
-</section>
-
-<section class="block">
-  <div class="section-head">
-    <h2 class="section-title">مقالات برگزیده</h2>
-    <a class="see-all" href="{{ "posts/" | relLangURL }}">مشاهده همه {{ partial "icon.html" "chevron-left" }}</a>
-  </div>
-  <div class="grid">
-    {{ range first 3 . }}
-    <a class="card" href="{{ .RelPermalink }}">
-      <div class="card-cover">
-        {{ partial "card-cover.html" (partial "category-color.html" .Params.category) }}
-        {{ with .Params.category }}<span class="card-cat">{{ . }}</span>{{ end }}
-      </div>
-      <div class="card-body">
-        <p class="card-title">{{ .Title }}</p>
-        {{ with .Summary }}<p class="card-excerpt">{{ . }}</p>{{ end }}
-        <div class="card-meta">
-          <span>{{ partial "icon.html" "clock" }}{{ partial "fa-digits.html" .ReadingTime }} دقیقه</span>
-          <span class="bidi-num">{{ partial "icon.html" "calendar" }}{{ with .Params.pdate }}{{ . }}{{ else }}{{ .Date.Format "2006-01-02" }}{{ end }}</span>
-        </div>
-      </div>
-    </a>
-    {{ end }}
-  </div>
-</section>
-{{ end }}
+<aside class="rail">
+  {{ partial "rail-skills.html" . }}
+  {{ partial "rail-links.html" . }}
+</aside>
+</div></div>
 {{ end }}

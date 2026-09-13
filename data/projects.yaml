@@ -1,0 +1,30 @@
+- name: "airflow-pyspark-k8s"
+  desc: "اجرای Apache Airflow با KubernetesExecutor و PySpark روی Kubernetes، با Helm chart و Kind برای توسعه‌ی محلی."
+  lang: "Python"
+  stars: 4
+  tags: ["Airflow", "Kubernetes", "PySpark", "Helm"]
+- name: "aws-data-engineering"
+  desc: "مهندسی داده روی AWS با Glue، Athena و PySpark؛ همراه نوت‌بوک‌های محلی، مجموعه‌داده‌ی نمونه‌ی بانکی و بهترین‌روش‌ها."
+  lang: "Python"
+  stars: 2
+  tags: ["AWS Glue", "Athena", "PySpark"]
+- name: "langchain-mastery"
+  desc: "مجموعه‌ی گام‌به‌گام اسکریپت و آموزش برای ساخت اپلیکیشن‌های هوشمند مبتنی بر LLM؛ از مقدماتی تا پیشرفته."
+  lang: "Python"
+  stars: 1
+  tags: ["LangChain", "LLM", "RAG"]
+- name: "software-eng-bootcamp"
+  desc: "بوت‌کمپ فشرده‌ی مبانی مهندسی نرم‌افزار: چرخه‌ی عمر توسعه، الگوهای طراحی، Git، تست و CI/CD."
+  lang: "Jupyter Notebook"
+  stars: 2
+  tags: ["Design Patterns", "Git", "CI/CD"]
+- name: "terraform-aws-tutorials"
+  desc: "آموزش‌های عملی زیرساخت AWS با Terraform؛ زیرساخت به‌صورت کد از صفر."
+  lang: "HCL"
+  stars: 1
+  tags: ["Terraform", "IaC", "AWS"]
+- name: "datatweets.github.io"
+  desc: "«Learn Data» — سایت آموزشی متن‌محور برای یادگیری داده و برنامه‌نویسی."
+  lang: "HTML"
+  stars: 1
+  tags: ["آموزش", "داده"]

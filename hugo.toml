@@ -9,21 +9,30 @@ summaryLength = 40
   pagerSize = 8
 
 [params]
-  description = "وب‌سایت شخصی و بلاگ لطفی‌نژاد"
-  author = "لطفی‌نژاد"
+  description = "وب‌سایت شخصی مهدی لطفی‌نژاد — مهندسی داده، هوش مصنوعی و رهبری فنی."
+  author = "مهدی لطفی‌نژاد"
+  brand = "لطفی‌نژاد"
+  brandMark = "ل"
+  monoInitial = "م.ل"
+  headline = "دانشمند ارشد داده · مهندسی داده و هوش مصنوعی"
+  tagline = "درباره‌ی پروژه‌ها، تجربه‌ها و یادداشت‌های خودم می‌نویسم."
+  email = "you@lotfinejad.ir"  # TODO: replace with your real email
+  coverTag = "Data & AI"
   direction = "rtl"
-  # Set to false to hide the "GitHub" link in the footer.
   githubUser = "datatweets"
-
-  # Hero / profile section (home page)
-  avatarInitial = "ل"
   avatarImage = "/images/avatar.jpg"
-  # TODO: replace with your real title — kept as a visible placeholder on purpose.
-  headlinePlaceholder = "[عنوان شغلی شما]"
-  heroTagline = "می‌نویسم درباره‌ی هوش مصنوعی، مهندسی داده و رهبری فنی"
-  bio = "در این‌جا چیزهایی را می‌نویسم که در مسیر کار روی سامانه‌های داده و هوش مصنوعی، و همکاری با تیم‌های فنی یاد گرفته‌ام؛ از تصمیم‌های مهندسی گرفته تا مهارت‌هایی که بازار کار امروز واقعاً از یک مهندس هوش مصنوعی می‌خواهد."
-  focusTags = ["هوش مصنوعی", "مهندسی داده", "رهبری فنی"]
-  linkedinUser = ""  # TODO: add your LinkedIn username to show the link
+
+  about = [
+    "من در حوزه‌ی Data & AI فعالیت می‌کنم: پلتفرم‌های داده می‌سازم، سیستم‌های مبتنی بر مدل‌های زبانی را به محصول قابل‌اتکا تبدیل می‌کنم و تیم‌های فنی را در تصمیم‌های معماری همراهی می‌کنم.",
+    "این‌جا چیزهایی را می‌نویسم که در مسیر ساخت این سیستم‌ها یاد گرفته‌ام؛ تصمیم‌های مهندسی، بده‌بستان‌هایی که ناچار شدم بپذیرم، و مهارت‌هایی که بازار کار امروز واقعاً از یک مهندس هوش مصنوعی می‌خواهد. هرچه می‌نویسم از کار روی داده‌ی واقعی و تیم واقعی درآمده، نه از خلاصه‌ی کتاب‌ها."
+  ]
+
+  howIWork = [
+    "اول سنجه، بعد مدل. تا وقتی معلوم نیست «بهتر» را چطور اندازه می‌گیریم، هیچ تغییری بهبود نیست.",
+    "ساده‌ترین چیزی که کار می‌کند را منتشر کن، بعد پیچیدگی را با دلیل اضافه کن.",
+    "تصمیم را بنویس؛ نوشتن، اختلاف‌های پنهان را قبل از پیاده‌سازی بیرون می‌کشد.",
+    "هزینه و تأخیر هم بخشی از کیفیت‌اند، نه یادداشت پایانی."
+  ]
 
 [taxonomies]
   tag = "tags"
@@ -47,23 +56,34 @@ summaryLength = 40
   name = "خانه"
   url = "/"
   weight = 10
+  params = { icon = "home" }
 
 [[menu.main]]
   name = "درباره من"
   url = "/about/"
   weight = 20
+  params = { icon = "user" }
 
 [[menu.main]]
   name = "نمونه‌کارها"
   url = "/projects/"
   weight = 30
+  params = { icon = "grid" }
 
 [[menu.main]]
   name = "رزومه"
   url = "/resume/"
   weight = 40
+  params = { icon = "doc" }
 
 [[menu.main]]
   name = "مقالات"
   url = "/posts/"
   weight = 50
+  params = { icon = "news" }
+
+[[menu.main]]
+  name = "ارتباط با من"
+  url = "/contact/"
+  weight = 60
+  params = { icon = "mail" }

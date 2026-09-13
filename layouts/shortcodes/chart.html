@@ -1,0 +1,24 @@
+{{- $c := .Page.Params.chart -}}
+{{- $ticks := slice "۰" "۲۵" "۵۰" "۷۵" "۱۰۰" -}}
+<figure class="figure">
+  <figcaption>
+    <div class="figure-title">{{ $c.title }}</div>
+    <div class="figure-sub">{{ $c.sub }}</div>
+  </figcaption>
+  <div class="bars">
+    {{ range $c.rows }}
+    {{ $name := index . 0 }}
+    {{ $val := index . 1 }}
+    <div class="bar-row">
+      <div class="bar-name{{ if not (findRE "^[آ-ی]" $name) }} bidi-ltr{{ end }}">{{ $name }}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:{{ $val }}%"></div></div>
+      <div class="bar-val">{{ partial "fa-digits.html" (printf "%.1f" $val) }}٪</div>
+    </div>
+    {{ end }}
+  </div>
+  <div class="axis">
+    <div></div>
+    <div class="axis-ticks">{{ range $ticks }}<span>{{ . }}</span>{{ end }}</div>
+    <div></div>
+  </div>
+</figure>

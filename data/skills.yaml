@@ -1,0 +1,8 @@
+- group: "زبان‌ها و داده"
+  items: ["Python", "SQL", "PySpark", "Pandas"]
+- group: "پلتفرم و زیرساخت"
+  items: ["Kubernetes", "Helm", "Terraform", "Docker", "Apache Airflow", "Apache Kafka", "AWS Glue", "Amazon Athena"]
+- group: "هوش مصنوعی"
+  items: ["LLM", "RAG", "LangChain", "ساخت ایجنت", "ارزیابی مدل"]
+- group: "مهندسی نرم‌افزار"
+  items: ["Git", "CI/CD", "تست", "الگوهای طراحی"]

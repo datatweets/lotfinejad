@@ -1,3 +1,4 @@
 ---
 title: "نمونه‌کارها"
+type: "projects"
 ---

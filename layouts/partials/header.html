@@ -1,16 +1,25 @@
-<header class="site-header">
-  <div class="container">
-    <a class="site-title" href="{{ "/" | relLangURL }}">{{ site.Title }}</a>
-    <nav aria-label="ناوبری اصلی">
-      <ul class="site-nav">
-        {{ range site.Menus.main }}
-          <li><a href="{{ .URL | relLangURL }}"{{ if $.IsMenuCurrent "main" . }} class="active" aria-current="page"{{ end }}>{{ .Name }}</a></li>
-        {{ end }}
-      </ul>
-    </nav>
-    <a class="btn btn-primary" href="{{ "about/" | relLangURL }}">
-      {{ partial "icon.html" "mail" }}
-      ارتباط با من
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="{{ "/" | relLangURL }}">
+      <span class="brand-mark">{{ site.Params.brandMark }}</span>
+      <span class="brand-name">{{ site.Params.brand }}</span>
     </a>
+    <nav class="nav-links" aria-label="ناوبری اصلی">
+      {{ range site.Menus.main }}
+        <a class="nav-link{{ if $.IsMenuCurrent "main" . }} is-active{{ end }}" href="{{ .URL | relLangURL }}">
+          {{ partial "icon.html" .Params.icon }}
+          <span>{{ .Name }}</span>
+        </a>
+      {{ end }}
+    </nav>
+    <div class="nav-end">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="تغییر پوسته"></button>
+      <button class="icon-btn nav-toggle" id="menuBtn" type="button" aria-label="منو" aria-expanded="false"></button>
+    </div>
   </div>
+  <nav class="drawer" id="drawer" aria-label="ناوبری موبایل">
+    {{ range site.Menus.main }}
+      <a href="{{ .URL | relLangURL }}">{{ partial "icon.html" .Params.icon }}{{ .Name }}</a>
+    {{ end }}
+  </nav>
 </header>

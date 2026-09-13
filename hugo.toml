@@ -1,7 +1,7 @@
 baseURL = "https://lotfinejad.ir/"
 languageCode = "fa-ir"
 defaultContentLanguage = "fa"
-title = "لطفی‌نژاد"
+title = "محمدمهدی لطفی‌نژاد"
 enableRobotsTXT = true
 summaryLength = 40
 
@@ -10,13 +10,13 @@ summaryLength = 40
 
 [params]
   description = "وب‌سایت شخصی مهدی لطفی‌نژاد — مهندسی داده، هوش مصنوعی و رهبری فنی."
-  author = "مهدی لطفی‌نژاد"
+  author = "محمدمهدی لطفی‌نژاد"
   brand = "لطفی‌نژاد"
   brandMark = "ل"
   monoInitial = "م.ل"
   headline = "دانشمند ارشد داده · مهندسی داده و هوش مصنوعی"
   tagline = "درباره‌ی پروژه‌ها، تجربه‌ها و یادداشت‌های خودم می‌نویسم."
-  email = "you@lotfinejad.ir"  # TODO: replace with your real email
+  email = "lotfinejad@gmail.com"
   coverTag = "Data & AI"
   direction = "rtl"
   githubUser = "datatweets"

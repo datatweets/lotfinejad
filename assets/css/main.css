@@ -205,17 +205,13 @@ pre code { background: none; padding: 0; font-size: .9em; }
    ============================================================ */
 .nav { position: sticky; inset-block-start: 0; z-index: 50; background: var(--surface); border-block-end: 1px solid var(--line); box-shadow: var(--shadow-sm); }
 .nav-inner { max-width: var(--maxw); margin-inline: auto; padding-inline: 16px; height: 56px; display: flex; align-items: center; gap: 12px; }
-.brand { display: flex; align-items: center; gap: 9px; flex: 0 0 auto; }
-.brand:hover { text-decoration: none; }
-.brand-mark { width: 34px; height: 34px; border-radius: 6px; background: var(--accent); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 18px; letter-spacing: -.02em; }
-.brand-name { font-weight: 700; font-size: 17px; color: var(--ink); white-space: nowrap; }
-.nav-links { display: flex; align-items: stretch; gap: 2px; margin-inline-start: auto; height: 100%; }
+.nav-links { display: flex; align-items: stretch; gap: 2px; height: 100%; }
 .nav-link { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-width: 68px; padding-inline: 8px; color: var(--ink-3); font-size: 12.5px; font-weight: 500; background: none; border: 0; cursor: pointer; text-decoration: none; }
 .nav-link:hover { color: var(--ink); text-decoration: none; }
 .nav-link svg { width: 22px; height: 22px; }
 .nav-link.is-active { color: var(--ink); font-weight: 700; }
 .nav-link.is-active::after { content: ""; position: absolute; inset-block-end: 0; inset-inline: 6px; height: 2px; background: var(--ink); border-radius: 2px 2px 0 0; }
-.nav-end { display: flex; align-items: center; gap: 8px; margin-inline-start: 12px; flex: 0 0 auto; }
+.nav-end { display: flex; align-items: center; gap: 8px; margin-inline-start: auto; flex: 0 0 auto; }
 .icon-btn { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--ink-2); cursor: pointer; }
 .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
 .icon-btn svg { width: 19px; height: 19px; }
@@ -229,7 +225,7 @@ pre code { background: none; padding: 0; font-size: .9em; }
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .nav-toggle { display: grid; }
-  .nav-end { margin-inline-start: auto; }
+  .nav-end { margin-inline-start: 0; }
 }
 
 /* ============================================================

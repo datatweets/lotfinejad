@@ -1,9 +1,5 @@
 <header class="nav">
   <div class="nav-inner">
-    <a class="brand" href="{{ "/" | relLangURL }}">
-      <span class="brand-mark">{{ site.Params.brandMark }}</span>
-      <span class="brand-name">{{ site.Params.brand }}</span>
-    </a>
     <nav class="nav-links" aria-label="ناوبری اصلی">
       {{ range site.Menus.main }}
         <a class="nav-link{{ if $.IsMenuCurrent "main" . }} is-active{{ end }}" href="{{ .URL | relLangURL }}">

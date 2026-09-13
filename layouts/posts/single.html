@@ -1,0 +1,33 @@
+{{ define "main" }}
+<article class="prose">
+  <a class="see-all" href="{{ "posts/" | relLangURL }}">{{ partial "icon.html" "chevron-right" }}بازگشت به مقالات</a>
+
+  <div class="article-cover">
+    {{ partial "article-cover.html" (partial "category-color.html" .Params.category) }}
+  </div>
+
+  {{ with .Params.category }}<span class="eyebrow">{{ . }}</span>{{ end }}
+  <h1 class="article-title">{{ .Title }}</h1>
+
+  <div class="byline">
+    <div class="avatar-sm">{{ site.Params.avatarInitial }}</div>
+    <div>
+      <div class="byline-name">{{ site.Params.author }}</div>
+      <div class="byline-meta">
+        <span class="bidi-num">{{ partial "icon.html" "calendar" }}{{ with .Params.pdate }}{{ . }}{{ else }}{{ .Date.Format "2006-01-02" }}{{ end }}</span>
+        <span>{{ partial "icon.html" "clock" }}{{ partial "fa-digits.html" .ReadingTime }} دقیقه مطالعه</span>
+      </div>
+    </div>
+  </div>
+
+  {{ with .Params.summary }}<p class="lede">{{ . }}</p>{{ end }}
+
+  {{ .Content }}
+
+  {{ with .Params.tags }}
+  <ul class="tag-list" style="margin-top: 2.25rem">
+    {{ range . }}<li>{{ . }}</li>{{ end }}
+  </ul>
+  {{ end }}
+</article>
+{{ end }}

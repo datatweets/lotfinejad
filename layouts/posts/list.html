@@ -1,0 +1,46 @@
+{{ define "main" }}
+<div class="page-head">
+  <div class="eyebrow">مقالات</div>
+  <h1 class="page-title">{{ .Title }}</h1>
+  {{ with .Content }}<div class="page-sub">{{ . }}</div>{{ end }}
+</div>
+
+{{ $pages := .Pages }}
+{{ $cats := slice }}
+{{ range $pages }}
+  {{ with .Params.category }}
+    {{ if not (in $cats .) }}{{ $cats = $cats | append . }}{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ if gt (len $cats) 1 }}
+<div class="filters" id="article-filters">
+  <button class="filter active" data-filter="all">همه</button>
+  {{ range $cats }}<button class="filter" data-filter="{{ . }}">{{ . }}</button>{{ end }}
+</div>
+{{ end }}
+
+<div class="grid" id="article-grid">
+  {{ range $pages }}
+  <a class="card" href="{{ .RelPermalink }}" {{ with .Params.category }}data-category="{{ . }}"{{ end }}>
+    <div class="card-cover">
+      {{ partial "card-cover.html" (partial "category-color.html" .Params.category) }}
+      {{ with .Params.category }}<span class="card-cat">{{ . }}</span>{{ end }}
+    </div>
+    <div class="card-body">
+      <p class="card-title">{{ .Title }}</p>
+      {{ with .Summary }}<p class="card-excerpt">{{ . }}</p>{{ end }}
+      <div class="card-meta">
+        <span>{{ partial "icon.html" "clock" }}{{ partial "fa-digits.html" .ReadingTime }} دقیقه</span>
+        <span class="bidi-num">{{ partial "icon.html" "calendar" }}{{ with .Params.pdate }}{{ . }}{{ else }}{{ .Date.Format "2006-01-02" }}{{ end }}</span>
+      </div>
+    </div>
+  </a>
+  {{ end }}
+</div>
+
+{{ with resources.Get "js/filters.js" }}
+  {{ $js := . | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{ end }}
+{{ end }}

@@ -1,36 +1,88 @@
 {{ define "main" }}
-<section class="prose">
-  {{ with .Content }}{{ . }}{{ else }}
-    <h1>{{ site.Params.author }}</h1>
-    <p>{{ site.Params.description }}</p>
-  {{ end }}
-</section>
+<div class="cover">{{ partial "hero-cover.html" . }}</div>
 
-{{ $projects := where site.RegularPages "Section" "projects" }}
-{{ with $projects }}
-<section>
-  <h2>نمونه‌کارهای منتخب</h2>
-  <div class="grid">
-    {{ range first 3 . }}
-      <a class="card" href="{{ .RelPermalink }}">
-        <h3>{{ .Title }}</h3>
-        {{ with .Summary }}<p>{{ . }}</p>{{ end }}
-      </a>
+<div class="hero">
+  <div class="avatar">{{ site.Params.avatarInitial }}</div>
+  <div class="hero-body">
+    <h1 class="name">{{ site.Params.author }}</h1>
+    <p class="headline">
+      <em class="placeholder">{{ site.Params.headlinePlaceholder }}</em>
+      {{ with site.Params.heroTagline }} · {{ . }}{{ end }}
+    </p>
+    {{ with site.Params.bio }}<p class="bio">{{ . }}</p>{{ end }}
+    {{ with site.Params.focusTags }}
+    <ul class="tag-list">
+      {{ range . }}<li>{{ . }}</li>{{ end }}
+    </ul>
     {{ end }}
+    <div class="cta-row">
+      <a class="btn btn-primary" href="{{ "about/" | relLangURL }}">
+        {{ partial "icon.html" "mail" }}
+        ارتباط با من
+      </a>
+      <a class="btn btn-ghost" href="{{ "resume/" | relLangURL }}">
+        {{ partial "icon.html" "resume" }}
+        مشاهده رزومه
+      </a>
+      <div class="social">
+        {{ with site.Params.githubUser }}
+        <a class="bidi-ltr" href="https://github.com/{{ . }}">{{ partial "icon.html" "link" }}گیت‌هاب</a>
+        {{ end }}
+        {{ with site.Params.linkedinUser }}
+        <a class="bidi-ltr" href="https://linkedin.com/in/{{ . }}">{{ partial "icon.html" "link" }}لینکدین</a>
+        {{ end }}
+      </div>
+    </div>
   </div>
-</section>
-{{ end }}
+</div>
+
+{{ with .Content }}<section class="block prose">{{ . }}</section>{{ end }}
 
 {{ $posts := where site.RegularPages "Section" "posts" }}
 {{ with $posts }}
-<section>
-  <h2>آخرین نوشته‌ها</h2>
+<section class="block">
+  <div class="section-head">
+    <h2 class="section-title">به‌روزرسانی‌های اخیر</h2>
+  </div>
+  <div class="updates">
+    {{ range first 3 . }}
+    <div class="update">
+      <div class="update-icon">{{ partial "icon.html" "note" }}</div>
+      <div class="update-body">
+        <div class="update-top">
+          <span>مقاله‌ی تازه</span><span>·</span>
+          <span class="bidi-num">{{ with .Params.pdate }}{{ . }}{{ else }}{{ .Date.Format "2006-01-02" }}{{ end }}</span>
+        </div>
+        <p class="update-title">{{ .Title }}</p>
+        {{ $permalink := .RelPermalink }}
+        {{ with .Params.summary }}<p class="update-desc">{{ . }} <a href="{{ $permalink }}">مطالعه مقاله</a></p>{{ end }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+<section class="block">
+  <div class="section-head">
+    <h2 class="section-title">مقالات برگزیده</h2>
+    <a class="see-all" href="{{ "posts/" | relLangURL }}">مشاهده همه {{ partial "icon.html" "chevron-left" }}</a>
+  </div>
   <div class="grid">
     {{ range first 3 . }}
-      <a class="card" href="{{ .RelPermalink }}">
-        <h3>{{ .Title }}</h3>
-        {{ with .Params.date }}<p class="meta bidi-num">{{ .Format "2006-01-02" }}</p>{{ end }}
-      </a>
+    <a class="card" href="{{ .RelPermalink }}">
+      <div class="card-cover">
+        {{ partial "card-cover.html" (partial "category-color.html" .Params.category) }}
+        {{ with .Params.category }}<span class="card-cat">{{ . }}</span>{{ end }}
+      </div>
+      <div class="card-body">
+        <p class="card-title">{{ .Title }}</p>
+        {{ with .Summary }}<p class="card-excerpt">{{ . }}</p>{{ end }}
+        <div class="card-meta">
+          <span>{{ partial "icon.html" "clock" }}{{ partial "fa-digits.html" .ReadingTime }} دقیقه</span>
+          <span class="bidi-num">{{ partial "icon.html" "calendar" }}{{ with .Params.pdate }}{{ . }}{{ else }}{{ .Date.Format "2006-01-02" }}{{ end }}</span>
+        </div>
+      </div>
+    </a>
     {{ end }}
   </div>
 </section>

@@ -15,6 +15,15 @@ summaryLength = 40
   # Set to false to hide the "GitHub" link in the footer.
   githubUser = "datatweets"
 
+  # Hero / profile section (home page)
+  avatarInitial = "ل"
+  # TODO: replace with your real title — kept as a visible placeholder on purpose.
+  headlinePlaceholder = "[عنوان شغلی شما]"
+  heroTagline = "می‌نویسم درباره‌ی هوش مصنوعی، مهندسی داده و رهبری فنی"
+  bio = "در این‌جا چیزهایی را می‌نویسم که در مسیر کار روی سامانه‌های داده و هوش مصنوعی، و همکاری با تیم‌های فنی یاد گرفته‌ام؛ از تصمیم‌های مهندسی گرفته تا مهارت‌هایی که بازار کار امروز واقعاً از یک مهندس هوش مصنوعی می‌خواهد."
+  focusTags = ["هوش مصنوعی", "مهندسی داده", "رهبری فنی"]
+  linkedinUser = ""  # TODO: add your LinkedIn username to show the link
+
 [taxonomies]
   tag = "tags"
   category = "categories"
@@ -54,6 +63,6 @@ summaryLength = 40
   weight = 40
 
 [[menu.main]]
-  name = "بلاگ"
+  name = "مقالات"
   url = "/posts/"
   weight = 50

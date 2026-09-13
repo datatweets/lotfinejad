@@ -1,12 +1,17 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
-{{ .Content }}
+<div class="page-head">
+  <h1 class="page-title">{{ .Title }}</h1>
+  {{ with .Content }}<div class="page-sub">{{ . }}</div>{{ end }}
+</div>
 <div class="grid">
   {{ range .Pages }}
     <a class="card" href="{{ .RelPermalink }}">
-      <h3>{{ .Title }}</h3>
-      {{ with .Params.date }}<p class="meta bidi-num">{{ .Format "2006-01-02" }}</p>{{ end }}
-      {{ with .Summary }}<p>{{ . }}</p>{{ end }}
+      <div class="card-cover">{{ partial "card-cover.html" "#0a66c2" }}</div>
+      <div class="card-body">
+        <p class="card-title">{{ .Title }}</p>
+        {{ with .Summary }}<p class="card-excerpt">{{ . }}</p>{{ end }}
+        {{ with .Params.date }}<div class="card-meta"><span class="bidi-num">{{ partial "icon.html" "calendar" }}{{ .Format "2006-01-02" }}</span></div>{{ end }}
+      </div>
     </a>
   {{ end }}
 </div>

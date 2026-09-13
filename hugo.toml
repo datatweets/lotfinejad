@@ -17,6 +17,7 @@ summaryLength = 40
 
   # Hero / profile section (home page)
   avatarInitial = "ل"
+  avatarImage = "/images/avatar.jpg"
   # TODO: replace with your real title — kept as a visible placeholder on purpose.
   headlinePlaceholder = "[عنوان شغلی شما]"
   heroTagline = "می‌نویسم درباره‌ی هوش مصنوعی، مهندسی داده و رهبری فنی"

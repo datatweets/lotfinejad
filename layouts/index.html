@@ -2,7 +2,10 @@
 <div class="cover">{{ partial "hero-cover.html" . }}</div>
 
 <div class="hero">
-  <div class="avatar">{{ site.Params.avatarInitial }}</div>
+  <div class="avatar">
+    {{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="{{ site.Params.author }}">
+    {{ else }}{{ site.Params.avatarInitial }}{{ end }}
+  </div>
   <div class="hero-body">
     <h1 class="name">{{ site.Params.author }}</h1>
     <p class="headline">

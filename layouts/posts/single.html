@@ -10,7 +10,10 @@
   <h1 class="article-title">{{ .Title }}</h1>
 
   <div class="byline">
-    <div class="avatar-sm">{{ site.Params.avatarInitial }}</div>
+    <div class="avatar-sm">
+      {{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="{{ site.Params.author }}">
+      {{ else }}{{ site.Params.avatarInitial }}{{ end }}
+    </div>
     <div>
       <div class="byline-name">{{ site.Params.author }}</div>
       <div class="byline-meta">

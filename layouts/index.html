@@ -1,0 +1,38 @@
+{{ define "main" }}
+<section class="prose">
+  {{ with .Content }}{{ . }}{{ else }}
+    <h1>{{ site.Params.author }}</h1>
+    <p>{{ site.Params.description }}</p>
+  {{ end }}
+</section>
+
+{{ $projects := where site.RegularPages "Section" "projects" }}
+{{ with $projects }}
+<section>
+  <h2>نمونه‌کارهای منتخب</h2>
+  <div class="grid">
+    {{ range first 3 . }}
+      <a class="card" href="{{ .RelPermalink }}">
+        <h3>{{ .Title }}</h3>
+        {{ with .Summary }}<p>{{ . }}</p>{{ end }}
+      </a>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+{{ $posts := where site.RegularPages "Section" "posts" }}
+{{ with $posts }}
+<section>
+  <h2>آخرین نوشته‌ها</h2>
+  <div class="grid">
+    {{ range first 3 . }}
+      <a class="card" href="{{ .RelPermalink }}">
+        <h3>{{ .Title }}</h3>
+        {{ with .Params.date }}<p class="meta bidi-num">{{ .Format "2006-01-02" }}</p>{{ end }}
+      </a>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+{{ end }}

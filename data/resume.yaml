@@ -1,0 +1,18 @@
+# TODO: این اطلاعات نمونه است — با رزومه‌ی واقعی خود جایگزین کنید.
+# Placeholder resume data — replace every entry below with your real history.
+
+experience:
+  - role: "عنوان شغلی نمونه"
+    company: "نام شرکت نمونه"
+    period: "۱۴۰۰ - اکنون"
+    description: "شرح کوتاهی از مسئولیت‌ها و دستاوردها."
+
+education:
+  - degree: "عنوان مدرک نمونه"
+    institution: "نام دانشگاه نمونه"
+    period: "۱۳۹۵ - ۱۳۹۹"
+
+skills:
+  - "Python"
+  - "Terraform"
+  - "Apache Kafka"

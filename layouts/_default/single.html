@@ -1,0 +1,7 @@
+{{ define "main" }}
+<article class="prose">
+  <h1>{{ .Title }}</h1>
+  {{ with .Params.date }}<p class="meta bidi-num">{{ .Format "2006-01-02" }}</p>{{ end }}
+  {{ .Content }}
+</article>
+{{ end }}

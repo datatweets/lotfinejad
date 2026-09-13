@@ -1,0 +1,40 @@
+{{ define "main" }}
+<article class="prose">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+
+  {{ $resume := site.Data.resume }}
+
+  {{ with $resume.experience }}
+  <h2>تجربه‌ی کاری</h2>
+  <ul class="timeline">
+    {{ range . }}
+    <li>
+      <strong>{{ .role }}</strong> — {{ .company }}
+      <div class="period bidi-num">{{ .period }}</div>
+      {{ with .description }}<p>{{ . }}</p>{{ end }}
+    </li>
+    {{ end }}
+  </ul>
+  {{ end }}
+
+  {{ with $resume.education }}
+  <h2>تحصیلات</h2>
+  <ul class="timeline">
+    {{ range . }}
+    <li>
+      <strong>{{ .degree }}</strong> — {{ .institution }}
+      <div class="period bidi-num">{{ .period }}</div>
+    </li>
+    {{ end }}
+  </ul>
+  {{ end }}
+
+  {{ with $resume.skills }}
+  <h2>مهارت‌ها</h2>
+  <ul class="tag-list">
+    {{ range . }}<li class="bidi-ltr">{{ . }}</li>{{ end }}
+  </ul>
+  {{ end }}
+</article>
+{{ end }}

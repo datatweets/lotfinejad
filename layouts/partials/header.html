@@ -1,0 +1,12 @@
+<header class="site-header">
+  <div class="container">
+    <a class="site-title" href="{{ "/" | relLangURL }}">{{ site.Title }}</a>
+    <nav aria-label="ناوبری اصلی">
+      <ul class="site-nav">
+        {{ range site.Menus.main }}
+          <li><a href="{{ .URL | relLangURL }}"{{ if $.IsMenuCurrent "main" . }} class="active" aria-current="page"{{ end }}>{{ .Name }}</a></li>
+        {{ end }}
+      </ul>
+    </nav>
+  </div>
+</header>

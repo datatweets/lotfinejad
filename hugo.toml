@@ -1,0 +1,59 @@
+baseURL = "https://lotfinejad.ir/"
+languageCode = "fa-ir"
+defaultContentLanguage = "fa"
+title = "لطفی‌نژاد"
+enableRobotsTXT = true
+summaryLength = 40
+
+[pagination]
+  pagerSize = 8
+
+[params]
+  description = "وب‌سایت شخصی و بلاگ لطفی‌نژاد"
+  author = "لطفی‌نژاد"
+  direction = "rtl"
+  # Set to false to hide the "GitHub" link in the footer.
+  githubUser = "datatweets"
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+
+[markup]
+  [markup.highlight]
+    style = "github"
+    lineNos = false
+    codeFences = true
+    guessSyntax = true
+    noClasses = false
+  [markup.goldmark.renderer]
+    unsafe = true
+
+[[menu.main]]
+  name = "خانه"
+  url = "/"
+  weight = 10
+
+[[menu.main]]
+  name = "درباره من"
+  url = "/about/"
+  weight = 20
+
+[[menu.main]]
+  name = "نمونه‌کارها"
+  url = "/projects/"
+  weight = 30
+
+[[menu.main]]
+  name = "رزومه"
+  url = "/resume/"
+  weight = 40
+
+[[menu.main]]
+  name = "بلاگ"
+  url = "/posts/"
+  weight = 50

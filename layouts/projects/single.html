@@ -1,0 +1,15 @@
+{{ define "main" }}
+<article class="prose">
+  <h1>{{ .Title }}</h1>
+  {{ with .Params.stack }}
+    <ul class="tag-list">
+      {{ range . }}<li class="bidi-ltr">{{ . }}</li>{{ end }}
+    </ul>
+  {{ end }}
+  {{ .Content }}
+  <p>
+    {{ with .Params.repo }}<a class="bidi-ltr" href="{{ . }}">مخزن کد (GitHub)</a>{{ end }}
+    {{ with .Params.demo }} · <a class="bidi-ltr" href="{{ . }}">نمایش زنده</a>{{ end }}
+  </p>
+</article>
+{{ end }}

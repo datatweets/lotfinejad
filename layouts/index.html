@@ -10,18 +10,18 @@
       <div class="h-av">{{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="{{ site.Params.author }}" width="64" height="64">{{ else }}{{ site.Params.monoInitial }}{{ end }}</div>
       <div>
         <b>{{ site.Params.author }}</b>
-        <span class="lat">{{ $h.eyebrow }}</span>
+        <span>{{ $h.role }}</span>
       </div>
     </div>
-    <h1>{{ $h.title }}</h1>
+    <h1>{{ $h.title | safeHTML }}</h1>
     <p class="h-lead">{{ $h.lead }}</p>
     <div class="h-cta">
-      <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}شروع گفتگو</a>
-      <a class="btn btn-plain" href="{{ "resume/" | relLangURL }}">{{ partial "icon.html" "doc" }}رزومه</a>
+      <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}درخواست جلسه‌ی مشاوره</a>
+      <a class="btn btn-plain" href="{{ "resume/" | relLangURL }}">{{ partial "icon.html" "doc" }}مشاهده‌ی رزومه</a>
     </div>
-    <div class="h-social">
-      {{ range site.Data.links }}<a href="{{ .href }}" target="_blank" rel="noopener">{{ .title }}</a>{{ end }}
-    </div>
+    <ul class="h-creds">
+      {{ range $h.credentials }}<li>{{ . }}</li>{{ end }}
+    </ul>
   </section>
 
   {{/* ---------- proof: stats + clients ---------- */}}
@@ -30,32 +30,44 @@
       {{ range $h.stats }}<div><dt>{{ .label }}</dt><dd><bdi>{{ .value }}</bdi></dd></div>{{ end }}
     </dl>
     <div class="h-clients">
-      <span>همکاری با</span>
+      <span>سابقه‌ی همکاری با</span>
       <ul>{{ range $h.clients }}<li class="lat">{{ . }}</li>{{ end }}</ul>
     </div>
   </section>
 
   {{/* ---------- services ---------- */}}
   <section class="h-sec">
-    <header class="h-sec-head">
-      <span>۰۱</span>
-      <h2>چه کمکی از من برمی‌آید</h2>
-    </header>
-    <ol class="h-services">
-      {{ range $i, $s := $h.services }}
+    <header class="h-sec-head"><h2>خدمات</h2></header>
+    <div class="h-services">
+      {{ range $h.services }}
+      <div class="h-service">
+        <span class="h-ico">{{ partial "icon.html" .icon }}</span>
+        <h3>{{ .title }}</h3>
+        <p>{{ .desc }}</p>
+      </div>
+      {{ end }}
+    </div>
+  </section>
+
+  {{/* ---------- process: a real sequence, so it is numbered ---------- */}}
+  <section class="h-sec">
+    <header class="h-sec-head"><h2>روند همکاری</h2></header>
+    <ol class="h-steps">
+      {{ range $i, $s := $h.process }}
       <li>
-        <span class="h-num">{{ partial "fa-digits.html" (add $i 1) }}</span>
-        <div><h3>{{ .title }}</h3><p>{{ .desc }}</p></div>
+        <span class="h-step-n">{{ partial "fa-digits.html" (add $i 1) }}</span>
+        <h3>{{ .title }}</h3>
+        <p>{{ .desc }}</p>
       </li>
       {{ end }}
     </ol>
+    {{ with $h.confidentiality }}<p class="h-note">{{ partial "icon.html" "sparkle" }}{{ . }}</p>{{ end }}
   </section>
 
   {{/* ---------- experience ---------- */}}
   <section class="h-sec">
     <header class="h-sec-head">
-      <span>۰۲</span>
-      <h2>تجربه</h2>
+      <h2>سوابق حرفه‌ای</h2>
       <a class="h-more" href="{{ "resume/" | relLangURL }}">رزومه‌ی کامل {{ partial "icon.html" "prev" }}</a>
     </header>
     <ul class="h-rows">
@@ -74,8 +86,7 @@
   {{/* ---------- writing ---------- */}}
   <section class="h-sec">
     <header class="h-sec-head">
-      <span>۰۳</span>
-      <h2>نوشته‌ها</h2>
+      <h2>یادداشت‌ها و مقالات</h2>
       <a class="h-more" href="{{ "posts/" | relLangURL }}">همه‌ی مقالات {{ partial "icon.html" "prev" }}</a>
     </header>
     <ul class="h-posts">
@@ -85,7 +96,7 @@
           <span class="h-post-cat">{{ .Params.category }}</span>
           <h3>{{ .Title }}</h3>
           <p>{{ .Params.summary }}</p>
-          <span class="h-row-meta">{{ with .Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }} · {{ partial "fa-digits.html" .Params.readMinutes }} دقیقه</span>
+          <span class="h-row-meta">{{ with .Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }} · {{ partial "fa-digits.html" .Params.readMinutes }} دقیقه مطالعه</span>
         </a>
       </li>
       {{ end }}
@@ -95,7 +106,6 @@
   {{/* ---------- projects ---------- */}}
   <section class="h-sec">
     <header class="h-sec-head">
-      <span>۰۴</span>
       <h2>پروژه‌های متن‌باز</h2>
       <a class="h-more" href="{{ "projects/" | relLangURL }}">همه‌ی پروژه‌ها {{ partial "icon.html" "prev" }}</a>
     </header>
@@ -112,11 +122,14 @@
 
   {{/* ---------- closing CTA ---------- */}}
   <section class="h-end">
-    <h2>پروژه‌ای در ذهن دارید؟</h2>
-    <p>برای مشاوره، آموزش تیم یا ساخت یک راهکار هوش مصنوعی، خوشحال می‌شوم بشنوم روی چه چیزی کار می‌کنید.</p>
+    <h2>{{ $h.closing.title }}</h2>
+    <p>{{ $h.closing.text }}</p>
     <div class="h-cta">
-      <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}ارتباط با من</a>
+      <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}درخواست جلسه‌ی مشاوره</a>
       <a class="h-mail lat" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
+    </div>
+    <div class="h-social">
+      {{ range site.Data.links }}<a href="{{ .href }}" target="_blank" rel="noopener">{{ .title }}</a>{{ end }}
     </div>
   </section>
 

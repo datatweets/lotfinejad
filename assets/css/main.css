@@ -291,7 +291,7 @@ pre code { background: none; padding: 0; font-size: .9em; }
 .btn-primary:hover { background: var(--accent-deep); }
 .btn-ghost { border-color: var(--accent); color: var(--accent); font-weight: 700; }
 .btn-ghost:hover { background: var(--accent-wash); }
-.btn-plain { border-color: var(--line-strong); color: var(--ink-2); }
+.btn-plain { background: transparent; border-color: var(--line-strong); color: var(--ink-2); }
 .btn-plain:hover { background: var(--surface-2); color: var(--ink); }
 
 /* ============================================================
@@ -564,11 +564,12 @@ pre code { background: none; padding: 0; font-size: .9em; }
 /* header: slim cover band, photo + name, role line, contact, stats strip */
 .cv-band {
   height: 84px;
+  /* fixed lapis in both themes (dark accent tokens are too pale for a band);
+     no filter, so it doesn't form a layer that paints over the photo */
   background-image:
-    radial-gradient(circle, rgba(255, 255, 255, .22) 1.1px, rgba(255, 255, 255, 0) 1.2px),
-    linear-gradient(115deg, var(--accent-deep) 0%, var(--accent) 58%, var(--accent-soft) 100%);
+    radial-gradient(circle, rgba(255, 255, 255, .16) 1.1px, rgba(255, 255, 255, 0) 1.2px),
+    linear-gradient(115deg, #142C54 0%, #1E3F73 58%, #3F66A6 100%);
   background-size: 18px 18px, 100% 100%;
-  filter: var(--cover-filter);
 }
 .cv-hero .pad { padding-block-start: 0; }
 .cv-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px; }
@@ -576,7 +577,7 @@ pre code { background: none; padding: 0; font-size: .9em; }
 .cv-id { display: flex; align-items: flex-end; gap: 16px; min-width: 0; }
 .cv-id h1 { font-size: 28px; font-weight: 800; letter-spacing: -.01em; }
 .cv-id .eyebrow { margin-block-end: 2px; }
-.cv-av { width: 104px; height: 104px; margin-block-start: -44px; border-radius: 50%; border: 4px solid var(--surface); background: var(--accent-wash); color: var(--accent-ink); display: grid; place-items: center; font-weight: 800; font-size: 30px; overflow: hidden; flex: 0 0 auto; }
+.cv-av { position: relative; z-index: 1; width: 104px; height: 104px; margin-block-start: -44px; border-radius: 50%; border: 4px solid var(--surface); background: var(--accent-wash); color: var(--accent-ink); display: grid; place-items: center; font-weight: 800; font-size: 30px; overflow: hidden; flex: 0 0 auto; }
 .cv-av img { width: 100%; height: 100%; object-fit: cover; }
 @media (max-width: 520px) {
   .cv-av { width: 84px; height: 84px; margin-block-start: -36px; }

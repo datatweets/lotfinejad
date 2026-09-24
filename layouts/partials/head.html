@@ -33,7 +33,7 @@
   "@type": "Person",
   "name": {{ site.Params.author | jsonify | safeJS }},
   "url": {{ site.BaseURL | jsonify | safeJS }},
-  "jobTitle": "Lead Data Scientist",
+  "jobTitle": "Data & AI Consultant",
   "image": {{ site.Params.avatarImage | absURL | jsonify | safeJS }},
   "email": {{ printf "mailto:%s" site.Params.email | jsonify | safeJS }},
   "sameAs": {{ apply site.Data.links "index" "." "href" | jsonify | safeJS }}

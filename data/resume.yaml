@@ -1,0 +1,203 @@
+# Resume content for /resume/ (layouts/resume/single.html).
+# Source: static/files/Mehdi_Lotfinejad_Resume.pdf — keep the two in sync.
+# Latin strings (tool names, company names) are auto-detected and rendered
+# as isolated LTR runs by the template.
+
+pdf: "/files/Mehdi_Lotfinejad_Resume.pdf"
+
+roles: ["Principal Lead Data Scientist", "Data Engineer", "AI Engineer", "Corporate Trainer"]
+location: "کوالالامپور، مالزی"
+
+contact:
+  - icon: "mail"
+    label: "lotfinejad@gmail.com"
+    href: "mailto:lotfinejad@gmail.com"
+  - icon: "ext"
+    label: "linkedin.com/in/lotfinejad"
+    href: "https://www.linkedin.com/in/lotfinejad"
+  - icon: "ext"
+    label: "github.com/lotfinejad"
+    href: "https://github.com/lotfinejad"
+
+summary: >-
+  دانشمند ارشد داده، مهندس داده، مهندس هوش مصنوعی و مدرس سازمانی دارای اعتبارنامه‌ی HRDC با بیش از
+  ۱۵ سال تجربه در طراحی پلتفرم‌های داده، ساخت راهکارهای تحلیلی و یادگیری ماشین، و برگزاری دوره‌های
+  فنی برای سازمان‌ها. تخصص من علم داده، مهندسی داده، کاربردهای هوش مصنوعی و مدل‌های زبانی بزرگ،
+  پلتفرم‌های داده‌ی ابری و سیستم‌های RAG و ایجنتیک مبتنی بر LangChain و LangGraph است؛ و با
+  DevOps، DataOps، MLOps، Kubernetes، Terraform و observability از پایداری سیستم‌های داده و
+  هوش مصنوعی در محیط تولید پشتیبانی می‌کنم.
+
+stats:
+  - value: "۱۵+"
+    label: "سال تجربه"
+  - value: "۲TB+"
+    label: "داده‌ی مخابراتی در روز"
+  - value: "۲۰+"
+    label: "پایپ‌لاین داده‌ی تولیدی"
+  - value: "۵۰K+"
+    label: "سند حقوقی در روز"
+  - value: "۵۰۰+"
+    label: "متخصص آموزش‌دیده"
+
+achievements:
+  - "رهبری راهکارهای ایجنتیک تحلیل ریسک و پایش مدل روی Azure Fabric در CIMB، با LangChain، LangGraph و Rayfin برای خودکارسازی بررسی ریسک و نظارت بر عملکرد مدل‌ها."
+  - "رهبری راهکارهای داده و تحلیل سازمانی برای مشتریانی مانند CIMB، Petronas، Shell، TNB و تیم‌های کسب‌وکار منطقه‌ای."
+  - "پردازش روزانه‌ی بیش از ۲ ترابایت داده‌ی مخابراتی در محیط‌های چندمنطقه‌ای AWS با Databricks، Apache Spark، Redshift، S3، Athena و Lambda."
+  - "ساخت و راهبری بیش از ۲۰ پایپ‌لاین داده و جریان کاری BI با دسترس‌پذیری ۹۹٫۹٪ برای تحلیلگران در ۹ بازار منطقه‌ای."
+  - "معماری زیرساخت داده‌ی حقوقی مبتنی بر هوش مصنوعی برای بیش از ۱۰ هزار درخواست تحلیل پرونده و ۵۰ هزار سند حقوقی در روز."
+  - "کاهش ۶۰ درصدی مداخله‌ی دستی در فرایندهای حقوقی و کوتاه‌کردن زمان رسیدگی به پرونده از ۴۸ به ۱۸ ساعت با خودکارسازی جریان کار."
+  - "آموزش بیش از ۵۰۰ متخصص در کشورهای آسه‌آن در دوره‌های دارای اعتبار HRDF در علم داده، Python، تحلیل ابری و کلان‌داده."
+
+experience:
+  - role: "Lead Data Scientist"
+    org: "CIMB"
+    mark: "CIMB"
+    place: "کوالالامپور، مالزی"
+    when: "اوت ۲۰۲۶ — اکنون"
+    current: true
+    context: "هوش مصنوعی ایجنتیک و تحلیل ریسک روی Azure Fabric در واحد ریسک گروه."
+    points:
+      - "رهبری طراحی و تحویل راهکارهای ایجنتیک تحلیل ریسک و پایش مدل روی Azure و Microsoft Fabric برای ذی‌نفعان ریسک اعتباری، بازار و عملیاتی در سطح گروه."
+      - "معماری زیرساخت داده‌ی Fabric برای تحلیل ریسک، شامل لایه‌های medallion در Lakehouse، پایپ‌لاین‌های Data Factory و مدل‌های معنایی Power BI به‌عنوان منبع واحد گزارش‌دهی ریسک."
+      - "ساخت جریان‌های کاری چندایجنتی با LangChain، LangGraph و Rayfin — هماهنگ‌سازی بازیابی، فراخوانی ابزار و بازبینی انسانی — برای خودکارسازی بررسی ریسک، مستندسازی و گزارش‌دهی."
+      - "پایش خودکار عملکرد مدل شامل پایداری جمعیت و ویژگی‌ها (PSI/CSI)، قدرت تفکیک (Gini/KS)، کالیبراسیون و data drift، همراه با هشدار مبتنی بر آستانه برای مالکان مدل."
+      - "پایه‌گذاری رویه‌ی LLMOps برای سیستم‌های ایجنتیک: نسخه‌بندی پرامپت، چارچوب ارزیابی، guardrail، پایش هزینه و تأخیر، و CI/CD برای استقرار ایجنت‌ها روی Azure."
+      - "همکاری با تیم‌های اعتبارسنجی مدل، حاکمیت داده و فناوری برای هم‌راستایی راهکارها با استانداردهای مدیریت ریسک مدل و الزامات نظارتی."
+      - "رهبری و منتورینگ تیمی میان‌رشته‌ای از دانشمندان و مهندسان داده و تعیین جهت فنی و استانداردهای تحویل برای نقشه‌ی راه تحلیل ایجنتیک."
+
+  - role: "Principal Lead Data Scientist & Corporate Trainer"
+    org: "The Center of Applied Data Science (CADS)"
+    mark: "CADS"
+    place: "کوالالامپور، مالزی"
+    when: "مه ۲۰۲۳ — اوت ۲۰۲۶"
+    points:
+      - "رهبری پروژه‌های علم داده، تحلیل و مهندسی داده برای مشتریان سازمانی از جمله CIMB، Petronas، Shell و TNB، از مرحله‌ی پیشنهاد تا استقرار."
+      - "طراحی پایپ‌لاین‌های ETL و تحلیلی مبتنی بر Spark روی AWS و GCP برای گزارش‌دهی سازمانی، آماده‌سازی داده و کاربردهای یادگیری ماشین."
+      - "توسعه‌ی داشبوردهای Power BI مورد استفاده‌ی بیش از ۴۰ ذی‌نفع در بازاریابی، عملیات و مالی برای تصمیم‌های راهبردی فصلی."
+      - "طراحی مسیر مهاجرت پلتفرم داده از سیستم‌های on-premises قدیمی به AWS با حدود ۳۰٪ کاهش هزینه‌ی زیرساخت."
+      - "رهبری و منتورینگ تیمی ۵ نفره از دانشمندان داده و طراحی برنامه‌های آموزشی سازمانی در مدیریت داده، مدل‌سازی ML، کلان‌داده و هوش مصنوعی."
+
+  - role: "Chief Data and Knowledge Officer / AI Data Platform Lead"
+    org: "Magna.ai"
+    mark: "M.ai"
+    place: "فلوریدا، آمریکا (دورکاری)"
+    when: "فوریه ۲۰۲۴ — فوریه ۲۰۲۵"
+    context: "نقش رهبری عملیاتی داده، هوش مصنوعی و پلتفرم در استارتاپ حقوقی مبتنی بر هوش مصنوعی برای تحلیل پرونده‌ها."
+    points:
+      - "مالکیت سرتاسری پلتفرم داده‌ی حقوقی هوش مصنوعی: مهندسی داده، تحلیل گراف، خودکارسازی جریان کار، پردازش محتوا برای RAG و زیرساخت تولید."
+      - "معماری زیرساخت AWS با Terraform و Helm برای بیش از ۱۵ میکروسرویس در محیط‌های dev، staging و production با استقرار تکرارپذیر."
+      - "استقرار سرویس‌های API و جریان کار روی Kubernetes برای بیش از ۱۰ هزار درخواست تحلیل پرونده در روز با مقیاس‌پذیری خودکار و rolling update."
+      - "رهبری توسعه‌ی پایگاه داده‌ی گرافی Neo4j و انبار داده‌ی Redshift و طراحی پایپ‌لاین‌های ورود داده برای بیش از ۵۰ هزار سند حقوقی در روز."
+      - "خودکارسازی فرایند پرونده‌ها: ۶۰٪ کاهش مداخله‌ی دستی و کاهش میانگین زمان رسیدگی از ۴۸ به ۱۸ ساعت."
+      - "پیاده‌سازی observability و حاکمیت پلتفرم داده با Prometheus، Grafana، ELK، اصل حداقل دسترسی IAM، رمزنگاری و مدیریت اسرار با Vault."
+
+  - role: "Senior Data Engineer"
+    org: "Axiata Digital Advertising (ADA)"
+    mark: "ADA"
+    place: "کوالالامپور، مالزی"
+    when: "مارس ۲۰۲۰ — مارس ۲۰۲۳"
+    context: "زیرمجموعه‌ی تحلیل داده و هوش مصنوعی گروه Axiata، فعال در ۹ بازار جنوب و جنوب‌شرق آسیا."
+    points:
+      - "طراحی و راهبری بیش از ۲۰ پایپ‌لاین داده‌ی تولیدی با Databricks و Apache Spark برای پردازش روزانه‌ی بیش از ۲ ترابایت داده‌ی مخابراتی در محیط‌های چندمنطقه‌ای AWS."
+      - "مدیریت زیرساخت داده‌ی AWS شامل Redshift، S3، Athena و Lambda برای بیش از ۱۵ پایپ‌لاین خودکار و داشبورد BI با دسترس‌پذیری ۹۹٫۹٪."
+      - "پیاده‌سازی تأمین منابع ابری با Terraform و یکسان‌سازی محیط‌های dev، staging و production برای سرویس‌های مهندسی داده."
+      - "راهبری انبارهای داده‌ی Snowflake و Redshift با بیش از ۲۰ ترابایت داده‌ی مخابراتی و بهبود ۴۰ درصدی کارایی کوئری‌ها با طراحی جدول و تنظیم distribution key."
+      - "توسعه‌ی داشبوردهای Power BI و Tableau برای تحلیل بازاریابی از منابع Facebook Ads، Google Ads، MobileWala، StartIO و منابع داخلی، مورد استفاده‌ی بیش از ۳۰ تحلیلگر در ۹ بازار."
+      - "ایجاد رویه‌های CI/CD و پایش سرویس‌های داده با Jenkins، CloudWatch، Grafana و هشدارهای سفارشی برای سلامت پایپ‌لاین، کیفیت داده و مصرف منابع."
+      - "رهبری و منتورینگ ۳ مهندس داده و هماهنگی تحویل data martها با تیم‌های علم داده، تحلیل و کسب‌وکار."
+
+  - role: "Senior Data Scientist & Corporate Trainer"
+    org: "The Center of Applied Data Science (CADS)"
+    mark: "CADS"
+    place: "کوالالامپور، مالزی"
+    when: "ژوئن ۲۰۱۸ — فوریه ۲۰۲۰"
+    points:
+      - "راه‌اندازی واحد مهندسی داده‌ی شرکت، ساخت فرایندهای تحویل و پشتیبانی از طراحی راهکارهای تحلیلی و ML سازمانی."
+      - "طراحی پایپ‌لاین‌های تحلیل بازاریابی دیجیتال روی AWS و GCP با یکپارچه‌سازی منابع داده‌ی چندکاناله برای گزارش‌دهی مشتریان."
+      - "تهیه‌ی پیشنهادهای فنی و تحویل راهکار در معماری انبار داده، مدل‌سازی ML و پردازش کلان‌داده برای مشتریانی مانند CIMB و TNB."
+      - "طراحی و برگزاری دوره‌های دارای اعتبار HRDF در علم داده، Python، تحلیل ابری و کلان‌داده برای بیش از ۲۰۰ متخصص در آسه‌آن."
+
+  - role: "Big Data Engineering Team Lead"
+    org: "Raha (Knowledge-Based Company)"
+    mark: "R"
+    place: "اهواز، ایران"
+    when: "مه ۲۰۱۶ — ژوئن ۲۰۱۸"
+    points:
+      - "رهبری ۶ مهندس داده در ساخت پایپ‌لاین‌های ورود داده‌ی دانشگاهی مبتنی بر Hadoop با پردازش روزانه‌ی بیش از ۱۰۰ گیگابایت روی خوشه‌ای ۱۰ گره‌ای."
+      - "توسعه‌ی پایپ‌لاین‌های تحلیلی PySpark و Apache Spark و طراحی جریان‌های ETL برای تغذیه‌ی سیستم‌های توصیه‌گر."
+
+earlier:
+  - role: "عضو هیئت علمی و رئیس دانشگاه"
+    org: "دانشگاه پیام نور و دانشگاه آزاد اسلامی، ایران"
+    when: "۲۰۱۱ — ۲۰۱۸"
+    desc: "رهبری تیم‌های دانشگاهی؛ تدریس معماری کامپیوتر، برنامه‌نویسی شیءگرا، ساختمان داده و سیستم‌عامل؛ راهنمایی پژوهش‌های تحصیلات تکمیلی و انتشار مقاله و ۳ کتاب."
+  - role: "Senior Web Application Developer"
+    org: "Smarter Broadcast، کالیفرنیا، آمریکا (دورکاری)"
+    when: "۲۰۰۸ — ۲۰۱۱"
+    desc: "ساخت و نگهداری وب‌اپلیکیشن برای مشتریان سازمانی در همکاری با تیم‌های UI/UX و QA."
+  - role: "تحلیلگر کسب‌وکار"
+    org: "شرکت ویرا، تهران"
+    when: "۲۰۰۷ — ۲۰۰۸"
+    desc: "تحلیل نیازمندی‌ها، طراحی نرم‌افزارهای مالی و اجرای آزمون‌های A/B در UI/UX."
+
+skills:
+  - group: "علم داده و هوش مصنوعی"
+    icon: "sparkle"
+    items: ["Machine Learning", "Predictive Analytics", "NLP", "LLM Applications", "RAG Systems", "Agentic AI", "LangChain", "LangGraph", "Rayfin", "Prompt Engineering"]
+  - group: "مهندسی داده"
+    icon: "db"
+    items: ["Apache Spark", "PySpark", "Airflow", "Databricks", "Apache Doris", "ETL/ELT", "Data Warehousing", "Data Pipelines"]
+  - group: "پلتفرم‌های داده‌ی ابری"
+    icon: "cpu"
+    items: ["Azure", "Microsoft Fabric", "Azure OpenAI", "AWS", "Redshift", "S3", "Athena", "Lambda", "SageMaker", "GCP BigQuery", "Snowflake"]
+  - group: "هوش تجاری و تحلیل"
+    icon: "grid"
+    items: ["Power BI", "DAX", "Tableau", "طراحی داشبورد", "مدل‌سازی داده", "تحلیل کسب‌وکار"]
+  - group: "MLOps / LLMOps / DataOps"
+    icon: "clock"
+    items: ["ارکستراسیون و ارزیابی ایجنت", "خودکارسازی جریان کار AI", "پایش عملکرد و drift مدل", "پایش پایپ‌لاین", "CI/CD برای داده و AI"]
+  - group: "DevOps"
+    icon: "cpu"
+    items: ["Docker", "Kubernetes", "Helm", "Terraform", "Jenkins", "GitHub Actions", "Prometheus", "Grafana", "ELK"]
+  - group: "برنامه‌نویسی و پایگاه داده"
+    icon: "doc"
+    items: ["Python", "SQL", "PostgreSQL", "MySQL", "MS SQL Server", "MongoDB", "Neo4j", "JavaScript/Node.js", "Bash"]
+  - group: "آموزش و رهبری"
+    icon: "people"
+    items: ["آموزش سازمانی", "طراحی سرفصل", "نویسندگی فنی", "رهبری تیم", "مدیریت ذی‌نفعان"]
+
+education:
+  - role: "کارشناسی ارشد معماری سیستم‌های کامپیوتری"
+    org: "دانشگاه آزاد اسلامی، ایران"
+    when: "۲۰۰۷ — ۲۰۱۰"
+  - role: "کارشناسی مهندسی سخت‌افزار کامپیوتر"
+    org: "دانشگاه آزاد اسلامی، ایران"
+    when: "۲۰۰۰ — ۲۰۰۴"
+
+certifications:
+  - name: "Business CORe Program"
+    by: "Harvard Business School"
+    note: "Business Analytics · Economics for Managers · Financial Accounting"
+  - name: "AWS Technical Essentials"
+    by: "AWS"
+  - name: "Practical Data Science with Amazon SageMaker"
+    by: "AWS"
+  - name: "Big Data on AWS"
+    by: "AWS"
+  - name: "Data Warehousing on AWS"
+    by: "AWS"
+  - name: "HRDF Accredited Trainer"
+    by: "Malaysia"
+
+publications:
+  - "نویسنده‌ی دوره‌ی Window Functions in SQL در Dataquest."
+  - "انتشار ۳ کتاب: برنامه‌نویسی شیءگرا در C#، مبانی مدیریت پروژه، و اصول داده‌کاوی."
+  - "انتشار بیش از ۱۰ مقاله‌ی داوری‌شده در مجلات و کنفرانس‌ها در حوزه‌ی یادگیری ماشین، شبکه‌های عصبی، معماری کامپیوتر و داده‌کاوی."
+
+languages:
+  - name: "فارسی"
+    level: "زبان مادری"
+    pct: 100
+  - name: "انگلیسی"
+    level: "مهارت حرفه‌ای کاری"
+    pct: 85

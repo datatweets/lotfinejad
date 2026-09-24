@@ -3,4 +3,4 @@ title: "رزومه"
 type: "resume"
 ---
 
-<!-- Experience / education / skills below come from data/resume.yaml -->
+<!-- All resume content comes from data/resume.yaml; the downloadable PDF is static/files/Mehdi_Lotfinejad_Resume.pdf -->

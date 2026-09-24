@@ -1,48 +1,59 @@
 {{ define "main" }}
-<div class="wrap"><div class="cols">
-<div class="stack">
+{{ $h := site.Data.home }}
+<div class="page">
 
-  <section class="card"><div class="pad">
-    <span class="eyebrow lat">About</span>
-    <h1 style="font-size:28px">{{ .Title }}</h1>
-    <div style="margin-block-start:14px;display:flex;flex-direction:column;gap:14px;max-width:66ch">
-      {{ range site.Params.about }}<p style="font-size:16.5px;line-height:1.9;color:var(--ink)">{{ . }}</p>{{ end }}
+  <section class="h-in h-hero">
+    <div class="h-hero-text">
+      <span class="h-eyebrow">{{ .Title }}</span>
+      <h1>{{ site.Params.author }}</h1>
+      <p class="about-role">{{ site.Params.headline }}</p>
+      <div class="about-bio">{{ range site.Params.about }}<p>{{ . }}</p>{{ end }}</div>
+      <div class="h-cta">
+        <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}درخواست جلسه‌ی آشنایی</a>
+        <a class="btn btn-plain" href="{{ "resume/" | relLangURL }}">{{ partial "icon.html" "doc" }}مشاهده‌ی رزومه</a>
+      </div>
     </div>
-  </div></section>
+    {{ partial "profile-card.html" . }}
+  </section>
 
-  <section class="card"><div class="pad">
-    <div class="card-head"><h2>چطور کار می‌کنم</h2></div>
-    <ul style="display:flex;flex-direction:column;gap:12px;max-width:64ch">
-      {{ range site.Params.howIWork }}
-      <li style="position:relative;padding-inline-start:18px;font-size:15.5px;line-height:1.8;color:var(--ink-2)">
-        <span style="position:absolute;inset-inline-start:0;inset-block-start:.7em;width:6px;height:6px;border-radius:50%;background:var(--accent);display:block"></span>
-        {{ . }}
-      </li>
-      {{ end }}
-    </ul>
-  </div></section>
+  <section class="h-in">
+    <div class="h-proof">
+      <div class="h-clients">
+        <span>سابقه‌ی همکاری با</span>
+        <ul>{{ range $h.clients }}<li class="lat">{{ . }}</li>{{ end }}</ul>
+      </div>
+      <dl class="h-stats">
+        {{ range $h.stats }}<div><dt>{{ .label }}</dt><dd><bdi>{{ .value }}</bdi></dd></div>{{ end }}
+      </dl>
+    </div>
+  </section>
 
-  <section class="card">
-    <div class="pad" style="padding-block-end:0"><div class="card-head"><h2>حوزه‌های تمرکز</h2></div></div>
-    <div class="focus">
+  <section class="h-in h-sec">
+    <header class="h-sec-head">
+      <h2>حوزه‌های تخصص</h2>
+      <p>سه حوزه‌ای که بیشترین تجربه و عمق فنی در آن‌ها شکل گرفته است.</p>
+    </header>
+    <div class="h-services h-services-3">
       {{ range site.Data.focus }}
-      <div class="focus-item">{{ partial "icon.html" .icon }}<h3>{{ .title }}</h3><p>{{ .desc }}</p></div>
+      <div class="h-service">
+        <span class="h-ico">{{ partial "icon.html" .icon }}</span>
+        <h3>{{ .title }}</h3>
+        <p>{{ .desc }}</p>
+      </div>
       {{ end }}
     </div>
   </section>
 
-  <section class="card"><div class="pad">
-    <div class="card-head"><h2>راه‌های ارتباطی</h2><a class="link-more" href="{{ "contact/" | relLangURL }}">فرم تماس</a></div>
-    <div class="rail-list">
-      <a class="link-row" href="mailto:{{ site.Params.email }}">{{ partial "icon.html" "mail" }}ایمیل<em class="lat">{{ site.Params.email }}</em></a>
-      {{ range site.Data.links }}<a class="link-row" href="{{ .href }}" target="_blank" rel="noopener">{{ partial "icon.html" "ext" }}{{ .title }}<em>{{ .label }}</em></a>{{ end }}
+  <section class="h-in h-sec">
+    <header class="h-sec-head">
+      <h2>اصول کاری</h2>
+      <p>اصولی که در همه‌ی پروژه‌ها، از مشاوره تا پیاده‌سازی، رعایت می‌شود.</p>
+    </header>
+    <div class="h-problems">
+      {{ range site.Params.howIWork }}<div class="h-problem"><p class="h-principle">{{ . }}</p></div>{{ end }}
     </div>
-  </div></section>
+  </section>
 
+  <div class="h-in">{{ partial "cta.html" . }}</div>
 </div>
-<aside class="rail">
-  {{ partial "rail-skills.html" . }}
-  {{ partial "rail-latest.html" . }}
-</aside>
-</div></div>
 {{ end }}

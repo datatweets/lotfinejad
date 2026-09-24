@@ -1,50 +1,31 @@
 {{ define "main" }}
-<div class="wrap"><div class="cols">
-<div class="stack">
+{{ $pages := .Pages }}
+{{ $cats := slice }}
+{{ range $pages }}{{ with .Params.category }}{{ if not (in $cats .) }}{{ $cats = $cats | append . }}{{ end }}{{ end }}{{ end }}
+<div class="page">
+  <div class="h-in">
+    {{ partial "page-head.html" (dict "eyebrow" "یادداشت‌ها" "title" .Title "lead" (.Content | plainify | strings.TrimSpace)) }}
 
-  {{ $pages := .Pages }}
-  {{ $cats := slice }}
-  {{ range $pages }}{{ with .Params.category }}{{ if not (in $cats .) }}{{ $cats = $cats | append . }}{{ end }}{{ end }}{{ end }}
-
-  <section class="card"><div class="pad">
-    <span class="eyebrow lat">Writing</span>
-    <h1 style="font-size:28px">{{ .Title }}</h1>
-    <p class="excerpt" style="font-size:15.5px;max-width:62ch">یادداشت‌هایی درباره‌ی مهندسی داده، ساخت سیستم‌های هوش مصنوعی و تصمیم‌های فنی. عنوان هر مقاله را برای خواندن کامل آن انتخاب کنید.</p>
-    <div class="filters" style="margin-block-start:16px" id="postFilters">
+    <div class="filters" id="postFilters">
       <button class="chip is-on" type="button" data-cat="همه">همه</button>
       {{ range $cats }}<button class="chip" type="button" data-cat="{{ . }}">{{ . }}</button>{{ end }}
-      <span class="search">{{ partial "icon.html" "search" }}<input id="postSearch" type="search" placeholder="جست‌وجو در مقالات" autocomplete="off"></span>
+      <span class="search">{{ partial "icon.html" "search" }}<input id="postSearch" type="search" placeholder="جست‌وجو در مقالات" aria-label="جست‌وجو در مقالات" autocomplete="off"></span>
     </div>
-  </div></section>
 
-  <section class="card"><div class="post-list" id="postList">
-    {{ range $pages }}
-    <article class="post-item" data-cat="{{ .Params.category }}" data-text="{{ lower (printf "%s %s %s" .Title .Params.summary (delimit .Params.tags " ")) }}">
-      <div class="post-top">
-        <span class="meta tight">
-          <span class="cat">{{ .Params.category }}</span>
-          <span>{{ with .Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }}</span>
-          <span class="dot"></span>
-          <span>{{ partial "fa-digits.html" .Params.readMinutes }} دقیقه مطالعه</span>
-        </span>
-      </div>
-      <h3 class="post-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-      <p class="excerpt">{{ .Params.summary }}</p>
-    </article>
-    {{ end }}
-    <p class="empty" id="postEmpty" hidden>مقاله‌ای با این فیلترها پیدا نشد.</p>
-  </div></section>
-
+    <div class="post-list" id="postList">
+      {{ range $pages }}
+      <article class="post-item" data-cat="{{ .Params.category }}" data-text="{{ lower (printf "%s %s %s" .Title .Params.summary (delimit .Params.tags " ")) }}">
+        <div class="post-top">
+          <span class="h-post-cat">{{ .Params.category }}</span>
+          <span class="h-meta">{{ with .Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }} · {{ partial "fa-digits.html" .Params.readMinutes }} دقیقه مطالعه</span>
+        </div>
+        <h2 class="post-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        <p class="excerpt">{{ .Params.summary }}</p>
+      </article>
+      {{ end }}
+      <p class="empty" id="postEmpty" hidden>مقاله‌ای با این فیلترها یافت نشد.</p>
+    </div>
+    {{ partial "cta.html" . }}
+  </div>
 </div>
-<aside class="rail">
-  {{ $tags := slice }}
-  {{ range $pages }}{{ range .Params.tags }}{{ if not (in $tags .) }}{{ $tags = $tags | append . }}{{ end }}{{ end }}{{ end }}
-  <section class="card"><div class="pad">
-    <div class="card-head"><h2>موضوع‌ها</h2></div>
-    <div class="tagrow">{{ range $tags }}<span class="tag">{{ . }}</span>{{ end }}</div>
-  </div></section>
-  {{ partial "rail-links.html" . }}
-  {{ partial "rail-skills.html" . }}
-</aside>
-</div></div>
 {{ end }}

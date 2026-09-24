@@ -1,4 +1,4 @@
 ---
-title: "درباره من"
+title: "درباره"
 type: "about"
 ---

@@ -1,19 +1,15 @@
 {{ define "main" }}
-<div class="wrap"><div class="cols">
-<div class="stack">
-  <section class="card"><div class="pad">
-    <h1 style="font-size:28px">{{ .Title }}</h1>
-    {{ with .Content }}<div class="excerpt" style="margin-block-start:10px">{{ . }}</div>{{ end }}
-  </div></section>
-  <section class="card"><div class="post-list">
-    {{ range .Pages }}
-    <article class="post-item">
-      <h3 class="post-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-      {{ with .Summary }}<p class="excerpt">{{ . }}</p>{{ end }}
-    </article>
-    {{ end }}
-  </div></section>
+<div class="page">
+  <div class="h-in">
+    {{ partial "page-head.html" (dict "title" .Title "lead" (.Content | plainify | strings.TrimSpace)) }}
+    <div class="post-list">
+      {{ range .Pages }}
+      <article class="post-item">
+        <h2 class="post-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        {{ with .Summary }}<p class="excerpt">{{ . | plainify }}</p>{{ end }}
+      </article>
+      {{ end }}
+    </div>
+  </div>
 </div>
-<aside class="rail">{{ partial "rail-links.html" . }}</aside>
-</div></div>
 {{ end }}

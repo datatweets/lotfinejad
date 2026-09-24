@@ -1,7 +1,6 @@
 {{ define "main" }}
 {{ $r := site.Data.resume }}
-<div class="wrap"><div class="cols">
-<div class="stack">
+<div class="page"><div class="h-in stack">
 
   {{/* ---------- header ---------- */}}
   <section class="card cv-hero">
@@ -11,7 +10,7 @@
         <div class="cv-id">
           <div class="cv-av">{{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="">{{ else }}{{ site.Params.monoInitial }}{{ end }}</div>
           <div>
-            <span class="eyebrow lat">Resume · {{ .Title }}</span>
+            <span class="h-eyebrow">{{ .Title }}</span>
             <h1>{{ site.Params.author }}</h1>
           </div>
         </div>
@@ -115,32 +114,24 @@
     </div></section>
   </div>
 
-  {{/* ---------- publications ---------- */}}
-  <section class="card"><div class="pad">
-    <div class="card-head"><h2>انتشارات و تألیف دوره</h2></div>
-    <ul class="cv-points">{{ range $r.publications }}<li>{{ . }}</li>{{ end }}</ul>
-  </div></section>
+  {{/* ---------- publications + languages ---------- */}}
+  <div class="cv-duo">
+    <section class="card"><div class="pad">
+      <div class="card-head"><h2>انتشارات و تألیف دوره</h2></div>
+      <ul class="cv-points">{{ range $r.publications }}<li>{{ . }}</li>{{ end }}</ul>
+    </div></section>
 
-</div>
-<aside class="rail">
-  <section class="card"><div class="pad">
-    <div class="card-head"><h2>در یک نگاه</h2></div>
-    <div class="rail-list">
-      {{ with index $r.experience 0 }}
-      <div class="rail-row block"><span>نقش فعلی</span><div style="font-weight:700"><bdi>{{ .role }}</bdi> · <bdi>{{ .org }}</bdi></div></div>
+    <section class="card"><div class="pad">
+      <div class="card-head"><h2>زبان‌ها</h2></div>
+      {{ range $r.languages }}
+      <div class="cv-lang">
+        <div><b>{{ .name }}</b><span>{{ .level }}</span></div>
+        <div class="cv-meter"><i style="inline-size:{{ .pct }}%"></i></div>
+      </div>
       {{ end }}
-      <div class="rail-row block"><span>محل</span><div style="font-weight:600">{{ $r.location }}</div></div>
-    </div>
-    <h3 class="cv-sub" style="margin-block-start:14px">زبان‌ها</h3>
-    {{ range $r.languages }}
-    <div class="cv-lang">
-      <div><b>{{ .name }}</b><span>{{ .level }}</span></div>
-      <div class="cv-meter"><i style="inline-size:{{ .pct }}%"></i></div>
-    </div>
-    {{ end }}
-    {{ with $r.pdf }}<a class="btn btn-ghost cv-rail-btn no-print" href="{{ . | relURL }}" download>{{ partial "icon.html" "doc" }}دانلود نسخه‌ی PDF</a>{{ end }}
-  </div></section>
-  {{ partial "rail-links.html" . }}
-</aside>
+    </div></section>
+  </div>
+
+  {{ partial "cta.html" . }}
 </div></div>
 {{ end }}

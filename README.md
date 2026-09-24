@@ -11,13 +11,14 @@ and deployed to GitHub Pages via GitHub Actions.
   `static/fonts/vazirmatn/` (license: `static/fonts/vazirmatn/LICENSE.txt`).
   Source Sans 3 (Latin) and IBM Plex Mono (code/repo-names/numerals) load
   from Google Fonts.
-- **Design:** a LinkedIn-style profile layout — two-column shell (main
-  content + a sidebar "rail"), sticky icon nav, light/dark toggle
-  (persisted in `localStorage`, falls back to OS preference), profile
-  cover/avatar header, post list with category filter + search, print-
-  ready resume. Custom theme, no third-party Hugo theme — templates in
-  `layouts/`, one stylesheet at `assets/css/main.css`, behaviour in
-  `assets/js/app.js`.
+- **Design:** a consultant-style site with a "lapis & gold" palette —
+  one 1080px content column shared by every page (common page header,
+  section heads, cards, closing call to action and footer), sticky text
+  nav with a consultation button, light/dark toggle (persisted in
+  `localStorage`, falls back to OS preference), post list with category
+  filter + search, print-ready resume. Custom theme, no third-party Hugo
+  theme — templates in `layouts/`, one stylesheet at
+  `assets/css/main.css`, behaviour in `assets/js/app.js`.
 
 ## Local development
 
@@ -40,8 +41,9 @@ already in sync with `origin/main`) is a normal, silent no-op.
 ## Content structure
 
 Most identity/profile content lives in **config and data files**, not
-Markdown, since it's reused across several pages (home, about, resume, the
-sidebar rail):
+Markdown, since it's reused across several pages (home, about, resume,
+contact, footer). Site copy is written in formal third-person/impersonal
+Persian — no first person:
 
 | Path                    | Purpose                                                        |
 | ------------------------ | ---------------------------------------------------------------- |
@@ -50,7 +52,6 @@ sidebar rail):
 | `data/focus.yaml`       | The three "حوزه‌های تمرکز" focus-area cards (about page)        |
 | `data/resume.yaml`      | Resume: summary, stats, achievements, experience, skills, education, certifications, publications, languages |
 | `static/files/Mehdi_Lotfinejad_Resume.pdf` | Downloadable PDF resume linked from the resume page — keep in sync with `data/resume.yaml` |
-| `data/skills_top.yaml`  | The short "مهارت‌های کلیدی" list shown in the sidebar rail      |
 | `data/links.yaml`       | Social/external links (GitHub, LinkedIn, X, Medium, …)          |
 | `data/projects.yaml`    | Project cards (linking out to GitHub repos)                     |
 | `content/_index.md`     | Home page (front matter only — body isn't used)                 |

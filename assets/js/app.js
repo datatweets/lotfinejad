@@ -102,10 +102,12 @@
     cform.addEventListener("submit", function (e) {
       e.preventDefault();
       var name = document.getElementById("cname").value.trim();
+      var orgEl = document.getElementById("corg");
+      var org = orgEl ? orgEl.value.trim() : "";
       var mail = document.getElementById("cmail").value.trim();
-      var sub = document.getElementById("csub").value.trim() || "پیام از وب‌سایت";
+      var sub = document.getElementById("csub").value.trim() || "درخواست مشاوره از وب‌سایت";
       var msg = document.getElementById("cmsg").value.trim();
-      var body = msg + "\n\n—\n" + name + (mail ? " · " + mail : "");
+      var body = msg + "\n\n—\n" + name + (org ? " · " + org : "") + (mail ? " · " + mail : "");
       var note = document.getElementById("cnote");
       if (note) note.textContent = "برنامه‌ی ایمیل شما باز می‌شود…";
       var mailto = cform.getAttribute("data-mailto") || "";

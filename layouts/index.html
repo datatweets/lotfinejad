@@ -15,16 +15,7 @@
       </div>
       <p class="h-audience">{{ partial "icon.html" "people" }}{{ $h.audience }}</p>
     </div>
-    <aside class="h-card" aria-label="معرفی">
-      <div class="h-photo">{{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="{{ site.Params.author }}" width="320" height="320">{{ end }}</div>
-      <div class="h-card-body">
-        <b>{{ site.Params.author }}</b>
-        <span class="lat">{{ $h.card.role }}</span>
-        <small>{{ $h.card.current }}</small>
-        <ul>{{ range $h.card.credentials }}<li>{{ partial "icon.html" "check" }}{{ . }}</li>{{ end }}</ul>
-        <a class="h-card-link" href="{{ "resume/" | relLangURL }}">مشاهده‌ی رزومه‌ی کامل {{ partial "icon.html" "arrow" }}</a>
-      </div>
-    </aside>
+    {{ partial "profile-card.html" . }}
   </section>
 
   {{/* ---------- proof strip ---------- */}}
@@ -146,18 +137,7 @@
   </section>
 
   {{/* ---------- closing CTA ---------- */}}
-  <section class="h-in h-sec">
-    <div class="h-end">
-      <div>
-        <h2>{{ $h.closing.title }}</h2>
-        <p>{{ $h.closing.text }}</p>
-      </div>
-      <div class="h-end-actions">
-        <a class="btn btn-gold" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}درخواست جلسه‌ی آشنایی</a>
-        <a class="h-mail lat" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
-      </div>
-    </div>
-  </section>
+  <div class="h-in">{{ partial "cta.html" . }}</div>
 
 </div>
 {{ end }}

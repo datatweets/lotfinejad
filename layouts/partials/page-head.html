@@ -1,0 +1,7 @@
+{{- /* Shared page header. Usage:
+  {{ partial "page-head.html" (dict "eyebrow" "…" "title" .Title "lead" "…") }} */ -}}
+<header class="page-head">
+  {{ with .eyebrow }}<span class="h-eyebrow">{{ . }}</span>{{ end }}
+  <h1>{{ .title }}</h1>
+  {{ with .lead }}<p class="h-lead">{{ . }}</p>{{ end }}
+</header>

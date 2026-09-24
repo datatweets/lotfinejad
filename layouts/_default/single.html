@@ -1,11 +1,8 @@
 {{ define "main" }}
-<div class="wrap"><div class="cols">
-<div class="stack">
-  <section class="card"><div class="pad">
-    <h1 style="font-size:28px">{{ .Title }}</h1>
-    <div class="prose" style="margin-block-start:14px">{{ .Content }}</div>
-  </div></section>
+<div class="page">
+  <article class="article">
+    <header class="article-head"><h1>{{ .Title }}</h1></header>
+    <div class="prose">{{ .Content }}</div>
+  </article>
 </div>
-<aside class="rail">{{ partial "rail-links.html" . }}</aside>
-</div></div>
 {{ end }}

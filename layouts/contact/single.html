@@ -1,37 +1,44 @@
 {{ define "main" }}
-<div class="wrap"><div class="cols">
-<div class="stack">
+<div class="page">
+  <div class="h-in">
+    {{ partial "page-head.html" (dict "eyebrow" "تماس" "title" .Title "lead" "برای هماهنگی جلسه‌ی آشنایی، درخواست دوره‌ی آموزشی یا بررسی یک پروژه، فرم زیر را تکمیل کنید. پیام شما در اولین فرصت پاسخ داده خواهد شد.") }}
 
-  <section class="card"><div class="pad">
-    <span class="eyebrow lat">Contact</span>
-    <h1 style="font-size:28px">{{ .Title }}</h1>
-    <p class="excerpt" style="font-size:15.5px;max-width:60ch">برای همکاری، مشاوره‌ی فنی، یا گفت‌وگو درباره‌ی یکی از نوشته‌ها پیام بدهید. فرم زیر پیام را در برنامه‌ی ایمیل خودتان باز می‌کند.</p>
-    <form class="form" id="cform" data-mailto="{{ site.Params.email }}" style="margin-block-start:18px;max-width:58ch">
-      <div class="row2">
-        <div class="field"><label for="cname">نام</label><input id="cname" name="cname" type="text" required></div>
-        <div class="field"><label for="cmail">ایمیل شما</label><input id="cmail" name="cmail" type="email" dir="ltr" required></div>
-      </div>
-      <div class="field"><label for="csub">موضوع</label><input id="csub" name="csub" type="text"></div>
-      <div class="field"><label for="cmsg">پیام</label><textarea id="cmsg" name="cmsg" required></textarea></div>
-      <div class="actions" style="margin:0">
-        <button class="btn btn-primary" type="submit">{{ partial "icon.html" "mail" }}ارسال ایمیل</button>
-        <span id="cnote" class="meta tight" style="align-self:center"></span>
-      </div>
-    </form>
-  </div></section>
+    <div class="contact-grid">
+      <section class="panel">
+        <h2>ارسال پیام</h2>
+        <form class="form" id="cform" data-mailto="{{ site.Params.email }}">
+          <div class="row2">
+            <div class="field"><label for="cname">نام و نام خانوادگی</label><input id="cname" name="cname" type="text" autocomplete="name" required></div>
+            <div class="field"><label for="corg">سازمان <small>(اختیاری)</small></label><input id="corg" name="corg" type="text" autocomplete="organization"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="cmail">ایمیل</label><input id="cmail" name="cmail" type="email" dir="ltr" autocomplete="email" required></div>
+            <div class="field"><label for="csub">موضوع</label><input id="csub" name="csub" type="text" placeholder="مثلاً مشاوره‌ی پلتفرم داده"></div>
+          </div>
+          <div class="field"><label for="cmsg">شرح درخواست</label><textarea id="cmsg" name="cmsg" placeholder="به‌طور خلاصه نیاز، اهداف و زمان‌بندی مدنظر را شرح دهید." required></textarea></div>
+          <div class="form-foot">
+            <button class="btn btn-primary" type="submit">{{ partial "icon.html" "mail" }}ارسال پیام</button>
+            <span id="cnote" class="form-note">با ارسال فرم، پیام در برنامه‌ی ایمیل شما آماده‌ی ارسال می‌شود.</span>
+          </div>
+        </form>
+      </section>
 
-  <section class="card"><div class="pad">
-    <div class="card-head"><h2>راه‌های دیگر</h2></div>
-    <div class="rail-list">
-      <a class="link-row" href="mailto:{{ site.Params.email }}">{{ partial "icon.html" "mail" }}ایمیل مستقیم<em class="lat">{{ site.Params.email }}</em></a>
-      {{ range site.Data.links }}<a class="link-row" href="{{ .href }}" target="_blank" rel="noopener">{{ partial "icon.html" "ext" }}{{ .title }}<em>{{ .label }}</em></a>{{ end }}
+      <aside class="contact-side">
+        <section class="panel">
+          <h2>اطلاعات تماس</h2>
+          <ul class="info-list">
+            <li>{{ partial "icon.html" "mail" }}<div><span>ایمیل</span><a class="lat" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></div></li>
+            <li>{{ partial "icon.html" "pin" }}<div><span>محل استقرار</span><b>{{ site.Data.resume.location }}</b></div></li>
+            {{ range first 2 site.Data.links }}<li>{{ partial "icon.html" "ext" }}<div><span>{{ .title }}</span><a class="lat" dir="ltr" href="{{ .href }}" target="_blank" rel="noopener">{{ .label }}</a></div></li>{{ end }}
+          </ul>
+        </section>
+        <section class="panel">
+          <h2>زمینه‌های همکاری</h2>
+          <ul class="check-list">{{ range site.Data.home.services }}<li>{{ partial "icon.html" "check" }}{{ .title }}</li>{{ end }}</ul>
+          <p class="h-note">{{ partial "icon.html" "shield" }}محرمانگی اطلاعات سازمان در تمام مراحل همکاری رعایت می‌شود.</p>
+        </section>
+      </aside>
     </div>
-  </div></section>
-
+  </div>
 </div>
-<aside class="rail">
-  {{ partial "rail-skills.html" . }}
-  {{ partial "rail-latest.html" . }}
-</aside>
-</div></div>
 {{ end }}

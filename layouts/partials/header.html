@@ -1,21 +1,24 @@
 <header class="nav">
   <div class="nav-inner">
+    <a class="brand" href="{{ "/" | relLangURL }}" aria-label="{{ site.Params.author }} — صفحه‌ی اصلی">
+      {{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="" width="36" height="36">{{ end }}
+      <span><b>{{ site.Params.author }}</b><small>{{ site.Params.headline }}</small></span>
+    </a>
     <nav class="nav-links" aria-label="ناوبری اصلی">
       {{ range site.Menus.main }}
-        <a class="nav-link{{ if $.IsMenuCurrent "main" . }} is-active{{ end }}" href="{{ .URL | relLangURL }}">
-          {{ partial "icon.html" .Params.icon }}
-          <span>{{ .Name }}</span>
-        </a>
+        <a class="nav-link{{ if or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }} is-active{{ end }}" href="{{ .URL | relLangURL }}">{{ .Name }}</a>
       {{ end }}
     </nav>
     <div class="nav-end">
       <button class="icon-btn" id="themeBtn" type="button" aria-label="تغییر پوسته"></button>
+      <a class="btn btn-primary nav-cta" href="{{ "contact/" | relLangURL }}">درخواست مشاوره</a>
       <button class="icon-btn nav-toggle" id="menuBtn" type="button" aria-label="منو" aria-expanded="false"></button>
     </div>
   </div>
   <nav class="drawer" id="drawer" aria-label="ناوبری موبایل">
     {{ range site.Menus.main }}
-      <a href="{{ .URL | relLangURL }}">{{ partial "icon.html" .Params.icon }}{{ .Name }}</a>
+      <a href="{{ .URL | relLangURL }}">{{ .Name }}</a>
     {{ end }}
+    <a class="drawer-cta" href="{{ "contact/" | relLangURL }}">درخواست مشاوره</a>
   </nav>
 </header>

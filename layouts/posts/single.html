@@ -1,77 +1,54 @@
 {{ define "main" }}
-<div class="wrap"><div class="cols">
-<div class="stack">
+<div class="page">
+  <article class="article">
+    <header class="article-head">
+      <div class="crumbs">
+        <a href="{{ "posts/" | relLangURL }}">یادداشت‌ها و مقالات</a>
+        {{ partial "icon.html" "prev" }}
+        <span>{{ .Params.category }}</span>
+      </div>
+      <h1>{{ .Title }}</h1>
+      <div class="byline">
+        <span class="av">{{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="">{{ else }}{{ site.Params.monoInitial }}{{ end }}</span>
+        <div>
+          <b>{{ site.Params.author }}</b>
+          <span class="h-meta">{{ with .Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }} · {{ partial "fa-digits.html" .Params.readMinutes }} دقیقه مطالعه</span>
+        </div>
+      </div>
+    </header>
 
-  <section class="card"><div class="pad">
-    <div class="crumbs">
-      <a href="{{ "posts/" | relLangURL }}">مقالات</a>
-      {{ partial "icon.html" "prev" }}
-      <span>{{ .Params.category }}</span>
-    </div>
-    <div class="article-head"><h1>{{ .Title }}</h1></div>
-    <div class="byline">
-      <span class="av">
-        {{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="{{ site.Params.author }}">
-        {{ else }}{{ site.Params.monoInitial }}{{ end }}
-      </span>
+    <div class="prose">{{ .Content }}</div>
+
+    {{ with .Params.tags }}
+    <div class="tagrow article-tags"><span>برچسب‌ها:</span>{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</div>
+    {{ end }}
+
+    <aside class="author-box">
+      <span class="av">{{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="">{{ end }}</span>
       <div>
         <b>{{ site.Params.author }}</b>
-        <span class="meta tight">
-          <span>{{ with .Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }}</span>
-          <span class="dot"></span>
-          <span>{{ partial "fa-digits.html" .Params.readMinutes }} دقیقه مطالعه</span>
-        </span>
+        <span>{{ site.Params.headline }}</span>
+        <p>{{ index site.Params.about 1 }}</p>
+        <div class="h-cta">
+          <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}درخواست مشاوره</a>
+          <a class="btn btn-plain" href="{{ "about/" | relLangURL }}">درباره‌ی نویسنده</a>
+        </div>
       </div>
-    </div>
-  </div></section>
+    </aside>
 
-  <section class="card"><div class="pad">
-    <div class="prose">{{ .Content }}</div>
-    <div class="tagrow" style="margin-block-start:28px;padding-block-start:18px;border-block-start:1px solid var(--line)">
-      <span style="font-size:13px;color:var(--ink-3)">برچسب‌ها:</span>
-      {{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
-    </div>
-  </div></section>
-
-  <section class="card"><div class="pad">
-    <div class="byline" style="margin:0;padding:0;border:0">
-      <span class="av" style="width:56px;height:56px;font-size:19px">
-        {{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="{{ site.Params.author }}">
-        {{ else }}{{ site.Params.monoInitial }}{{ end }}
-      </span>
-      <div>
-        <b style="font-size:16px">{{ site.Params.author }}</b>
-        <p class="excerpt" style="margin-block-start:4px;max-width:54ch">{{ site.Params.headline }} — {{ site.Params.tagline }}</p>
-      </div>
-    </div>
-    <div class="actions">
-      <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}ارتباط با من</a>
-      <a class="btn btn-plain" href="{{ "posts/" | relLangURL }}">{{ partial "icon.html" "news" }}همه‌ی مقالات</a>
-    </div>
-  </div></section>
-
-  {{/* Hugo's method names here read backwards from what they return:
-       .PrevInSection is the chronologically OLDER neighbour and
-       .NextInSection the NEWER one — verified empirically against the
-       rendered page, not just assumed from the method names. Bind by
-       actual meaning (older = "پیشین", newer = "بعدی"). */}}
-  {{ $older := .PrevInSection }}
-  {{ $newer := .NextInSection }}
-  {{ if or $older $newer }}
-  <div class="pager">
-    {{ with $older }}<a class="pager-item" href="{{ .RelPermalink }}"><span>نوشته‌ی پیشین</span><b>{{ .Title }}</b></a>{{ else }}<span></span>{{ end }}
-    {{ with $newer }}<a class="pager-item" href="{{ .RelPermalink }}"><span>نوشته‌ی بعدی</span><b>{{ .Title }}</b></a>{{ else }}<span></span>{{ end }}
-  </div>
-  {{ end }}
-
+    {{/* Hugo's method names here read backwards from what they return:
+         .PrevInSection is the chronologically OLDER neighbour and
+         .NextInSection the NEWER one — verified empirically against the
+         rendered page, not just assumed from the method names. Bind by
+         actual meaning (older = "پیشین", newer = "بعدی"). */}}
+    {{ $older := .PrevInSection }}
+    {{ $newer := .NextInSection }}
+    {{ if or $older $newer }}
+    <nav class="pager" aria-label="نوشته‌های دیگر">
+      {{ with $older }}<a class="pager-item" href="{{ .RelPermalink }}"><span>نوشته‌ی پیشین</span><b>{{ .Title }}</b></a>{{ else }}<span></span>{{ end }}
+      {{ with $newer }}<a class="pager-item" href="{{ .RelPermalink }}"><span>نوشته‌ی بعدی</span><b>{{ .Title }}</b></a>{{ else }}<span></span>{{ end }}
+    </nav>
+    {{ end }}
+  </article>
 </div>
-<aside class="rail">
-  {{ partial "rail-latest.html" . }}
-  <section class="card"><div class="pad">
-    <div class="card-head"><h2>موضوع‌های این نوشته</h2></div>
-    <div class="tagrow">{{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}</div>
-  </div></section>
-  {{ partial "rail-links.html" . }}
-</aside>
-</div></div>
 {{ end }}

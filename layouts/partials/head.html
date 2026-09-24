@@ -12,7 +12,7 @@
 <meta name="twitter:card" content="summary">
 
 <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
-<meta name="theme-color" content="#0A66C2">
+<meta name="theme-color" content="#1E3F73">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 {{ with resources.Get "css/main.css" }}
@@ -31,8 +31,12 @@
 {
   "@context": "https://schema.org",
   "@type": "Person",
-  "name": {{ site.Params.author | jsonify }},
-  "url": {{ site.BaseURL | jsonify }}
+  "name": {{ site.Params.author | jsonify | safeJS }},
+  "url": {{ site.BaseURL | jsonify | safeJS }},
+  "jobTitle": "Lead Data Scientist",
+  "image": {{ site.Params.avatarImage | absURL | jsonify | safeJS }},
+  "email": {{ printf "mailto:%s" site.Params.email | jsonify | safeJS }},
+  "sameAs": {{ apply site.Data.links "index" "." "href" | jsonify | safeJS }}
 }
 </script>
 {{ end }}

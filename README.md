@@ -47,9 +47,8 @@ sidebar rail):
 | ------------------------ | ---------------------------------------------------------------- |
 | `hugo.toml` `[params]`  | Name, headline, tagline, email, "how I work" list, `about` paragraphs |
 | `data/focus.yaml`       | The three "حوزه‌های تمرکز" focus-area cards                     |
-| `data/experience.yaml`  | Resume: work experience timeline                                |
-| `data/education.yaml`   | Resume: education timeline                                      |
-| `data/skills.yaml`      | Resume: skills, grouped                                         |
+| `data/resume.yaml`      | Resume: summary, stats, achievements, experience, skills, education, certifications, publications, languages |
+| `static/files/Mehdi_Lotfinejad_Resume.pdf` | Downloadable PDF resume linked from the resume page — keep in sync with `data/resume.yaml` |
 | `data/skills_top.yaml`  | The short "مهارت‌های کلیدی" list shown in the sidebar rail      |
 | `data/links.yaml`       | Social/external links (GitHub, LinkedIn, X, Medium, …)          |
 | `data/projects.yaml`    | Project cards (linking out to GitHub repos)                     |
@@ -60,11 +59,6 @@ sidebar rail):
 | `content/resume.md`     | Resume page (`type: resume`)                                     |
 | `content/contact.md`    | Contact page (`type: contact`)                                   |
 | `content/posts/`        | Blog posts — real Markdown content                                |
-
-A resume entry can be marked as a placeholder with `rolePh: true` and/or
-`orgPh: true` — it renders with a dashed orange underline (`.ph` in the
-CSS) so it's obviously not-yet-real. `experience.yaml` and `education.yaml`
-each have one right now; replace them and drop the `*Ph` flags.
 
 `hugo.toml`'s `email` param is still the placeholder `you@lotfinejad.ir` —
 search for `TODO` across the repo before considering a page finished.

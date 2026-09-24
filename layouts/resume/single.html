@@ -1,83 +1,145 @@
 {{ define "main" }}
+{{ $r := site.Data.resume }}
 <div class="wrap"><div class="cols">
 <div class="stack">
 
+  {{/* ---------- header ---------- */}}
+  <section class="card cv-hero">
+    <div class="cv-band" aria-hidden="true"></div>
+    <div class="pad">
+      <div class="cv-top">
+        <div class="cv-id">
+          <div class="cv-av">{{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="">{{ else }}{{ site.Params.monoInitial }}{{ end }}</div>
+          <div>
+            <span class="eyebrow lat">Resume · {{ .Title }}</span>
+            <h1>{{ site.Params.author }}</h1>
+          </div>
+        </div>
+        <div class="actions no-print">
+          {{ with $r.pdf }}<a class="btn btn-primary" href="{{ . | relURL }}" download>{{ partial "icon.html" "doc" }}دانلود PDF</a>{{ end }}
+          <button class="btn btn-plain" id="printBtn" type="button">{{ partial "icon.html" "print" }}چاپ</button>
+        </div>
+      </div>
+      <div class="cv-roles">{{ range $i, $e := $r.roles }}{{ if $i }}<i aria-hidden="true"></i>{{ end }}<bdi>{{ $e }}</bdi>{{ end }}</div>
+      <div class="cv-contact">
+        <span>{{ partial "icon.html" "pin" }}{{ $r.location }}</span>
+        {{ range $r.contact }}<a href="{{ .href }}"{{ if hasPrefix .href "http" }} target="_blank" rel="noopener"{{ end }}>{{ partial "icon.html" .icon }}<bdi class="lat">{{ .label }}</bdi></a>{{ end }}
+      </div>
+      <p class="cv-summary">{{ $r.summary }}</p>
+    </div>
+    <div class="cv-stats">
+      {{ range $r.stats }}<div class="cv-stat"><b><bdi>{{ .value }}</bdi></b><span>{{ .label }}</span></div>{{ end }}
+    </div>
+  </section>
+
+  {{/* ---------- achievements ---------- */}}
   <section class="card"><div class="pad">
-    <div class="card-head">
-      <div><span class="eyebrow lat">Resume</span><h1 style="font-size:28px">{{ .Title }}</h1></div>
-      <button class="btn btn-plain no-print" id="printBtn" type="button">{{ partial "icon.html" "print" }}چاپ / ذخیره PDF</button>
-    </div>
-    <p class="headline" style="font-size:16px">{{ site.Params.author }} · {{ site.Params.headline }}</p>
-    <div class="note no-print" style="margin-block-start:16px">
-      {{ partial "icon.html" "sparkle" }}
-      <span>موردهایی که با خط‌چین نارنجی مشخص شده‌اند در سایت فعلی هنوز نمونه‌اند؛ آن‌ها را با نام واقعی شرکت و مدرک جایگزین کنید.</span>
-    </div>
+    <div class="card-head"><h2>دستاوردهای کلیدی</h2></div>
+    <ul class="cv-checks">
+      {{ range $r.achievements }}<li>{{ . }}</li>{{ end }}
+    </ul>
   </div></section>
 
+  {{/* ---------- experience ---------- */}}
   <section class="card"><div class="pad">
     <div class="card-head"><h2>تجربه‌ی کاری</h2></div>
-    <div class="tl">
-      {{ range site.Data.experience }}
-      <div class="tl-item">
-        <div class="logo-sq">{{ partial "icon.html" "cpu" }}</div>
-        <div>
-          <div class="tl-role{{ if .rolePh }} ph{{ end }}">{{ .role }}</div>
-          <div class="tl-org{{ if .orgPh }} ph{{ end }}">{{ .org }}</div>
-          <div class="tl-when">{{ .when }}</div>
-          {{ with .desc }}<p class="tl-desc">{{ . }}</p>{{ end }}
+    <ol class="cv-tl">
+      {{ range $r.experience }}
+      <li class="cv-job{{ if .current }} is-current{{ end }}">
+        <div class="cv-mark lat" aria-hidden="true">{{ .mark }}</div>
+        <div class="cv-job-body">
+          <div class="cv-job-head">
+            <div>
+              <h3><bdi>{{ .role }}</bdi></h3>
+              <div class="cv-org"><bdi>{{ .org }}</bdi><span class="dot"></span><span>{{ .place }}</span></div>
+            </div>
+            <span class="cv-when">{{ if .current }}<i aria-hidden="true"></i>{{ end }}{{ .when }}</span>
+          </div>
+          {{ with .context }}<p class="cv-context">{{ . }}</p>{{ end }}
+          <ul class="cv-points">{{ range .points }}<li>{{ . }}</li>{{ end }}</ul>
         </div>
+      </li>
+      {{ end }}
+    </ol>
+
+    <h3 class="cv-sub">سوابق پیشین</h3>
+    <div class="cv-earlier">
+      {{ range $r.earlier }}
+      <div class="cv-earlier-row">
+        <div class="cv-earlier-head"><b><bdi>{{ .role }}</bdi></b><span class="cv-when">{{ .when }}</span></div>
+        <div class="cv-org">{{ .org }}</div>
+        <p>{{ .desc }}</p>
       </div>
       {{ end }}
     </div>
   </div></section>
 
+  {{/* ---------- skills ---------- */}}
   <section class="card"><div class="pad">
-    <div class="card-head"><h2>تحصیلات</h2></div>
-    <div class="tl">
-      {{ range site.Data.education }}
-      <div class="tl-item">
-        <div class="logo-sq">{{ partial "icon.html" "doc" }}</div>
-        <div>
-          <div class="tl-role{{ if .rolePh }} ph{{ end }}">{{ .role }}</div>
-          <div class="tl-org{{ if .orgPh }} ph{{ end }}">{{ .org }}</div>
-          <div class="tl-when">{{ .when }}</div>
-          {{ with .desc }}<p class="tl-desc">{{ . }}</p>{{ end }}
+    <div class="card-head"><h2>مهارت‌های کلیدی</h2></div>
+    <div class="cv-skills">
+      {{ range $r.skills }}
+      <div class="cv-skill">
+        <h3>{{ partial "icon.html" .icon }}<bdi>{{ .group }}</bdi></h3>
+        <div class="tagrow">{{ range .items }}<span class="tag{{ if not (findRE "[؀-ۿ]" .) }} lat{{ end }}"><bdi>{{ . }}</bdi></span>{{ end }}</div>
+      </div>
+      {{ end }}
+    </div>
+  </div></section>
+
+  {{/* ---------- education + certifications ---------- */}}
+  <div class="cv-duo">
+    <section class="card"><div class="pad">
+      <div class="card-head"><h2>تحصیلات</h2></div>
+      <div class="cv-list">
+        {{ range $r.education }}
+        <div class="cv-list-row">
+          <div class="logo-sq">{{ partial "icon.html" "doc" }}</div>
+          <div><b>{{ .role }}</b><div class="cv-org">{{ .org }}</div><div class="cv-when">{{ .when }}</div></div>
         </div>
+        {{ end }}
       </div>
-      {{ end }}
-    </div>
-  </div></section>
+    </div></section>
 
-  <section class="card"><div class="pad">
-    <div class="card-head"><h2>مهارت‌ها</h2></div>
-    {{ range site.Data.skills }}
-    <div class="skill-group">
-      <h3>{{ .group }}</h3>
-      <div class="tagrow">{{ range .items }}<span class="tag{{ if findRE "[A-Za-z]" . }} lat{{ end }}">{{ . }}</span>{{ end }}</div>
-    </div>
-    {{ end }}
-  </div></section>
+    <section class="card"><div class="pad">
+      <div class="card-head"><h2>گواهی‌نامه‌ها</h2></div>
+      <div class="cv-certs">
+        {{ range $r.certifications }}
+        <div class="cv-cert" dir="ltr">
+          <b>{{ .name }}</b>
+          <span>{{ .by }}</span>
+          {{ with .note }}<small>{{ . }}</small>{{ end }}
+        </div>
+        {{ end }}
+      </div>
+    </div></section>
+  </div>
 
+  {{/* ---------- publications ---------- */}}
   <section class="card"><div class="pad">
-    <div class="card-head"><h2>نوشته‌ها و پروژه‌های شاخص</h2></div>
-    <div class="rail-list">
-      {{ range where site.RegularPages "Section" "posts" }}
-      <div class="rail-row block">
-        <a href="{{ .RelPermalink }}" style="color:var(--ink);font-weight:600">{{ .Title }}</a>
-        <div class="meta tight" style="margin-block-start:4px"><span>{{ with .Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }}</span></div>
-      </div>
-      {{ end }}
-      {{ range first 3 site.Data.projects }}
-      <div class="rail-row">
-        <span class="lat" style="color:var(--accent);font-weight:600">{{ .name }}</span>
-        <span>{{ partial "fa-digits.html" .stars }} ستاره</span>
-      </div>
-      {{ end }}
-    </div>
+    <div class="card-head"><h2>انتشارات و تألیف دوره</h2></div>
+    <ul class="cv-points">{{ range $r.publications }}<li>{{ . }}</li>{{ end }}</ul>
   </div></section>
 
 </div>
 <aside class="rail">
+  <section class="card"><div class="pad">
+    <div class="card-head"><h2>در یک نگاه</h2></div>
+    <div class="rail-list">
+      {{ with index $r.experience 0 }}
+      <div class="rail-row block"><span>نقش فعلی</span><div style="font-weight:700"><bdi>{{ .role }}</bdi> · <bdi>{{ .org }}</bdi></div></div>
+      {{ end }}
+      <div class="rail-row block"><span>محل</span><div style="font-weight:600">{{ $r.location }}</div></div>
+    </div>
+    <h3 class="cv-sub" style="margin-block-start:14px">زبان‌ها</h3>
+    {{ range $r.languages }}
+    <div class="cv-lang">
+      <div><b>{{ .name }}</b><span>{{ .level }}</span></div>
+      <div class="cv-meter"><i style="inline-size:{{ .pct }}%"></i></div>
+    </div>
+    {{ end }}
+    {{ with $r.pdf }}<a class="btn btn-ghost cv-rail-btn no-print" href="{{ . | relURL }}" download>{{ partial "icon.html" "doc" }}دانلود نسخه‌ی PDF</a>{{ end }}
+  </div></section>
   {{ partial "rail-links.html" . }}
 </aside>
 </div></div>

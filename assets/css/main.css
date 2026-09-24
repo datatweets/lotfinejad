@@ -304,6 +304,89 @@ pre code { background: none; padding: 0; font-size: .9em; }
 }
 
 /* ============================================================
+   HOME — single column, type-led, hairline-separated sections.
+   No cards: whitespace and rules carry the structure.
+   ============================================================ */
+.home { max-width: 760px; margin-inline: auto; padding: 72px 20px 96px; }
+@media (max-width: 560px) { .home { padding-block-start: 40px; } }
+
+.h-who { display: flex; align-items: center; gap: 14px; }
+.h-av { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; background: var(--accent-wash); color: var(--accent-ink); display: grid; place-items: center; font-weight: 800; flex: 0 0 auto; box-shadow: 0 0 0 1px var(--line); }
+.h-av img { width: 100%; height: 100%; object-fit: cover; }
+.h-who b { display: block; font-size: 16px; }
+.h-who span { display: block; font-size: 12.5px; color: var(--ink-3); letter-spacing: .02em; }
+.h-hero h1 { margin-block-start: 32px; font-size: clamp(28px, 5.2vw, 44px); line-height: 1.45; font-weight: 800; letter-spacing: -.015em; color: var(--ink); }
+.h-lead { margin-block-start: 20px; font-size: 17.5px; line-height: 2; color: var(--ink-2); max-width: 62ch; }
+.h-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-block-start: 28px; }
+.h-cta .btn { padding: 10px 20px; }
+.h-social { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-block-start: 22px; font-size: 14px; }
+.h-social a { color: var(--ink-3); font-weight: 600; }
+.h-social a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+
+.h-proof { margin-block-start: 64px; padding-block: 28px; border-block: 1px solid var(--line); }
+.h-stats { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.h-stats div { display: flex; flex-direction: column-reverse; }
+.h-stats dd { margin: 0; font-size: 30px; font-weight: 800; line-height: 1.2; color: var(--ink); font-variant-numeric: tabular-nums; }
+.h-stats dt { font-size: 13px; color: var(--ink-3); margin-block-start: 4px; }
+@media (max-width: 560px) { .h-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 16px; } }
+.h-clients { margin-block-start: 26px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 22px; }
+.h-clients > span { font-size: 13px; color: var(--ink-3); }
+.h-clients ul { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.h-clients li { font-family: var(--lat); font-size: 16px; font-weight: 700; color: var(--ink-2); letter-spacing: .01em; }
+
+.h-sec { margin-block-start: 80px; }
+.h-sec-head { display: flex; align-items: baseline; gap: 14px; margin-block-end: 22px; }
+.h-sec-head > span { font-size: 14px; color: var(--accent); font-weight: 700; }
+.h-sec-head h2 { font-size: 22px; font-weight: 800; }
+.h-more { margin-inline-start: auto; display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: var(--ink-2); white-space: nowrap; }
+.h-more svg { width: 16px; height: 16px; transition: transform .15s ease; }
+.h-more:hover { color: var(--accent); text-decoration: none; }
+.h-more:hover svg { transform: translateX(-3px); }
+
+.h-services { margin: 0; padding: 0; list-style: none; }
+.h-services li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; padding-block: 20px; border-block-start: 1px solid var(--line); }
+.h-services li:first-child { border-block-start: 0; padding-block-start: 0; }
+.h-num { font-size: 15px; font-weight: 800; color: var(--accent); line-height: 1.6; }
+.h-services h3 { font-size: 17px; }
+.h-services p { margin-block-start: 6px; font-size: 15px; color: var(--ink-2); line-height: 1.9; }
+
+.h-rows li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding-block: 14px; border-block-start: 1px solid var(--line); }
+.h-rows li:first-child { border-block-start: 0; padding-block-start: 0; }
+.h-row-main { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; min-width: 0; }
+.h-row-main b { font-size: 16px; font-family: var(--lat); }
+.h-row-main span { font-size: 14px; color: var(--ink-2); font-family: var(--lat); }
+.h-row-meta { font-size: 13px; color: var(--ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) {
+  .h-rows li { flex-direction: column; gap: 4px; }
+  .h-row-main { flex-direction: column; }
+}
+
+.h-posts li + li { border-block-start: 1px solid var(--line); }
+.h-posts a { display: block; padding-block: 20px; margin-inline: -14px; padding-inline: 14px; border-radius: var(--radius); color: inherit; }
+.h-posts li:first-child a { padding-block-start: 6px; }
+.h-posts a:hover { text-decoration: none; background: var(--surface); }
+.h-posts a:hover h3 { color: var(--accent); }
+.h-post-cat { font-size: 12.5px; font-weight: 700; color: var(--accent-ink); }
+.h-posts h3 { margin-block-start: 4px; font-size: 18px; line-height: 1.6; transition: color .15s ease; }
+.h-posts p { margin-block: 6px 8px; font-size: 15px; color: var(--ink-2); line-height: 1.85; }
+
+.h-projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 560px) { .h-projects { grid-template-columns: 1fr; } }
+.h-proj { display: flex; flex-direction: column; gap: 8px; padding: 18px; border: 1px solid var(--line); border-radius: var(--radius-lg); color: inherit; transition: border-color .15s ease, transform .15s ease; }
+.h-proj:hover { text-decoration: none; border-color: var(--line-strong); transform: translateY(-2px); }
+.h-proj-name { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 14.5px; font-weight: 500; color: var(--ink); }
+.h-proj-name svg { width: 15px; height: 15px; color: var(--ink-3); }
+.h-proj:hover .h-proj-name { color: var(--accent); }
+.h-proj p { flex: 1 1 auto; font-size: 14px; color: var(--ink-2); line-height: 1.8; }
+.h-proj .h-row-meta { text-align: right; white-space: normal; }
+
+.h-end { margin-block-start: 88px; padding-block-start: 40px; border-block-start: 1px solid var(--line); }
+.h-end h2 { font-size: clamp(22px, 3.6vw, 30px); font-weight: 800; }
+.h-end p { margin-block-start: 10px; font-size: 16px; color: var(--ink-2); line-height: 1.9; max-width: 56ch; }
+.h-mail { color: var(--ink-2); font-size: 15px; }
+.h-mail:hover { color: var(--accent); }
+
+/* ============================================================
    POSTS
    ============================================================ */
 .post-list { display: flex; flex-direction: column; }

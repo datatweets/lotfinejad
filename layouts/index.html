@@ -1,88 +1,124 @@
 {{ define "main" }}
-<div class="wrap"><div class="cols">
-<div class="stack">
+{{ $h := site.Data.home }}
+{{ $r := site.Data.resume }}
+{{ $posts := where site.RegularPages "Section" "posts" }}
+<div class="home">
 
-  <section class="card lift">
-    <div class="cover"><span class="cover-tag lat">{{ site.Params.coverTag }}</span></div>
-    <div class="profile-body">
-      <div class="avatar">
-        {{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="{{ site.Params.author }}">
-        {{ else }}{{ site.Params.monoInitial }}{{ end }}
+  {{/* ---------- hero ---------- */}}
+  <section class="h-hero">
+    <div class="h-who">
+      <div class="h-av">{{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="{{ site.Params.author }}" width="64" height="64">{{ else }}{{ site.Params.monoInitial }}{{ end }}</div>
+      <div>
+        <b>{{ site.Params.author }}</b>
+        <span class="lat">{{ $h.eyebrow }}</span>
       </div>
-      <div class="identity"><div>
-        <h1>{{ site.Params.author }}</h1>
-        <p class="headline">{{ site.Params.headline }}</p>
-      </div></div>
-      <p class="excerpt" style="font-size:15.5px;max-width:56ch">{{ site.Params.tagline }}</p>
-      <div class="actions">
-        <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}ارتباط با من</a>
-        <a class="btn btn-ghost" href="{{ "resume/" | relLangURL }}">{{ partial "icon.html" "doc" }}مشاهده‌ی رزومه</a>
-        <a class="btn btn-plain" href="https://github.com/{{ site.Params.githubUser }}" target="_blank" rel="noopener">{{ partial "icon.html" "ext" }}GitHub</a>
-      </div>
+    </div>
+    <h1>{{ $h.title }}</h1>
+    <p class="h-lead">{{ $h.lead }}</p>
+    <div class="h-cta">
+      <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}شروع گفتگو</a>
+      <a class="btn btn-plain" href="{{ "resume/" | relLangURL }}">{{ partial "icon.html" "doc" }}رزومه</a>
+    </div>
+    <div class="h-social">
+      {{ range site.Data.links }}<a href="{{ .href }}" target="_blank" rel="noopener">{{ .title }}</a>{{ end }}
     </div>
   </section>
 
-  <section class="card"><div class="pad">
-    <div class="card-head"><h2>درباره</h2><a class="link-more" href="{{ "about/" | relLangURL }}">بیشتر</a></div>
-    <p class="excerpt" style="font-size:15.5px;max-width:66ch">{{ index site.Params.about 0 }}</p>
-  </div></section>
+  {{/* ---------- proof: stats + clients ---------- */}}
+  <section class="h-proof" aria-label="در یک نگاه">
+    <dl class="h-stats">
+      {{ range $h.stats }}<div><dt>{{ .label }}</dt><dd><bdi>{{ .value }}</bdi></dd></div>{{ end }}
+    </dl>
+    <div class="h-clients">
+      <span>همکاری با</span>
+      <ul>{{ range $h.clients }}<li class="lat">{{ . }}</li>{{ end }}</ul>
+    </div>
+  </section>
 
-  <section class="card">
-    <div class="pad" style="padding-block-end:0"><div class="card-head"><h2>حوزه‌های تمرکز</h2></div></div>
-    <div class="focus">
-      {{ range site.Data.focus }}
-      <div class="focus-item">{{ partial "icon.html" .icon }}<h3>{{ .title }}</h3><p>{{ .desc }}</p></div>
+  {{/* ---------- services ---------- */}}
+  <section class="h-sec">
+    <header class="h-sec-head">
+      <span>۰۱</span>
+      <h2>چه کمکی از من برمی‌آید</h2>
+    </header>
+    <ol class="h-services">
+      {{ range $i, $s := $h.services }}
+      <li>
+        <span class="h-num">{{ partial "fa-digits.html" (add $i 1) }}</span>
+        <div><h3>{{ .title }}</h3><p>{{ .desc }}</p></div>
+      </li>
       {{ end }}
-    </div>
+    </ol>
   </section>
 
-  {{ $posts := where site.RegularPages "Section" "posts" }}
-  <section class="card">
-    <div class="pad" style="padding-block-end:12px"><div class="card-head" style="margin-block-end:0">
-      <div><span class="eyebrow lat">Featured</span><h2>مقالات برگزیده</h2></div>
-      <a class="link-more" href="{{ "posts/" | relLangURL }}">همه‌ی مقالات</a>
-    </div></div>
-    <div class="post-list">
-      {{ range $i, $p := $posts }}
-      <article class="post-item">
-        <div class="post-top">
-          <span class="featured-num">{{ partial "fa-digits.html" (add $i 1) }}</span>
-          <span class="meta tight">
-            <span class="cat">{{ $p.Params.category }}</span>
-            <span>{{ with $p.Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }}</span>
-            <span class="dot"></span>
-            <span>{{ partial "fa-digits.html" $p.Params.readMinutes }} دقیقه مطالعه</span>
-          </span>
+  {{/* ---------- experience ---------- */}}
+  <section class="h-sec">
+    <header class="h-sec-head">
+      <span>۰۲</span>
+      <h2>تجربه</h2>
+      <a class="h-more" href="{{ "resume/" | relLangURL }}">رزومه‌ی کامل {{ partial "icon.html" "prev" }}</a>
+    </header>
+    <ul class="h-rows">
+      {{ range first 4 $r.experience }}
+      <li>
+        <div class="h-row-main">
+          <b><bdi>{{ .org }}</bdi></b>
+          <span><bdi>{{ .role }}</bdi></span>
         </div>
-        <h3 class="post-title"><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></h3>
-        <p class="excerpt">{{ $p.Params.summary }}</p>
-      </article>
+        <span class="h-row-meta">{{ .when }}</span>
+      </li>
+      {{ end }}
+    </ul>
+  </section>
+
+  {{/* ---------- writing ---------- */}}
+  <section class="h-sec">
+    <header class="h-sec-head">
+      <span>۰۳</span>
+      <h2>نوشته‌ها</h2>
+      <a class="h-more" href="{{ "posts/" | relLangURL }}">همه‌ی مقالات {{ partial "icon.html" "prev" }}</a>
+    </header>
+    <ul class="h-posts">
+      {{ range first 4 $posts }}
+      <li>
+        <a href="{{ .RelPermalink }}">
+          <span class="h-post-cat">{{ .Params.category }}</span>
+          <h3>{{ .Title }}</h3>
+          <p>{{ .Params.summary }}</p>
+          <span class="h-row-meta">{{ with .Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }} · {{ partial "fa-digits.html" .Params.readMinutes }} دقیقه</span>
+        </a>
+      </li>
+      {{ end }}
+    </ul>
+  </section>
+
+  {{/* ---------- projects ---------- */}}
+  <section class="h-sec">
+    <header class="h-sec-head">
+      <span>۰۴</span>
+      <h2>پروژه‌های متن‌باز</h2>
+      <a class="h-more" href="{{ "projects/" | relLangURL }}">همه‌ی پروژه‌ها {{ partial "icon.html" "prev" }}</a>
+    </header>
+    <div class="h-projects">
+      {{ range first 4 site.Data.projects }}
+      <a class="h-proj" href="https://github.com/{{ site.Params.githubUser }}/{{ .name }}" target="_blank" rel="noopener">
+        <span class="h-proj-name lat" dir="ltr">{{ .name }}{{ partial "icon.html" "ext" }}</span>
+        <p>{{ .desc }}</p>
+        <span class="h-row-meta lat" dir="ltr">{{ delimit .tags " · " }}</span>
+      </a>
       {{ end }}
     </div>
   </section>
 
-  <section class="card"><div class="pad">
-    <div class="card-head"><h2>به‌روزرسانی‌های اخیر</h2></div>
-    <div class="rail-list">
-      {{ with index $posts 0 }}
-      <div class="rail-row block">
-        <b style="font-weight:600">انتشار مقاله‌ی «{{ .Title }}»</b>
-        <div class="meta tight" style="margin-block-start:4px"><span>{{ with .Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }}</span></div>
-      </div>
-      {{ end }}
-      {{ range site.Data.updates }}
-      <div class="rail-row block">
-        <b style="font-weight:600">{{ .text | markdownify }}</b>
-        <div class="meta tight" style="margin-block-start:4px"><span>{{ partial "jalali-long.html" .jdate }}</span></div>
-      </div>
-      {{ end }}
+  {{/* ---------- closing CTA ---------- */}}
+  <section class="h-end">
+    <h2>پروژه‌ای در ذهن دارید؟</h2>
+    <p>برای مشاوره، آموزش تیم یا ساخت یک راهکار هوش مصنوعی، خوشحال می‌شوم بشنوم روی چه چیزی کار می‌کنید.</p>
+    <div class="h-cta">
+      <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}ارتباط با من</a>
+      <a class="h-mail lat" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
     </div>
-  </div></section>
+  </section>
 
 </div>
-<aside class="rail">
-  {{ partial "rail-skills.html" . }}
-  {{ partial "rail-links.html" . }}
-</aside>
-</div></div>
 {{ end }}

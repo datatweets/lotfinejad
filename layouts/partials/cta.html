@@ -16,7 +16,7 @@
       <p>{{ $text }}</p>
     </div>
     <div class="h-end-actions">
-      <a class="btn btn-gold" href="{{ $href }}">{{ partial "icon.html" "mail" }}{{ $button }}</a>
+      <a class="btn btn-gold" href="{{ $href }}" data-umami-event="cta-click" data-umami-event-where="closing">{{ partial "icon.html" "mail" }}{{ $button }}</a>
     </div>
   </div>
 </section>

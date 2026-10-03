@@ -1,6 +1,7 @@
 ---
 description: "رزومه‌ی محمدمهدی لطفی‌نژاد: سوابق در CIMB، CADS، Axiata و Magna.ai، مهارت‌ها، تحصیلات، گواهی‌نامه‌ها و انتشارات؛ همراه با نسخه‌ی PDF."
 title: "رزومه"
+ogTitle: "رزومه‌ی محمدمهدی لطفی‌نژاد"
 type: "resume"
 sitemap:
   priority: 0.6

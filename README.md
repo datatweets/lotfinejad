@@ -54,8 +54,9 @@ Persian — no first person:
 | `content/training/_index.md` | Training page (`layouts/training/list.html`)                |
 | `content/training/_content.gotmpl` | Generates one page per course at `/training/<slug>/` (`layouts/training/single.html`) |
 | `data/consultation.yaml` | Consultation page (`/consultation/`): offer, next steps, topics, FAQ |
+| `content/services/_content.gotmpl` | Generates a page per service with a `slug` + `page` block in `data/services.yaml`, at `/services/<slug>/` (`layouts/services/single.html`) |
 | `data/services.yaml`    | Services page (`/services/`): 13 consulting services, engagement models, industries |
-| `content/services.md`   | Services page (`type: services`)                                 |
+| `content/services/_index.md` | Services page (`layouts/services/list.html`)                 |
 | `content/consultation.md` | Consultation page (`type: consultation`)                       |
 | `content/contact.md`      | Contact page (`type: contact`): the smart request form          |
 | `data/contact.yaml`       | Smart form: intents (fields copy, subject, button, success text, next steps), referral sources |
@@ -207,6 +208,28 @@ node scripts/build-outlines.mjs   # terminal 2 (default base http://localhost:13
 hugo server                      # terminal 1
 node scripts/build-resume.mjs    # terminal 2
 ```
+
+## Share images
+
+Every page except the home page has its own 1200×630 share image
+(`static/images/og/<page-key>.jpg`, key = path with `/` → `-`, e.g.
+`training-sql`). They are printed from `/print/og/` (`layouts/og/single.html`)
+and picked up automatically by `partials/og-image.html` (og:image and JSON-LD);
+pages without one fall back to `static/images/og.jpg`. After adding pages or
+changing titles:
+
+```bash
+hugo server                  # terminal 1
+node scripts/build-og.mjs    # terminal 2
+```
+
+## Analytics
+
+Cookie-free [Umami](https://umami.is) analytics, off until
+`params.analytics.umamiWebsiteId` is set in `hugo.toml`; it loads only in
+production builds and only on lotfinejad.ir. Events: `form-submit` and
+`form-fallback` (with topic and source), `pdf-outline` (course), `pdf-resume`,
+and `cta-click` (where: nav, drawer, closing, course-page, service-page).
 
 ## SEO and answer engines
 

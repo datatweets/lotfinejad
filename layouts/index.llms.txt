@@ -17,7 +17,7 @@
 ## خدمات مشاوره
 {{ range site.Data.services.services.groups }}
 ### {{ .title }}
-{{ range .items }}- {{ .title }} ({{ .en }}): {{ .desc }} تجربه‌ی مرتبط: {{ .evidence }}
+{{ range .items }}- {{ if .slug }}[{{ .title }} ({{ .en }})]({{ printf "services/%s/" .slug | absURL }}){{ else }}{{ .title }} ({{ .en }}){{ end }}: {{ .desc }} تجربه‌ی مرتبط: {{ .evidence }}
 {{ end }}{{ end }}
 ## دوره‌های آموزشی (حضوری یا آنلاین، به زبان فارسی)
 {{ range site.Data.training.catalog.groups }}

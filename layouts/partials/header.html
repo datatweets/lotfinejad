@@ -11,7 +11,7 @@
     </nav>
     <div class="nav-end">
       <button class="icon-btn" id="themeBtn" type="button" aria-label="تغییر پوسته"></button>
-      <a class="btn btn-primary nav-cta" href="{{ "consultation/" | relLangURL }}">درخواست مشاوره</a>
+      <a class="btn btn-primary nav-cta" href="{{ "consultation/" | relLangURL }}" data-umami-event="cta-click" data-umami-event-where="nav">درخواست مشاوره</a>
       <button class="icon-btn nav-toggle" id="menuBtn" type="button" aria-label="منو" aria-expanded="false"></button>
     </div>
   </div>
@@ -19,6 +19,6 @@
     {{ range site.Menus.main }}
       <a href="{{ .URL | relLangURL }}">{{ .Name }}</a>
     {{ end }}
-    <a class="drawer-cta" href="{{ "consultation/" | relLangURL }}">درخواست مشاوره</a>
+    <a class="drawer-cta" href="{{ "consultation/" | relLangURL }}" data-umami-event="cta-click" data-umami-event-where="drawer">درخواست مشاوره</a>
   </nav>
 </header>

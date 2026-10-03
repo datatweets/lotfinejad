@@ -16,17 +16,7 @@
     {{ partial "profile-card.html" . }}
   </section>
 
-  <section class="h-in">
-    <div class="h-proof">
-      <div class="h-clients">
-        <span>سابقه‌ی همکاری با</span>
-        <ul>{{ range $h.clients }}<li class="lat">{{ . }}</li>{{ end }}</ul>
-      </div>
-      <dl class="h-stats">
-        {{ range $h.stats }}<div><dt>{{ .label }}</dt><dd><bdi>{{ .value }}</bdi></dd></div>{{ end }}
-      </dl>
-    </div>
-  </section>
+  <section class="h-in">{{ partial "trust-bar.html" . }}</section>
 
   <section class="h-in h-sec">
     <header class="h-sec-head">

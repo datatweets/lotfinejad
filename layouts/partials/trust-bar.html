@@ -1,0 +1,15 @@
+{{- /* Credibility bar (home + about): numbers, companies, credentials.
+     Content from data/home.yaml. */ -}}
+{{ $h := site.Data.home }}
+<div class="trust">
+  <dl class="trust-stats">
+    {{ range $h.stats }}<div><dt>{{ .label }}</dt><dd><bdi>{{ .value }}</bdi></dd></div>{{ end }}
+  </dl>
+  <div class="trust-foot">
+    <div class="trust-clients">
+      <span>سابقه‌ی همکاری با</span>
+      <ul>{{ range $h.clients }}<li class="lat">{{ . }}</li>{{ end }}</ul>
+    </div>
+    <ul class="trust-creds">{{ range $h.card.credentials }}<li>{{ partial "icon.html" "check" }}{{ . }}</li>{{ end }}</ul>
+  </div>
+</div>

@@ -60,10 +60,8 @@ Persian — no first person:
 | `data/resume.yaml`      | Resume: summary, stats, achievements, experience, skills, education, certifications, publications, languages |
 | `static/files/Mehdi_Lotfinejad_Resume.pdf` | Downloadable PDF resume linked from the resume page — keep in sync with `data/resume.yaml` |
 | `data/links.yaml`       | Social/external links (GitHub, LinkedIn, X, Medium, …)          |
-| `data/projects.yaml`    | Project cards (linking out to GitHub repos)                     |
 | `content/_index.md`     | Home page (front matter only — body isn't used)                 |
 | `content/about.md`      | About page (`type: about`)                                       |
-| `content/projects.md`   | Projects page (`type: projects`)                                 |
 | `content/resume.md`     | Resume page (`type: resume`)                                     |
 | `content/contact.md`    | Contact page (`type: contact`)                                   |
 | `content/posts/`        | Blog posts — real Markdown content                                |

@@ -65,20 +65,49 @@ async function connect() {
     authHeaders = { "x-umami-api-key": env.UMAMI_API_KEY };
     return;
   }
+  const code = encodeURIComponent(env.UMAMI_SHARE_ID);
   const tried = [];
-  for (const base of SHARE_BASES) {
-    try {
-      const res = await fetch(`${base}/share/${encodeURIComponent(env.UMAMI_SHARE_ID)}`, { headers: { Accept: "application/json" } });
-      const body = res.ok ? await res.json().catch(() => null) : null;
-      if (body && body.token) {
-        if (body.websiteId && body.websiteId !== websiteId) console.warn(`Share link is for website ${body.websiteId}, not ${websiteId}; using the share link's website.`);
-        API = base;
-        authHeaders = { "x-umami-share-token": body.token, "x-umami-share-context": "1" };
-        shareWebsiteId = body.websiteId || websiteId;
-        return;
-      }
-      tried.push(`${base} → HTTP ${res.status}`);
-    } catch (e) { tried.push(`${base} → ${e.message}`); }
+  // Discover the API base the hosted share page itself uses (its HTML/JS
+  // carries the configured apiUrl), and try it before the defaults.
+  const bases = [...SHARE_BASES];
+  try {
+    const page = await fetch(`https://cloud.umami.is/share/${code}`);
+    const html = await page.text();
+    console.log(`Share page: HTTP ${page.status}, ${html.length} bytes`);
+    const sources = [html];
+    for (const m of html.matchAll(/src="(\/_next\/static\/[^"]+\.js)"/g)) {
+      if (sources.length > 25) break;
+      try { sources.push(await (await fetch(`https://cloud.umami.is${m[1]}`)).text()); } catch {}
+    }
+    const found = new Set();
+    for (const src of sources) {
+      for (const m of src.matchAll(/https:\/\/[a-z0-9.-]*umami\.is(?:\/[a-z0-9_\/-]*)?/gi)) found.add(m[0].replace(/\/+$/, ""));
+      for (const m of src.matchAll(/apiUrl["']?\s*[:=]\s*["']([^"']+)["']/g)) found.add(m[1]);
+    }
+    const apiLike = [...found].filter((u) => /api/i.test(u));
+    console.log(`API bases seen on the share page: ${apiLike.join(", ") || "none"}`);
+    for (const u of apiLike.reverse()) {
+      const b = u.startsWith("http") ? u : `https://cloud.umami.is${u.startsWith("/") ? "" : "/"}${u}`;
+      if (!bases.includes(b)) bases.unshift(b);
+    }
+  } catch (e) { console.log(`Share page not readable: ${e.message}`); }
+  for (const base of bases) {
+    for (const path of [`/share/${code}`, `/share/id/${code}`]) {
+      try {
+        const res = await fetch(`${base}${path}`, { headers: { Accept: "application/json" } });
+        const text = await res.text();
+        let body = null; try { body = JSON.parse(text); } catch {}
+        if (res.ok && body && body.token) {
+          if (body.websiteId && body.websiteId !== websiteId) console.warn(`Share link is for website ${body.websiteId}, not ${websiteId}; using the share link's website.`);
+          API = base;
+          authHeaders = { "x-umami-share-token": body.token, "x-umami-share-context": "1" };
+          shareWebsiteId = body.websiteId || websiteId;
+          console.log(`Connected via ${base}${path.replace(code, "<code>")}`);
+          return;
+        }
+        tried.push(`${base}${path.replace(code, "<code>")} → HTTP ${res.status} ${text.replaceAll(env.UMAMI_SHARE_ID, "<code>").slice(0, 160).replace(/\s+/g, " ")}`);
+      } catch (e) { tried.push(`${base}${path.replace(code, "<code>")} → ${e.message}`); }
+    }
   }
   throw new Error(`Could not open the Umami share link (is Share URL enabled and UMAMI_SHARE_ID correct?)\n  ${tried.join("\n  ")}`);
 }

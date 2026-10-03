@@ -1,0 +1,157 @@
+# English résumé (PDF). Printed from /print/resume-en/ (layouts/resume-en/single.html)
+# to static/files/Mehdi_Lotfinejad_Resume.pdf by scripts/build-resume.mjs.
+# Keep facts in sync with data/resume.yaml (Persian page).
+name: "Mohammad Mehdi Lotfinejad"
+headline: "Lead Data Scientist · Data & AI Engineer · HRDC-Accredited Corporate Trainer"
+contact:
+  - label: "+60 14 220 1751"
+    href: "tel:+60142201751"
+  - label: "lotfinejad@gmail.com"
+    href: "mailto:lotfinejad@gmail.com"
+  - label: "linkedin.com/in/lotfinejad"
+    href: "https://www.linkedin.com/in/lotfinejad"
+  - label: "github.com/lotfinejad"
+    href: "https://github.com/lotfinejad"
+  - label: "lotfinejad.ir"
+    href: "https://lotfinejad.ir"
+
+summary: >-
+  Data and AI leader with 15+ years of experience designing data platforms, building analytics, machine
+  learning and LLM solutions, and delivering enterprise technical training. Currently leading agentic risk
+  analytics at CIMB. Deep hands-on expertise in Apache
+  Spark, Databricks, Airflow, AWS, RAG and agentic systems (LangChain, LangGraph), backed by DevOps, MLOps
+  and LLMOps practice for production-grade reliability. Track record across banking, energy, telecom and
+  legal tech.
+
+metrics:
+  - value: "15+"
+    label: "years in data & AI"
+  - value: "1,000+"
+    label: "professionals trained"
+  - value: "2TB+"
+    label: "telco data processed daily"
+  - value: "20+"
+    label: "production data pipelines"
+
+achievements:
+  - "Lead agentic risk analytics and model monitoring on Azure Fabric at **CIMB**, using LangChain, LangGraph and Rayfin to automate risk investigation and model performance oversight."
+  - "Built and operated **20+ production pipelines** processing **2TB+ of telco data daily** at **99.9% availability** for analysts in 9 markets."
+  - "Architected AI legal-data infrastructure for **10K+ daily case-analysis requests** and **50K+ documents per day**, cutting case turnaround from **48 to 18 hours**."
+  - "Trained **1,000+ professionals** across ASEAN through HRDC-accredited programmes in data science, Python, cloud and big data."
+
+skills:
+  - group: "Data Science & AI"
+    items: "Machine Learning, NLP, LLM Applications, RAG, Agentic AI, LangChain, LangGraph, Rayfin, Prompt Engineering"
+  - group: "Data Engineering"
+    items: "Apache Spark, PySpark, Airflow, Databricks, Apache Doris, ETL/ELT, Data Warehousing, Data Pipelines"
+  - group: "Cloud Platforms"
+    items: "Azure, Microsoft Fabric, Azure OpenAI, AWS (Redshift, S3, Athena, Lambda, SageMaker), BigQuery, Snowflake"
+  - group: "MLOps · LLMOps"
+    items: "Agent evaluation, model performance and drift monitoring, pipeline monitoring, CI/CD for data and AI"
+  - group: "BI & Analytics"
+    items: "Power BI, DAX, Tableau, Dashboard Design, Data Modeling, Business Analytics"
+  - group: "DevOps"
+    items: "Docker, Kubernetes, Helm, Terraform, Jenkins, GitHub Actions, Prometheus, Grafana, ELK"
+  - group: "Programming & DBs"
+    items: "Python, SQL, PostgreSQL, MySQL, SQL Server, MongoDB, Neo4j, JavaScript/Node.js, Bash"
+  - group: "Leadership"
+    items: "Corporate Training, Curriculum Design, Technical Writing, Team Leadership, Stakeholder Management"
+
+experience:
+  - role: "Lead Data Scientist"
+    org: "CIMB"
+    where: "Kuala Lumpur, Malaysia"
+    when: "Aug 2026 – Present"
+    points:
+      - "Lead the design and delivery of agentic risk analytics and model monitoring solutions on Azure and Microsoft Fabric for credit, market and operational risk stakeholders across the group."
+      - "Architect the Fabric data foundation for risk analytics: Lakehouse medallion layers, Data Factory pipelines and Power BI semantic models as the single source for risk reporting."
+      - "Build multi-agent workflows with LangChain, LangGraph and Rayfin, orchestrating retrieval, tool calling and human-in-the-loop review to automate risk investigation, documentation and reporting."
+      - "Deliver automated model performance monitoring covering stability (PSI/CSI), discrimination (Gini/KS), calibration and data drift, with threshold-based alerting to model owners."
+      - "Establish LLMOps for agentic systems (prompt versioning, evaluation, guardrails, cost and latency monitoring, CI/CD) and align solutions with model risk management standards alongside validation and governance teams."
+  - role: "Principal Lead Data Scientist & Corporate Trainer"
+    org: "The Center of Applied Data Science (CADS)"
+    where: "Kuala Lumpur, Malaysia"
+    when: "May 2023 – Aug 2026"
+    points:
+      - "Led data science, analytics and data engineering engagements for CIMB, Petronas, Shell and TNB, from proposal through deployment."
+      - "Designed Spark-based ETL and analytics pipelines on AWS and GCP for enterprise reporting, data preparation and machine learning."
+      - "Developed Power BI dashboards used by 40+ stakeholders across marketing, operations and finance for quarterly strategic decisions."
+      - "Architected migrations from legacy on-premises systems to AWS, reducing infrastructure costs by about 30%; led a team of 5 data scientists and designed enterprise training programmes."
+  - role: "Chief Data & Knowledge Officer / AI Data Platform Lead"
+    org: "Magna.ai (LawTech)"
+    where: "Florida, USA · Remote"
+    when: "Feb 2024 – Feb 2025"
+    points:
+      - "Owned the end-to-end AI legal data platform: data engineering, Neo4j graph analytics, Redshift warehousing, RAG-ready content processing and ingestion of 50K+ legal documents daily."
+      - "Architected AWS infrastructure (Terraform, Helm) for 15+ microservices and Kubernetes services handling 10K+ daily case-analysis requests with auto-scaling."
+      - "Automated legal case workflows, reducing manual intervention by 60% and cutting average turnaround from 48 to 18 hours."
+      - "Implemented observability and governance: Prometheus, Grafana, ELK, least-privilege IAM, encryption and Vault."
+  - role: "Senior Data Engineer"
+    org: "Axiata Digital Advertising (ADA)"
+    where: "Kuala Lumpur, Malaysia"
+    when: "Mar 2020 – Mar 2023"
+    context: "Data analytics and AI subsidiary of Axiata Group, operating across 9 markets in South and Southeast Asia."
+    points:
+      - "Designed and operated 20+ production pipelines on Databricks and Spark, processing 2TB+ of telco data daily on multi-region AWS (Redshift, S3, Athena, Lambda) at 99.9% availability."
+      - "Administered Snowflake and Redshift warehouses holding 20TB+ of data, improving query performance by 40% through table design and distribution-key tuning."
+      - "Built Power BI and Tableau marketing analytics (Facebook Ads, Google Ads, proprietary sources) for 30+ analysts in 9 markets."
+      - "Introduced Terraform provisioning, CI/CD and monitoring (Jenkins, CloudWatch, Grafana) for pipeline health and data quality; mentored 3 data engineers."
+  - role: "Senior Data Scientist & Corporate Trainer"
+    org: "The Center of Applied Data Science (CADS)"
+    where: "Kuala Lumpur, Malaysia"
+    when: "Jun 2018 – Feb 2020"
+    points:
+      - "Bootstrapped the company's data engineering practice and designed multi-channel marketing analytics pipelines on AWS and GCP."
+      - "Delivered data warehousing, ML and big data solutions for clients such as CIMB and TNB, and created and delivered HRDC-accredited programmes in data science, Python, cloud analytics and big data across ASEAN."
+  - role: "Big Data Engineering Team Lead"
+    org: "Raha (Knowledge-Based Company)"
+    where: "Ahvaz, Iran"
+    when: "May 2016 – Jun 2018"
+    points:
+      - "Led 6 data engineers building Hadoop and PySpark pipelines processing 100GB+ daily on a 10-node cluster, feeding downstream recommendation systems."
+
+earlier:
+  - role: "Faculty Member & University Chancellor"
+    org: "Payame Noor University & Islamic Azad University, Iran"
+    when: "2011 – 2018"
+    desc: "Led academic teams; taught Computer Architecture, OOP, Data Structures and Operating Systems; supervised graduate research."
+  - role: "Senior Web Application Developer"
+    org: "Smarter Broadcast, California, USA · Remote"
+    when: "2008 – 2011"
+    desc: "Built and maintained web applications for corporate clients with UI/UX and QA teams."
+  - role: "Business Analyst"
+    org: "Vira Co., Tehran, Iran"
+    when: "2007 – 2008"
+    desc: "Analysed requirements, designed financial software solutions and ran UI/UX A/B tests."
+
+education:
+  - degree: "PhD candidate, Computer Science"
+    org: "Universiti Malaya (UM), Malaysia"
+    when: "2016 – Present"
+  - degree: "MSc, Computer System Architecture"
+    org: "Islamic Azad University, Iran"
+    when: "2007 – 2010"
+  - degree: "BEng, Computer Hardware Engineering"
+    org: "Islamic Azad University, Iran"
+    when: "2000 – 2004"
+
+certifications:
+  - name: "Business CORe Program"
+    by: "Harvard Business School"
+    note: "Business Analytics, Economics for Managers, Financial Accounting"
+  - name: "HRDC Accredited Trainer"
+    by: "HRD Corp, Malaysia"
+  - name: "AWS Training & Certification"
+    by: "AWS"
+    note: "Technical Essentials, Practical Data Science with Amazon SageMaker, Big Data on AWS, Data Warehousing on AWS"
+
+publications:
+  - "Course author, *Window Functions in SQL* — Dataquest."
+  - "Three books: *Object-Oriented Programming in C#*, *Project Management Fundamentals*, *Essentials of Data Mining*."
+  - "10+ peer-reviewed journal and conference papers in machine learning, neural networks, computer architecture and data mining."
+
+languages:
+  - name: "English"
+    level: "Professional working proficiency"
+  - name: "Persian"
+    level: "Native"

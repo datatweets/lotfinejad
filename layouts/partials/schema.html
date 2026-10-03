@@ -20,7 +20,7 @@
   "sameAs" $sameAs
   "knowsLanguage" (slice "fa" "en")
   "knowsAbout" (slice "هوش مصنوعی" "مهندسی داده" "علم داده" "یادگیری ماشین" "مدل‌های زبانی بزرگ" "RAG" "هوش مصنوعی ایجنتیک" "LLMOps" "Apache Spark" "Databricks" "Microsoft Fabric" "Kubernetes" "Power BI" "Model Risk Management")
-  "alumniOf" (dict "@type" "CollegeOrUniversity" "name" "Islamic Azad University")
+  "alumniOf" (slice (dict "@type" "CollegeOrUniversity" "name" "Universiti Malaya") (dict "@type" "CollegeOrUniversity" "name" "Islamic Azad University"))
   "hasCredential" (slice (dict "@type" "EducationalOccupationalCredential" "name" "HRDC Accredited Trainer") (dict "@type" "EducationalOccupationalCredential" "name" "Business CORe — Harvard Business School"))
 -}}
 {{- $website := dict "@type" "WebSite" "@id" $siteID "url" $base "name" site.Title "description" site.Params.description "inLanguage" "fa-IR" "publisher" (dict "@id" $personID) -}}

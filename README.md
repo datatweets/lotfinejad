@@ -52,6 +52,8 @@ Persian — no first person:
 | `data/training.yaml`    | Training page (`/training/`): formats, career paths, course catalogue (mirrors datatweets.com), FAQ |
 | `content/training.md`   | Training page (`type: training`)                                 |
 | `data/consultation.yaml` | Consultation page (`/consultation/`): offer, next steps, topics, FAQ |
+| `data/services.yaml`    | Services page (`/services/`): 13 consulting services, engagement models, industries |
+| `content/services.md`   | Services page (`type: services`)                                 |
 | `content/consultation.md` | Consultation page (`type: consultation`)                       |
 | `layouts/partials/lead-form.html` | Working enquiry form used on consultation + contact pages |
 | `data/focus.yaml`       | The three "حوزه‌های تمرکز" focus-area cards (about page)        |

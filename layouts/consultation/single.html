@@ -3,7 +3,7 @@
 <div class="page">
   <div class="h-in">
     {{ partial "page-head.html" (dict "eyebrow" $c.eyebrow "title" $c.title "lead" $c.lead) }}
-    <p class="sv-jump"><a class="h-more" href="#services">مشاهده‌ی خدمات مشاوره {{ partial "icon.html" "arrow" }}</a></p>
+    <p class="sv-jump"><a class="h-more" href="{{ "services/" | relLangURL }}">مشاهده‌ی خدمات مشاوره {{ partial "icon.html" "arrow" }}</a></p>
 
     <div class="contact-grid">
       <section class="panel" aria-labelledby="formTitle">
@@ -30,45 +30,6 @@
         </section>
       </aside>
     </div>
-
-    {{/* ---------- consulting services catalogue ---------- */}}
-    <section class="h-sec" id="services">
-      <header class="h-sec-head">
-        <h2>{{ $c.services.title }}</h2>
-        <p>{{ $c.services.intro }}</p>
-      </header>
-      {{ range $c.services.groups }}
-      <div class="sv-group">
-        <h3 class="tr-group-title"><span class="h-ico">{{ partial "icon.html" .icon }}</span>{{ .title }}</h3>
-        <div class="sv-grid sv-n{{ len .items }}">
-          {{ range .items }}
-          <article class="sv-card">
-            <h4>{{ .title }}</h4>
-            <span class="sv-en lat" dir="ltr">{{ .en }}</span>
-            <p>{{ partial "bidi.html" .desc }}</p>
-            <h5>خروجی‌ها</h5>
-            <ul class="check-list sv-out">{{ range .outputs }}<li>{{ partial "icon.html" "check" }}<span>{{ partial "bidi.html" . }}</span></li>{{ end }}</ul>
-            <p class="sv-ev"><b>تجربه‌ی مرتبط:</b> {{ partial "bidi.html" .evidence }}</p>
-            <a class="sv-req" href="?type=consulting&amp;service={{ .title | urlquery }}#formTitle">درخواست این خدمت {{ partial "icon.html" "arrow" }}</a>
-          </article>
-          {{ end }}
-        </div>
-      </div>
-      {{ end }}
-    </section>
-
-    <section class="h-sec">
-      <header class="h-sec-head"><h2>{{ $c.models.title }}</h2></header>
-      <ol class="h-steps sv-models">
-        {{ range $i, $m := $c.models.items }}
-        <li><span class="h-step-n">{{ partial "fa-digits.html" (add $i 1) }}</span><h3>{{ .title }}</h3><p>{{ .desc }}</p></li>
-        {{ end }}
-      </ol>
-      <div class="sv-ind">
-        <span>{{ $c.industries.title }}</span>
-        <ul>{{ range $c.industries.items }}<li>{{ . }}</li>{{ end }}</ul>
-      </div>
-    </section>
 
     <section class="h-sec">
       <header class="h-sec-head"><h2>{{ $c.fit.title }}</h2></header>

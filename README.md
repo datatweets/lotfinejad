@@ -160,6 +160,9 @@ The topic is picked automatically, in this order:
 3. a saved draft (fields autosave in the visitor's browser until sent);
 4. the page default: `/contact/` → message, `/consultation/` → consultation.
 
+`/consultation/` is fixed (`"fixed" true`): it always opens on consultation
+unless the link names a topic; a saved draft there restores only the fields.
+
 Every submission also carries «منبع درخواست» (from `?ref=`, e.g. `ref=pdf` in
 the course PDFs, or the referring page/site, plus `utm_source`) and the page it
 was sent from. The subject line reads e.g. «درخواست برگزاری دوره — یادگیری ماشین — <org>».
@@ -243,12 +246,15 @@ Actions):
 
 | Secret | Value |
 |---|---|
-| `UMAMI_API_KEY` | Umami Cloud → Settings → API keys |
+| `UMAMI_SHARE_ID` | free plan: Umami → Websites → lotfinejad.ir → Edit → Share URL → enable; the code at the end of the URL (`…/share/<code>`) |
+| `UMAMI_API_KEY` | instead of the share code, on paid plans (Settings → API keys) |
 | `SMTP_USERNAME` | the Gmail address that sends the report |
 | `SMTP_PASSWORD` | a Gmail App Password (Google Account → Security → App passwords) |
 | `REPORT_TO` | optional recipient; defaults to `SMTP_USERNAME` |
 
-Without them the job skips quietly. Test it from Actions → Daily analytics
+Without them the job skips quietly. If Umami Cloud moves its share API, set
+`UMAMI_API_BASE` in the workflow (default tries `cloud.umami.is/api`,
+`cloud.umami.is/analytics/api`, `api.umami.is/v1`). Test it from Actions → Daily analytics
 report → Run workflow. Local preview with sample data:
 `node scripts/daily-report.mjs --mock mock.json --out report.html`.
 

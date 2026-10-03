@@ -4,6 +4,7 @@ name: Daily analytics report
 # (03:45 UTC). Needs repository secrets UMAMI_SHARE_ID (free plan: the code
 # from the website's Share URL; or UMAMI_API_KEY on paid plans), SMTP_USERNAME
 # and SMTP_PASSWORD (optional REPORT_TO); without them the job skips quietly.
+# Each is read from Secrets first, then Variables (keep SMTP_PASSWORD a Secret).
 # Run it by hand from Actions → Daily analytics report → Run workflow.
 on:
   schedule:
@@ -25,11 +26,11 @@ jobs:
         run: npm install --no-save --no-audit --no-fund nodemailer@6
       - name: Build and send report
         env:
-          UMAMI_SHARE_ID: ${{ secrets.UMAMI_SHARE_ID }}
-          UMAMI_API_KEY: ${{ secrets.UMAMI_API_KEY }}
-          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
-          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
-          REPORT_TO: ${{ secrets.REPORT_TO }}
+          UMAMI_SHARE_ID: ${{ secrets.UMAMI_SHARE_ID || vars.UMAMI_SHARE_ID }}
+          UMAMI_API_KEY: ${{ secrets.UMAMI_API_KEY || vars.UMAMI_API_KEY }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME || vars.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD || vars.SMTP_PASSWORD }}
+          REPORT_TO: ${{ secrets.REPORT_TO || vars.REPORT_TO }}
           UMAMI_WEBSITE_ID: 79b750c9-0c59-4886-9f0f-ba74462f7798
           SITE_DOMAIN: lotfinejad.ir
         run: node scripts/daily-report.mjs

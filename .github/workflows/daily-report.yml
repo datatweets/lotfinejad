@@ -1,0 +1,33 @@
+name: Daily analytics report
+
+# Emails yesterday's Umami stats every morning at about 07:15 Tehran time
+# (03:45 UTC). Needs repository secrets UMAMI_API_KEY, SMTP_USERNAME and
+# SMTP_PASSWORD (optional REPORT_TO); without them the job skips quietly.
+# Run it by hand from Actions → Daily analytics report → Run workflow.
+on:
+  schedule:
+    - cron: "45 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install mail client
+        run: npm install --no-save --no-audit --no-fund nodemailer@6
+      - name: Build and send report
+        env:
+          UMAMI_API_KEY: ${{ secrets.UMAMI_API_KEY }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          REPORT_TO: ${{ secrets.REPORT_TO }}
+          UMAMI_WEBSITE_ID: 79b750c9-0c59-4886-9f0f-ba74462f7798
+          SITE_DOMAIN: lotfinejad.ir
+        run: node scripts/daily-report.mjs

@@ -116,7 +116,8 @@
     var done = document.getElementById("leadDone");
     var fail = document.getElementById("leadFail");
 
-    // Prefill from a course link: ?type=training&course=<Persian course title>
+    // Prefill from links: ?service=<title> (consultation form) and
+    // ?course=<Persian course title> (course form on /contact/)
     try {
       var qs = new URLSearchParams(location.search);
       var course = qs.get("course");
@@ -125,8 +126,11 @@
       if (service && msg && !msg.value) {
         msg.value = "درخواست خدمت «" + service + "».\nشرح مختصر وضعیت فعلی و هدف: ";
       }
-      if (course && msg && !msg.value) {
-        msg.value = "درخواست برگزاری دوره‌ی «" + course + "» برای سازمان.\nتعداد تقریبی شرکت‌کنندگان: \nشیوه‌ی برگزاری مدنظر (حضوری / آنلاین): ";
+      var courseSel = document.getElementById("lf-course");
+      if (course && courseSel) {
+        for (var i = 0; i < courseSel.options.length; i++) {
+          if (courseSel.options[i].value === course || courseSel.options[i].text === course) { courseSel.selectedIndex = i; break; }
+        }
       }
     } catch (e) {}
 

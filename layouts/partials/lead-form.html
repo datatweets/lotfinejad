@@ -1,4 +1,5 @@
-{{- /* Working lead form on the consultation page (/contact/ redirects there).
+{{- /* Consultation / project enquiry form (/consultation/). Course requests use
+  the dedicated course-form.html on /contact/.
   Posts JSON to site.Params.formEndpoint (FormSubmit) from assets/js/app.js;
   on failure the script reveals a prefilled email fallback.
   Usage: {{ partial "lead-form.html" (dict "subject" "…" "submit" "…") }} */ -}}
@@ -15,10 +16,10 @@
     <legend>نوع درخواست <span class="req" aria-hidden="true">*</span></legend>
     <div class="choice-row">
       <label class="choice"><input type="radio" name="نوع درخواست" value="مشاوره" data-key="consulting" required><span>مشاوره</span></label>
-      <label class="choice"><input type="radio" name="نوع درخواست" value="برگزاری دوره‌ی آموزشی" data-key="training"><span>برگزاری دوره</span></label>
       <label class="choice"><input type="radio" name="نوع درخواست" value="اجرای پروژه" data-key="project"><span>اجرای پروژه</span></label>
       <label class="choice"><input type="radio" name="نوع درخواست" value="سایر" data-key="other"><span>سایر</span></label>
     </div>
+    <p class="field-hint">برای برگزاری دوره‌ی آموزشی، از <a href="{{ "contact/" | relLangURL }}">فرم اختصاصی درخواست دوره</a> استفاده کنید.</p>
   </fieldset>
 
   <div class="row2">

@@ -1,0 +1,95 @@
+{{- /* Dedicated course-request form (/contact/). Same submit pipeline as the
+  consultation form (assets/js/app.js handles #leadForm); ?course=<Persian
+  title> preselects the course. */ -}}
+{{ $t := site.Data.training }}
+<form class="form lead-form" id="leadForm" novalidate
+      data-endpoint="{{ site.Params.formEndpoint }}" data-email="{{ site.Params.email }}">
+  <input type="hidden" name="_subject" value="درخواست برگزاری دوره از وب‌سایت">
+  <input type="hidden" name="_template" value="table">
+  <input type="hidden" name="_captcha" value="false">
+  <div class="hp" aria-hidden="true"><label for="lf-honey">این فیلد را خالی بگذارید</label><input id="lf-honey" type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+
+  <div class="field">
+    <label for="lf-course">دوره‌ی موردنظر <span class="req" aria-hidden="true">*</span></label>
+    <select id="lf-course" name="دوره" required>
+      <option value="">یک دوره را انتخاب کنید</option>
+      <optgroup label="{{ $t.paths.title }}">
+        {{ range $t.paths.items }}<option value="مسیر شغلی: {{ .title }}">مسیر جامع {{ .title }}</option>{{ end }}
+      </optgroup>
+      {{ range $t.catalog.groups }}
+      <optgroup label="{{ .title }}">
+        {{ range .courses }}<option>{{ .fa }}</option>{{ end }}
+      </optgroup>
+      {{ end }}
+      <optgroup label="{{ $t.executive.label }}">
+        <option>{{ $t.executive.title }}</option>
+      </optgroup>
+      <option value="دوره‌ی ترکیبی یا سفارشی">دوره‌ی ترکیبی یا سفارشی</option>
+    </select>
+  </div>
+
+  <fieldset class="field">
+    <legend>شیوه‌ی برگزاری <span class="req" aria-hidden="true">*</span></legend>
+    <div class="choice-row">
+      <label class="choice"><input type="radio" name="شیوه‌ی برگزاری" value="حضوری در محل سازمان" required><span>حضوری</span></label>
+      <label class="choice"><input type="radio" name="شیوه‌ی برگزاری" value="آنلاین و زنده"><span>آنلاین</span></label>
+      <label class="choice"><input type="radio" name="شیوه‌ی برگزاری" value="هنوز مشخص نیست"><span>هنوز مشخص نیست</span></label>
+    </div>
+  </fieldset>
+
+  <div class="row2">
+    <div class="field">
+      <label for="lf-size">تعداد تقریبی شرکت‌کنندگان <span class="req" aria-hidden="true">*</span></label>
+      <select id="lf-size" name="تعداد شرکت‌کنندگان" required>
+        <option value="">انتخاب کنید</option>
+        <option>کمتر از ۱۰ نفر</option><option>۱۰ تا ۲۰ نفر</option><option>۲۰ تا ۴۰ نفر</option><option>بیش از ۴۰ نفر</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="lf-level">سطح فعلی شرکت‌کنندگان <small>(اختیاری)</small></label>
+      <select id="lf-level" name="سطح شرکت‌کنندگان">
+        <option value="">انتخاب کنید</option>
+        <option>مقدماتی</option><option>متوسط</option><option>پیشرفته</option><option>ترکیبی از سطوح مختلف</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="lf-when">زمان شروع مدنظر <small>(اختیاری)</small></label>
+    <select id="lf-when" name="زمان شروع">
+      <option value="">انتخاب کنید</option>
+      <option>هرچه زودتر</option><option>طی یک ماه آینده</option><option>طی سه ماه آینده</option><option>هنوز مشخص نیست</option>
+    </select>
+  </div>
+
+  <div class="row2">
+    <div class="field"><label for="lf-name">نام و نام خانوادگی <span class="req" aria-hidden="true">*</span></label><input id="lf-name" name="نام" type="text" autocomplete="name" required></div>
+    <div class="field"><label for="lf-org">سازمان و سمت <span class="req" aria-hidden="true">*</span></label><input id="lf-org" name="سازمان و سمت" type="text" autocomplete="organization" placeholder="مثلاً مدیر آموزش، شرکت …" required></div>
+  </div>
+  <div class="row2">
+    <div class="field"><label for="lf-email">ایمیل <span class="req" aria-hidden="true">*</span></label><input id="lf-email" name="email" type="email" dir="ltr" autocomplete="email" inputmode="email" required></div>
+    <div class="field"><label for="lf-phone">شماره‌ی تماس <small>(اختیاری)</small></label><input id="lf-phone" name="شماره‌ی تماس" type="tel" dir="ltr" autocomplete="tel" inputmode="tel" placeholder="0912 000 0000"></div>
+  </div>
+  <div class="field"><label for="lf-msg">توضیحات <small>(اختیاری)</small></label><textarea id="lf-msg" name="توضیحات" placeholder="هدف از برگزاری دوره، ابزارهایی که تیم با آن‌ها کار می‌کند یا هر نکته‌ی دیگری که در طراحی دوره کمک می‌کند."></textarea></div>
+
+  <div class="form-foot">
+    <button class="btn btn-primary" type="submit">{{ partial "icon.html" "mail" }}<span>ثبت درخواست دوره</span></button>
+    <span class="form-note">اطلاعات شما فقط برای پاسخ به همین درخواست استفاده می‌شود.</span>
+  </div>
+  <p class="form-status" role="status" aria-live="polite"></p>
+</form>
+
+<div class="form-done" id="leadDone" hidden tabindex="-1">
+  <span class="form-done-ico">{{ partial "icon.html" "check" }}</span>
+  <h3>درخواست دوره ثبت شد</h3>
+  <p>از اعتماد شما سپاسگزاریم. درخواست بررسی می‌شود و برای نیازسنجی و هماهنگی جزئیات دوره در اولین فرصت با شما تماس گرفته خواهد شد.</p>
+</div>
+
+<div class="form-fail" id="leadFail" hidden>
+  <p><b>ارسال فرم با مشکل روبه‌رو شد.</b> لطفاً درخواست خود را مستقیم به ایمیل زیر بفرستید؛ متن شما آماده شده است.</p>
+  <p class="form-why" id="leadWhy"></p>
+  <div class="h-cta">
+    <a class="btn btn-primary" id="leadMailto" href="mailto:{{ site.Params.email }}">{{ partial "icon.html" "mail" }}ارسال با ایمیل</a>
+    <span class="lat form-email" dir="ltr">{{ site.Params.email }}</span>
+  </div>
+</div>

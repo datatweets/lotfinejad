@@ -31,7 +31,8 @@
 {{ range where site.RegularPages "Section" "posts" }}- [{{ .Title }}]({{ .Permalink }}): {{ .Params.summary }}
 {{ end }}
 ## تماس
-- فرم درخواست: {{ "consultation/" | absURL }}
+- فرم درخواست مشاوره: {{ "consultation/" | absURL }}
+- فرم درخواست برگزاری دوره: {{ "contact/" | absURL }}
 - ایمیل: {{ site.Params.email }}
 {{ range site.Data.links }}- {{ .title }}: {{ .href }}
 {{ end -}}

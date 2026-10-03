@@ -55,7 +55,9 @@ Persian — no first person:
 | `data/services.yaml`    | Services page (`/services/`): 13 consulting services, engagement models, industries |
 | `content/services.md`   | Services page (`type: services`)                                 |
 | `content/consultation.md` | Consultation page (`type: consultation`)                       |
-| `layouts/partials/lead-form.html` | Working enquiry form used on consultation + contact pages |
+| `content/contact.md`      | Contact page (`type: contact`): dedicated course-request form   |
+| `layouts/partials/lead-form.html` | Consultation / project enquiry form (`/consultation/`)   |
+| `layouts/partials/course-form.html` | Course-request form (`/contact/`)                       |
 | `data/focus.yaml`       | The three "حوزه‌های تمرکز" focus-area cards (about page)        |
 | `data/resume.yaml`      | Resume: summary, stats, achievements, experience, skills, education, certifications, publications, languages |
 | `static/files/Mehdi_Lotfinejad_Resume.pdf` | Downloadable PDF resume linked from the resume page — keep in sync with `data/resume.yaml` |
@@ -137,14 +139,17 @@ GitHub Pages (see the setup notes given at scaffold time, or GitHub's
 
 ## Forms
 
-The consultation and contact forms post to [FormSubmit](https://formsubmit.co)
+Two forms: the consultation form (`/consultation/`, consulting and projects)
+and the course-request form (`/contact/`, choose a course, delivery mode, group
+size, level and start date). Both post to [FormSubmit](https://formsubmit.co)
 (`formEndpoint` in `hugo.toml`) from `assets/js/app.js` — no backend needed.
 **One-time setup:** after deploying, submit the form once yourself; FormSubmit
 emails an activation link to `lotfinejad@gmail.com`. Click it, and every later
 submission arrives in that inbox. Until then (or if the service is unreachable)
 the form shows a prefilled "send by email" fallback, so no enquiry is lost.
-`?type=training|consulting|project|other` on `/consultation/` preselects the
-request type.
+`?type=consulting|project|other` on `/consultation/` preselects the request
+type; `?course=<Persian course title>` on `/contact/` preselects the course
+(used by the training page and the PDF outlines).
 
 ## Course outlines (training page)
 
@@ -177,9 +182,10 @@ node scripts/build-outlines.mjs   # terminal 2 (default base http://localhost:13
   (`/services/`), Course list (`/training/`) and FAQPage wherever an FAQ is shown.
 - `/llms.txt` (template `layouts/index.llms.txt`): a plain-text summary of
   services, courses, FAQ and contact for AI answer engines; regenerated on build.
+- `/sitemap.xml`: `lastmod` from a post's own date, else git (`enableGitInfo`), per-page `priority`
+  and `changefreq` in front matter (`sitemap:`); outline print pages excluded.
 - `layouts/robots.txt` points to the sitemap and keeps `/outlines/` (print
   pages) out of the index; taxonomy pages are disabled.
 - No third-party fonts: only self-hosted Vazirmatn (Google Fonts is slow or
   filtered for many Iranian visitors). The portrait is resized by Hugo from
   `assets/images/avatar.jpg` (`layouts/partials/avatar.html`).
-- `/contact/` redirects to `/consultation/` (alias), the single enquiry page.

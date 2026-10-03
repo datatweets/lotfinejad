@@ -47,8 +47,8 @@
   {{/* ---------- services ---------- */}}
   <section class="h-in h-sec" id="services">
     <header class="h-sec-head">
-      <h2>خدمات مشاوره</h2>
-      <p>از تعریف راهبرد تا بهره‌برداری و توانمندسازی تیم، در هر مرحله‌ای که سازمان شما قرار دارد.</p>
+      <h2>خدمات</h2>
+      <p>از برنامه‌ریزی و طراحی تا اجرا و آموزش تیم؛ متناسب با مرحله‌ای که سازمان شما در آن قرار دارد.</p>
     </header>
     <div class="h-services">
       {{ range $h.services }}
@@ -59,6 +59,32 @@
         <ul>{{ range .points }}<li>{{ partial "icon.html" "check" }}<span>{{ . }}</span></li>{{ end }}</ul>
       </div>
       {{ end }}
+    </div>
+  </section>
+
+  {{/* ---------- training teaser → /training/ ---------- */}}
+  {{ $t := site.Data.training }}
+  <section class="h-in h-sec">
+    <div class="h-train">
+      <div>
+        <header class="h-sec-head">
+          <h2>دوره‌های آموزشی حضوری و آنلاین</h2>
+          <p>برگزاری دوره‌های جامع داده و هوش مصنوعی برای تیم‌ها و سازمان‌ها؛ با سرفصل، سطح و تمرین‌هایی که بر اساس نیاز تیم شما تنظیم می‌شود.</p>
+        </header>
+        <div class="h-cta" style="margin-block-start:0">
+          <a class="btn btn-primary" href="{{ "training/" | relLangURL }}">مشاهده‌ی دوره‌ها {{ partial "icon.html" "arrow" }}</a>
+        </div>
+        <div class="h-train-modes">
+          <span>{{ partial "icon.html" "check" }}حضوری در محل سازمان</span>
+          <span>{{ partial "icon.html" "check" }}آنلاین و زنده</span>
+          <span>{{ partial "icon.html" "check" }}آموزش به زبان فارسی</span>
+        </div>
+      </div>
+      <div class="h-train-tags">
+        <b class="h-train-label">دوره‌های جامع مسیر شغلی</b>
+        {{ range $t.paths.items }}<span>{{ .title }}</span>{{ end }}
+        <span class="h-train-more">+ {{ (index $t.highlights 0).value }} دوره‌ی تخصصی</span>
+      </div>
     </div>
   </section>
 
@@ -122,7 +148,7 @@
   {{/* ---------- insights ---------- */}}
   <section class="h-in h-sec">
     <header class="h-sec-head h-sec-head-row">
-      <h2>یادداشت‌ها و دیدگاه‌ها</h2>
+      <h2>تازه‌ترین مقاله‌ها</h2>
       <a class="h-more" href="{{ "posts/" | relLangURL }}">همه‌ی مقالات {{ partial "icon.html" "arrow" }}</a>
     </header>
     <div class="h-posts">

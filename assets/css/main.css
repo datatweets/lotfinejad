@@ -665,6 +665,56 @@ pre code { background: none; padding: 0; font-size: .9em; }
 .cv-meter i { display: block; height: 100%; border-radius: 999px; background: var(--accent); }
 
 /* ============================================================
+   TRAINING — formats reuse .h-services; career paths, grouped
+   catalogue, executive programme and outcomes are below.
+   ============================================================ */
+.tr-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; }
+@media (max-width: 560px) { .tr-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.page-head + .h-proof { margin-block-start: 0; display: block; }
+.page-head .h-cta { margin-block-start: 24px; }
+
+.tr-paths { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.tr-path { display: flex; flex-direction: column; padding: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+.tr-path-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 10px; }
+.tr-path-head h3 { font-size: 17.5px; }
+.tr-path-head span { font-size: 12.5px; color: var(--ink-3); }
+.tr-path p { flex: 1 1 auto; margin-block-start: 8px; font-size: 14.5px; color: var(--ink-2); line-height: 1.9; }
+.tr-level { align-self: flex-start; margin-block-start: 14px; font-size: 12.5px; font-weight: 700; color: var(--gold); background: var(--gold-wash); padding: 3px 12px; border-radius: 999px; }
+
+.tr-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .tr-groups { grid-template-columns: 1fr; } }
+.tr-group { padding: 22px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+.tr-group h3 { display: flex; align-items: center; gap: 12px; font-size: 17px; margin-block-end: 8px; }
+.tr-group .h-ico { width: 38px; height: 38px; border-radius: 10px; }
+.tr-group .h-ico svg { width: 19px; height: 19px; }
+.tr-group li { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 12px; padding-block: 11px; border-block-start: 1px solid var(--line); }
+.tr-group li:first-child { border-block-start: 0; }
+.tr-group li b { font-size: 15px; font-weight: 600; }
+.tr-group li span { font-size: 12.5px; color: var(--ink-3); }
+
+.tr-exec { margin-block-start: 16px; padding: 26px 28px; border-radius: 16px; background: var(--gold-wash); border: 1px solid var(--line); }
+.tr-exec-label { font-size: 12.5px; font-weight: 700; color: var(--gold); }
+.tr-exec h3 { margin-block-start: 6px; font-size: 19px; }
+.tr-exec p { margin-block-start: 8px; font-size: 15px; color: var(--ink-2); line-height: 1.95; max-width: 76ch; }
+
+.tr-outcomes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 48px; align-items: start; padding: 32px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+@media (max-width: 820px) { .tr-outcomes { grid-template-columns: 1fr; padding: 24px 20px; } }
+.tr-outcomes .h-sec-head { margin-block-end: 16px; }
+.tr-checks li { font-size: 15px; }
+
+/* home teaser */
+.h-train { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px 48px; align-items: center; padding: 36px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); }
+@media (max-width: 860px) { .h-train { grid-template-columns: 1fr; padding: 26px 20px; } }
+.h-train .h-sec-head { margin-block-end: 20px; }
+.h-train-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.h-train-tags span { font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: var(--accent-wash); color: var(--accent-ink); }
+.h-train-label { flex: 0 0 100%; font-size: 13px; color: var(--ink-3); font-weight: 600; margin-block-end: 2px; }
+.h-train-tags .h-train-more { background: var(--gold-wash); color: var(--gold); }
+.h-train-modes { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-block-start: 16px; font-size: 14px; color: var(--ink-2); }
+.h-train-modes span { display: inline-flex; align-items: center; gap: 6px; }
+.h-train-modes svg { width: 16px; height: 16px; color: var(--gold); }
+
+/* ============================================================
    CONTACT
    ============================================================ */
 .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px; align-items: start; }

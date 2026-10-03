@@ -1,7 +1,7 @@
 {{ define "main" }}
 <div class="page">
   <div class="h-in">
-    {{ partial "page-head.html" (dict "eyebrow" "متن‌باز" "title" .Title "lead" "مخزن‌های متن‌باز آموزشی و کاربردی در GitHub؛ هر مخزن یک ایده‌ی مهندسی داده یا هوش مصنوعی را از طراحی تا اجرا نشان می‌دهد.") }}
+    {{ partial "page-head.html" (dict "eyebrow" "متن‌باز" "title" .Title "lead" "پروژه‌های آموزشی و کاربردی منتشرشده در GitHub؛ هر پروژه یک موضوع مهندسی داده یا هوش مصنوعی را قدم‌به‌قدم، از طراحی تا اجرا، نشان می‌دهد.") }}
     <div class="h-projects">
       {{ range site.Data.projects }}
       <a class="h-proj" href="https://github.com/{{ site.Params.githubUser }}/{{ .name }}" target="_blank" rel="noopener">

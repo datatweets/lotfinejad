@@ -21,16 +21,31 @@ const opt = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1
 // under one of them); UMAMI_API_BASE overrides. API-key mode uses api.umami.is.
 const SHARE_BASES = process.env.UMAMI_API_BASE
   ? [process.env.UMAMI_API_BASE]
-  : ["https://cloud.umami.is/api", "https://cloud.umami.is/analytics/api", "https://api.umami.is/v1"];
+  : [
+      // Umami Cloud serves the app under a data-region path (share URLs look
+      // like https://cloud.umami.is/analytics/us/share/<code>).
+      "https://cloud.umami.is/analytics/us/api",
+      "https://cloud.umami.is/analytics/eu/api",
+      "https://cloud.umami.is/api",
+      "https://cloud.umami.is/analytics/api",
+    ];
 const TZ = "Asia/Tehran";
 const env = process.env;
 const site = env.SITE_DOMAIN || "lotfinejad.ir";
 const websiteId = env.UMAMI_WEBSITE_ID;
 const mockFile = opt("--mock");
 // Accept either the share code or the whole Share URL (…/share/<code>[/…]).
+// A full URL also tells us the app's base path: …/analytics/us/share/<code>
+// → API at …/analytics/us/api.
+let sharePageBase = "https://cloud.umami.is/analytics/us";
 if (env.UMAMI_SHARE_ID) {
-  const m = env.UMAMI_SHARE_ID.trim().match(/\/share\/([^/?#]+)/);
-  env.UMAMI_SHARE_ID = m ? m[1] : env.UMAMI_SHARE_ID.trim();
+  const raw = env.UMAMI_SHARE_ID.trim();
+  const m = raw.match(/^(https?:\/\/[^/]+(?:\/[^?#]*?)?)\/share\/([^/?#]+)/);
+  if (m) {
+    sharePageBase = m[1];
+    if (!process.env.UMAMI_API_BASE) SHARE_BASES.unshift(`${m[1]}/api`);
+  }
+  env.UMAMI_SHARE_ID = m ? m[2] : raw.replace(/^.*\/share\//, "").replace(/[/?#].*$/, "");
 }
 // Which settings arrived (never the values), so a run log shows what is missing.
 if (!mockFile) {
@@ -71,20 +86,24 @@ async function connect() {
   // carries the configured apiUrl), and try it before the defaults.
   const bases = [...SHARE_BASES];
   try {
-    const page = await fetch(`https://cloud.umami.is/share/${code}`);
+    const page = await fetch(`${sharePageBase}/share/${code}`);
     const html = await page.text();
     console.log(`Share page: HTTP ${page.status}, ${html.length} bytes`);
     const sources = [html];
-    for (const m of html.matchAll(/src="(\/_next\/static\/[^"]+\.js)"/g)) {
-      if (sources.length > 25) break;
-      try { sources.push(await (await fetch(`https://cloud.umami.is${m[1]}`)).text()); } catch {}
+    const scripts = [...new Set([...html.matchAll(/["'(]((?:https:\/\/[^"'()\s]+)?\/_next\/static\/[^"'()\s]+?\.js)/g)].map((m) => m[1]))];
+    console.log(`Share page scripts: ${scripts.length}`);
+    for (const src of scripts.slice(0, 40)) {
+      try { sources.push(await (await fetch(src.startsWith("http") ? src : new URL(src, sharePageBase).href)).text()); } catch {}
     }
     const found = new Set();
     for (const src of sources) {
-      for (const m of src.matchAll(/https:\/\/[a-z0-9.-]*umami\.is(?:\/[a-z0-9_\/-]*)?/gi)) found.add(m[0].replace(/\/+$/, ""));
+      // absolute URLs on umami hosts that look like an API, and configured apiUrl values
+      for (const m of src.matchAll(/https:\/\/[a-z0-9.-]*umami[a-z0-9.-]*(?:\/[a-z0-9_\/.-]*)?/gi)) found.add(m[0].replace(/\/+$/, ""));
       for (const m of src.matchAll(/apiUrl["']?\s*[:=]\s*["']([^"']+)["']/g)) found.add(m[1]);
+      for (const m of src.matchAll(/NEXT_PUBLIC_[A-Z_]*API[A-Z_]*["']?\s*[:=]\s*["']([^"']+)["']/g)) found.add(m[1]);
     }
-    const apiLike = [...found].filter((u) => /api/i.test(u));
+    console.log(`Umami URLs seen: ${[...found].slice(0, 30).join(", ") || "none"}`);
+    const apiLike = [...found].filter((u) => /api|gateway/i.test(u) && !/\.js$|script/i.test(u));
     console.log(`API bases seen on the share page: ${apiLike.join(", ") || "none"}`);
     for (const u of apiLike.reverse()) {
       const b = u.startsWith("http") ? u : `https://cloud.umami.is${u.startsWith("/") ? "" : "/"}${u}`;

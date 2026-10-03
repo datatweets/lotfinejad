@@ -21,6 +21,12 @@ summaryLength = 40
   direction = "rtl"
   githubUser = "datatweets"
   avatarImage = "/images/avatar.jpg"
+  # Lead forms post here (FormSubmit: free, no backend). The first submission
+  # sends a one-time activation email to this address; click it once and all
+  # later submissions are delivered. After activation FormSubmit also offers a
+  # random alias you can use instead of the plain address.
+  formEndpoint = "https://formsubmit.co/ajax/lotfinejad@gmail.com"
+  bookingUrl = "https://cal.com/mehdi-lotfinejad"
 
   about = [
     "محمدمهدی لطفی‌نژاد مشاور و مدرس داده و هوش مصنوعی است و بیش از پانزده سال در زمینه‌ی مهندسی داده، یادگیری ماشین و مدل‌های زبانی بزرگ سابقه دارد. او پروژه‌های داده و هوش مصنوعی را برای سازمان‌هایی مانند بانک CIMB، Petronas، Shell، TNB و Axiata هدایت کرده و سال‌ها نیز در دانشگاه تدریس و پژوهش کرده است.",

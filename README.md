@@ -51,6 +51,9 @@ Persian — no first person:
 | `data/home.yaml`        | Home page: hero text, stats, "worked with" names, services      |
 | `data/training.yaml`    | Training page (`/training/`): formats, career paths, course catalogue (mirrors datatweets.com), FAQ |
 | `content/training.md`   | Training page (`type: training`)                                 |
+| `data/consultation.yaml` | Consultation page (`/consultation/`): offer, next steps, topics, FAQ |
+| `content/consultation.md` | Consultation page (`type: consultation`)                       |
+| `layouts/partials/lead-form.html` | Working enquiry form used on consultation + contact pages |
 | `data/focus.yaml`       | The three "حوزه‌های تمرکز" focus-area cards (about page)        |
 | `data/resume.yaml`      | Resume: summary, stats, achievements, experience, skills, education, certifications, publications, languages |
 | `static/files/Mehdi_Lotfinejad_Resume.pdf` | Downloadable PDF resume linked from the resume page — keep in sync with `data/resume.yaml` |
@@ -132,3 +135,14 @@ The custom domain (`lotfinejad.ir`) is configured both as `static/CNAME` and
 in the repository's **Settings → Pages → Custom domain**. DNS must point at
 GitHub Pages (see the setup notes given at scaffold time, or GitHub's
 [custom domain docs](https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site)).
+
+## Forms
+
+The consultation and contact forms post to [FormSubmit](https://formsubmit.co)
+(`formEndpoint` in `hugo.toml`) from `assets/js/app.js` — no backend needed.
+**One-time setup:** after deploying, submit the form once yourself; FormSubmit
+emails an activation link to `lotfinejad@gmail.com`. Click it, and every later
+submission arrives in that inbox. Until then (or if the service is unreachable)
+the form shows a prefilled "send by email" fallback, so no enquiry is lost.
+`?type=training|consulting|project|other` on `/consultation/` preselects the
+request type.

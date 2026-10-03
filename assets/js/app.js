@@ -96,22 +96,92 @@
   var printBtn = document.getElementById("printBtn");
   if (printBtn) printBtn.addEventListener("click", function () { window.print(); });
 
-  /* ---------- contact form: open the visitor's mail client ---------- */
-  var cform = document.getElementById("cform");
-  if (cform) {
-    cform.addEventListener("submit", function (e) {
+  /* ---------- lead form: real submission (FormSubmit AJAX) ----------
+     Validates in place, posts JSON, shows a success panel. If the request
+     fails (network, service blocked, not yet activated), it reveals a
+     prefilled mailto fallback so no enquiry is lost. */
+  var form = document.getElementById("leadForm");
+  if (form) {
+    var status = form.querySelector(".form-status");
+    var button = form.querySelector('button[type="submit"]');
+    var done = document.getElementById("leadDone");
+    var fail = document.getElementById("leadFail");
+
+    // Preselect the request type from ?type=training|consulting|project|other
+    try {
+      var want = new URLSearchParams(location.search).get("type");
+      if (want) {
+        var pre = form.querySelector('input[data-key="' + want + '"]');
+        if (pre) pre.checked = true;
+      }
+    } catch (e) {}
+
+    function setStatus(text, isError) {
+      status.textContent = text;
+      status.classList.toggle("is-error", !!isError);
+    }
+
+    function fields() {
+      var data = {};
+      new FormData(form).forEach(function (v, k) { data[k] = typeof v === "string" ? v.trim() : v; });
+      return data;
+    }
+
+    function showFallback(data) {
+      var lines = [];
+      Object.keys(data).forEach(function (k) {
+        if (k.charAt(0) !== "_" && data[k]) lines.push(k + ": " + data[k]);
+      });
+      var link = document.getElementById("leadMailto");
+      if (link) {
+        link.href = "mailto:" + form.getAttribute("data-email") +
+          "?subject=" + encodeURIComponent(data._subject || "درخواست از وب‌سایت") +
+          "&body=" + encodeURIComponent(lines.join("\n"));
+      }
+      if (fail) fail.hidden = false;
+    }
+
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var name = document.getElementById("cname").value.trim();
-      var orgEl = document.getElementById("corg");
-      var org = orgEl ? orgEl.value.trim() : "";
-      var mail = document.getElementById("cmail").value.trim();
-      var sub = document.getElementById("csub").value.trim() || "درخواست مشاوره از وب‌سایت";
-      var msg = document.getElementById("cmsg").value.trim();
-      var body = msg + "\n\n—\n" + name + (org ? " · " + org : "") + (mail ? " · " + mail : "");
-      var note = document.getElementById("cnote");
-      if (note) note.textContent = "برنامه‌ی ایمیل شما باز می‌شود…";
-      var mailto = cform.getAttribute("data-mailto") || "";
-      location.href = "mailto:" + mailto + "?subject=" + encodeURIComponent(sub) + "&body=" + encodeURIComponent(body);
+      if (fail) fail.hidden = true;
+
+      if (!form.checkValidity()) {
+        var bad = form.querySelector(":invalid");
+        setStatus("لطفاً فیلدهای ستاره‌دار را کامل و درست وارد کنید.", true);
+        form.classList.add("was-validated");
+        if (bad) bad.focus();
+        return;
+      }
+
+      var data = fields();
+      if (data._honey) return; // bot
+
+      button.disabled = true;
+      setStatus("در حال ارسال…", false);
+
+      var ctrl = "AbortController" in window ? new AbortController() : null;
+      var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);
+
+      fetch(form.getAttribute("data-endpoint"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(data),
+        signal: ctrl ? ctrl.signal : undefined
+      })
+        .then(function (res) { return res.json().catch(function () { return {}; }).then(function (j) { return { ok: res.ok, body: j }; }); })
+        .then(function (r) {
+          clearTimeout(timer);
+          var ok = r.ok && String(r.body.success) === "true";
+          if (!ok) throw new Error(r.body.message || "send failed");
+          form.hidden = true;
+          if (done) { done.hidden = false; done.focus(); }
+        })
+        .catch(function () {
+          clearTimeout(timer);
+          button.disabled = false;
+          setStatus("", false);
+          showFallback(data);
+        });
     });
   }
 })();

@@ -1,5 +1,7 @@
 {{- /* Smart request form: one form, four intents (data/contact.yaml → intents).
   Usage: {{ partial "smart-form.html" (dict "default" "message") }}
+  "fixed" true (consultation page): the page's topic wins over the referring
+  page and a saved draft; only an explicit ?type=/?course=/?service= link changes it.
   - Elements carrying data-for="<intent …>" are shown only for those intents;
     fieldsets among them are also disabled, so hidden fields are neither
     validated nor sent.
@@ -19,7 +21,7 @@
 {{ $req := `<span class="req" aria-hidden="true">*</span>` }}
 
 <form class="form lead-form smart-form" id="leadForm" novalidate
-      data-endpoint="{{ site.Params.formEndpoint }}" data-email="{{ site.Params.email }}" data-default="{{ $default }}">
+      data-endpoint="{{ site.Params.formEndpoint }}" data-email="{{ site.Params.email }}" data-default="{{ $default }}"{{ if .fixed }} data-fixed="1"{{ end }}>
   <script type="application/json" id="lf-config">{{ dict "intents" $cfg "sources" $d.sources | jsonify | safeJS }}</script>
   <input type="hidden" name="_subject" value="{{ $def.subject }}">
   <input type="hidden" name="_template" value="table">

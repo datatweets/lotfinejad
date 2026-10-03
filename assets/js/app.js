@@ -207,7 +207,10 @@
     /* Resolve the intent. */
     var course = qs.get("course"), service = qs.get("service");
     var linkIntent = ALIASES[qs.get("type") || ""] || (course ? "course" : service ? "consulting" : "");
-    var chosen = linkIntent || refIntent || (draft && draft.intent) || current;
+    // A dedicated page (data-fixed, e.g. /consultation/) keeps its own topic
+    // unless the link names one; a saved draft then only restores the fields.
+    var fixed = form.getAttribute("data-fixed") === "1";
+    var chosen = linkIntent || (fixed ? current : (refIntent || (draft && draft.intent) || current));
     applyIntent(intents[chosen] ? chosen : current);
 
     // Restore the draft first, then let the link's specifics win.
@@ -234,7 +237,7 @@
         ctx.textContent = "این فرم برای خدمت «" + service + "» تنظیم شده است. در صورت نیاز می‌توانید موضوع را تغییر دهید.";
         ctx.hidden = false;
       }
-    } else if (!linkIntent && refIntent && intents[refIntent]) {
+    } else if (!linkIntent && !fixed && refIntent && intents[refIntent]) {
       ctx.textContent = "بر اساس صفحه‌ای که از آن آمده‌اید، موضوع «" + intents[refIntent].label + "» انتخاب شده است. در صورت نیاز آن را تغییر دهید.";
       ctx.hidden = false;
     }

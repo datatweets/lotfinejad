@@ -3,7 +3,9 @@
 // hand from the Actions tab ("Run workflow").
 //
 // Env (GitHub secrets):
-//   UMAMI_API_KEY   Umami Cloud → Settings → API keys
+//   UMAMI_SHARE_ID  the code at the end of the website's Share URL (free plan):
+//                   Umami → Websites → lotfinejad.ir → Edit → Share URL
+//   UMAMI_API_KEY   alternative to UMAMI_SHARE_ID (paid plans: Settings → API keys)
 //   SMTP_USERNAME   e.g. the Gmail address that sends the report
 //   SMTP_PASSWORD   a Gmail App Password (not the account password)
 //   REPORT_TO       optional; defaults to SMTP_USERNAME
@@ -15,15 +17,19 @@ import { readFileSync, writeFileSync } from "node:fs";
 
 const args = process.argv.slice(2);
 const opt = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined; };
-const API = "https://api.umami.is/v1";
+// Share-link mode tries these bases in order (Umami Cloud serves its app API
+// under one of them); UMAMI_API_BASE overrides. API-key mode uses api.umami.is.
+const SHARE_BASES = process.env.UMAMI_API_BASE
+  ? [process.env.UMAMI_API_BASE]
+  : ["https://cloud.umami.is/api", "https://cloud.umami.is/analytics/api", "https://api.umami.is/v1"];
 const TZ = "Asia/Tehran";
 const env = process.env;
 const site = env.SITE_DOMAIN || "lotfinejad.ir";
 const websiteId = env.UMAMI_WEBSITE_ID;
 const mockFile = opt("--mock");
 
-if (!mockFile && (!env.UMAMI_API_KEY || !websiteId)) {
-  console.log("UMAMI_API_KEY or UMAMI_WEBSITE_ID not set; skipping the report.");
+if (!mockFile && (!(env.UMAMI_SHARE_ID || env.UMAMI_API_KEY) || !websiteId)) {
+  console.log("UMAMI_SHARE_ID (or UMAMI_API_KEY) and UMAMI_WEBSITE_ID are required; skipping the report.");
   process.exit(0);
 }
 
@@ -39,10 +45,38 @@ const day = { startAt: tehranMidnight(1), endAt: tehranMidnight(0) - 1 };
 const prev = { startAt: tehranMidnight(2), endAt: tehranMidnight(1) - 1 };
 
 // ---------- API ----------
+// Auth: an API key (paid plans), or a share token from the public Share URL
+// (free plan) — GET /share/<code> returns {websiteId, token}, then requests
+// carry x-umami-share-token + x-umami-share-context, as Umami's share page does.
+let API = "https://api.umami.is/v1";
+let authHeaders = {};
+async function connect() {
+  if (env.UMAMI_API_KEY && !env.UMAMI_SHARE_ID) {
+    authHeaders = { "x-umami-api-key": env.UMAMI_API_KEY };
+    return;
+  }
+  const tried = [];
+  for (const base of SHARE_BASES) {
+    try {
+      const res = await fetch(`${base}/share/${encodeURIComponent(env.UMAMI_SHARE_ID)}`, { headers: { Accept: "application/json" } });
+      const body = res.ok ? await res.json().catch(() => null) : null;
+      if (body && body.token) {
+        if (body.websiteId && body.websiteId !== websiteId) console.warn(`Share link is for website ${body.websiteId}, not ${websiteId}; using the share link's website.`);
+        API = base;
+        authHeaders = { "x-umami-share-token": body.token, "x-umami-share-context": "1" };
+        shareWebsiteId = body.websiteId || websiteId;
+        return;
+      }
+      tried.push(`${base} → HTTP ${res.status}`);
+    } catch (e) { tried.push(`${base} → ${e.message}`); }
+  }
+  throw new Error(`Could not open the Umami share link (is Share URL enabled and UMAMI_SHARE_ID correct?)\n  ${tried.join("\n  ")}`);
+}
+let shareWebsiteId = null;
 async function get(path, params) {
-  const url = new URL(`${API}/websites/${websiteId}${path}`);
+  const url = new URL(`${API}/websites/${shareWebsiteId || websiteId}${path}`);
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, String(v));
-  const res = await fetch(url, { headers: { "x-umami-api-key": env.UMAMI_API_KEY, Accept: "application/json" } });
+  const res = await fetch(url, { headers: { ...authHeaders, Accept: "application/json" } });
   if (!res.ok) throw new Error(`${path} → HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`);
   return res.json();
 }
@@ -58,6 +92,7 @@ async function metric(types, range, limit = 10) {
 
 async function collect() {
   if (mockFile) return JSON.parse(readFileSync(mockFile, "utf8"));
+  await connect();
   const [stats, before, pages, referrers, events, countries] = await Promise.all([
     get("/stats", day), get("/stats", prev),
     metric(["path", "url"], day), metric(["referrer"], day),

@@ -1,0 +1,53 @@
+{{ define "main" }}
+{{ $c := site.Data.consultation }}
+<div class="page">
+  <div class="h-in">
+    {{ partial "page-head.html" (dict "eyebrow" $c.eyebrow "title" $c.title "lead" $c.lead) }}
+
+    <div class="contact-grid">
+      <section class="panel" aria-labelledby="formTitle">
+        <h2 id="formTitle">فرم درخواست</h2>
+        {{ partial "lead-form.html" (dict "subject" "درخواست جلسه‌ی مشاوره از وب‌سایت" "submit" "ارسال درخواست مشاوره") }}
+      </section>
+
+      <aside class="contact-side">
+        <section class="panel">
+          <h2>{{ $c.next.title }}</h2>
+          <ol class="mini-steps">{{ range $i, $s := $c.next.steps }}<li><span>{{ partial "fa-digits.html" (add $i 1) }}</span>{{ $s }}</li>{{ end }}</ol>
+        </section>
+        <section class="panel">
+          <h2>{{ $c.topics.title }}</h2>
+          <ul class="check-list">{{ range $c.topics.items }}<li>{{ partial "icon.html" "check" }}{{ . }}</li>{{ end }}</ul>
+          <p class="h-note">{{ partial "icon.html" "shield" }}محرمانگی اطلاعات سازمان در همه‌ی مراحل رعایت می‌شود.</p>
+        </section>
+        <section class="panel panel-quiet">
+          <h2>راه‌های دیگر</h2>
+          <ul class="info-list">
+            <li>{{ partial "icon.html" "mail" }}<div><span>ایمیل مستقیم</span><a class="lat" dir="ltr" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></div></li>
+            {{ with site.Params.bookingUrl }}<li>{{ partial "icon.html" "clock" }}<div><span>رزرو مستقیم وقت (تقویم آنلاین)</span><a href="{{ . }}" target="_blank" rel="noopener">انتخاب زمان جلسه</a></div></li>{{ end }}
+          </ul>
+        </section>
+      </aside>
+    </div>
+
+    <section class="h-sec">
+      <header class="h-sec-head"><h2>{{ $c.fit.title }}</h2></header>
+      <div class="h-services h-services-3">
+        {{ range $c.fit.items }}<div class="h-service"><h3 style="margin-block-start:0">{{ .title }}</h3><p>{{ .desc }}</p></div>{{ end }}
+      </div>
+    </section>
+
+    <section class="h-sec">
+      <header class="h-sec-head"><h2>پرسش‌های متداول</h2></header>
+      <div class="h-faq">
+        {{ range $c.faq }}
+        <details>
+          <summary>{{ .q }}<span>{{ partial "icon.html" "plus" }}</span></summary>
+          <p>{{ .a }}</p>
+        </details>
+        {{ end }}
+      </div>
+    </section>
+  </div>
+</div>
+{{ end }}

@@ -1,26 +1,12 @@
 {{ define "main" }}
 <div class="page">
   <div class="h-in">
-    {{ partial "page-head.html" (dict "eyebrow" "تماس" "title" .Title "lead" "برای هماهنگی جلسه‌ی مشاوره، برگزاری دوره‌ی آموزشی یا بررسی یک پروژه، فرم زیر را پر کنید. در اولین فرصت با شما تماس گرفته می‌شود.") }}
+    {{ partial "page-head.html" (dict "eyebrow" "تماس" "title" .Title "lead" "برای هر پرسش یا درخواست همکاری، فرم زیر را پر کنید. برای رزرو جلسه‌ی آشنایی رایگان، از صفحه‌ی «درخواست مشاوره» استفاده کنید.") }}
 
     <div class="contact-grid">
       <section class="panel">
         <h2>ارسال پیام</h2>
-        <form class="form" id="cform" data-mailto="{{ site.Params.email }}">
-          <div class="row2">
-            <div class="field"><label for="cname">نام و نام خانوادگی</label><input id="cname" name="cname" type="text" autocomplete="name" required></div>
-            <div class="field"><label for="corg">سازمان <small>(اختیاری)</small></label><input id="corg" name="corg" type="text" autocomplete="organization"></div>
-          </div>
-          <div class="row2">
-            <div class="field"><label for="cmail">ایمیل</label><input id="cmail" name="cmail" type="email" dir="ltr" autocomplete="email" required></div>
-            <div class="field"><label for="csub">موضوع</label><input id="csub" name="csub" type="text" placeholder="مثلاً برگزاری دوره‌ی تحلیل داده"></div>
-          </div>
-          <div class="field"><label for="cmsg">شرح درخواست</label><textarea id="cmsg" name="cmsg" placeholder="به‌طور خلاصه بنویسید چه نیازی دارید، چند نفر در دوره یا پروژه حضور دارند و چه زمانی مدنظر است." required></textarea></div>
-          <div class="form-foot">
-            <button class="btn btn-primary" type="submit">{{ partial "icon.html" "mail" }}ارسال پیام</button>
-            <span id="cnote" class="form-note">با ارسال فرم، پیام در برنامه‌ی ایمیل شما آماده‌ی ارسال می‌شود.</span>
-          </div>
-        </form>
+        {{ partial "lead-form.html" (dict "subject" "پیام جدید از صفحه‌ی تماس وب‌سایت" "submit" "ارسال پیام") }}
       </section>
 
       <aside class="contact-side">

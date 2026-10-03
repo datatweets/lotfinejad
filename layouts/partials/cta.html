@@ -1,12 +1,13 @@
 {{- /* Closing call-to-action shared by every page. Default copy comes from
   data/home.yaml; pass a dict to override:
-  {{ partial "cta.html" (dict "title" "…" "text" "…" "button" "…") }} */ -}}
+  {{ partial "cta.html" (dict "title" "…" "text" "…" "button" "…" "href" "consultation/?type=training") }} */ -}}
 {{ $c := site.Data.home.closing }}
-{{ $title := $c.title }}{{ $text := $c.text }}{{ $button := "درخواست جلسه‌ی مشاوره" }}
+{{ $title := $c.title }}{{ $text := $c.text }}{{ $button := "درخواست جلسه‌ی مشاوره" }}{{ $href := "consultation/" | relLangURL }}
 {{ if reflect.IsMap . }}
   {{ with .title }}{{ $title = . }}{{ end }}
   {{ with .text }}{{ $text = . }}{{ end }}
   {{ with .button }}{{ $button = . }}{{ end }}
+  {{ with .href }}{{ $href = . | relLangURL }}{{ end }}
 {{ end }}
 <section class="h-sec">
   <div class="h-end">
@@ -15,7 +16,7 @@
       <p>{{ $text }}</p>
     </div>
     <div class="h-end-actions">
-      <a class="btn btn-gold" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}{{ $button }}</a>
+      <a class="btn btn-gold" href="{{ $href }}">{{ partial "icon.html" "mail" }}{{ $button }}</a>
       <a class="h-mail lat" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
     </div>
   </div>

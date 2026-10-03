@@ -1,0 +1,20 @@
+{{/* One indexable page per catalogue course at /training/<slug>/
+     (layout: layouts/training/single.html; content: data/courses/<slug>.yaml).
+     The printable outlines in /outlines/ stay separate and noindex. */}}
+{{ range $g := site.Data.training.catalog.groups }}
+  {{ range $i, $item := $g.courses }}
+    {{ with index site.Data.courses $item.slug }}
+      {{ $.AddPage (dict
+          "path" $item.slug
+          "kind" "page"
+          "title" .fa
+          "params" (dict
+              "course" $item.slug
+              "group" $g.title
+              "description" .summary
+              "seoTitle" (printf "دوره‌ی %s برای سازمان‌ها (حضوری و آنلاین)" .fa))
+          "sitemap" (dict "priority" 0.7)
+      ) }}
+    {{ end }}
+  {{ end }}
+{{ end }}

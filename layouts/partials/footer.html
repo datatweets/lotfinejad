@@ -35,7 +35,6 @@
         <h2>ارتباط</h2>
         <ul class="ft-contact">
           <li><span>ایمیل</span><a class="ft-mail" dir="ltr" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></li>
-          {{ with site.Params.bookingUrl }}<li><span>رزرو آنلاین وقت</span><a href="{{ . }}" target="_blank" rel="noopener">انتخاب زمان جلسه</a></li>{{ end }}
           <li><span>پیام، مشاوره، پروژه یا دوره</span><a href="{{ "contact/" | relLangURL }}">فرم تماس</a></li>
         </ul>
       </div>

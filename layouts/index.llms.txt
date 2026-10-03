@@ -8,7 +8,8 @@
 ## صفحات اصلی
 - [خدمات مشاوره]({{ "services/" | absURL }}): {{ site.Data.services.lead }}
 - [دوره‌های آموزشی]({{ "training/" | absURL }}): {{ site.Data.training.lead }}
-- [درخواست مشاوره]({{ "consultation/" | absURL }}): {{ site.Data.consultation.lead }}
+- [درخواست مشاوره]({{ "consultation/" | absURL }}): درخواست جلسه‌ی مشاوره‌ی رایگان ۲۰ دقیقه‌ای (آنلاین) برای بررسی نیاز سازمان و انتخاب مسیر مناسب: مشاوره، اجرای پروژه یا آموزش تیم.
+- [تماس]({{ "contact/" | absURL }}): فرم تماس برای ارسال پیام، درخواست مشاوره، اجرای پروژه یا برگزاری دوره.
 - [درباره]({{ "about/" | absURL }})
 - [رزومه]({{ "resume/" | absURL }}) — PDF: {{ site.Data.resume.pdf | absURL }}
 - [یادداشت‌ها]({{ "posts/" | absURL }})
@@ -21,7 +22,7 @@
 ## دوره‌های آموزشی (حضوری یا آنلاین، به زبان فارسی)
 {{ range site.Data.training.catalog.groups }}
 ### {{ .title }}
-{{ range .courses }}{{ $c := index site.Data.courses .slug }}- {{ .fa }} ({{ .en }}) — سطح: {{ $c.level }}. {{ $c.summary }} سرفصل PDF: {{ printf "files/outlines/%s.pdf" .slug | absURL }}
+{{ range .courses }}{{ $c := index site.Data.courses .slug }}- [{{ .fa }} ({{ .en }})]({{ printf "training/%s/" .slug | absURL }}) — سطح: {{ $c.level }}. {{ $c.summary }} سرفصل PDF: {{ printf "files/outlines/%s.pdf" .slug | absURL }}
 {{ end }}{{ end }}
 ## پرسش‌های متداول
 {{ range site.Data.home.faq }}- {{ .q }} {{ .a }}

@@ -1,7 +1,8 @@
 {{- /* Escape a Persian string and isolate its embedded Latin/code runs in
      <bdi>, so things like ".loc[]" or "ref()" keep their order inside RTL
-     text. Usage: {{ partial "bidi.html" "متن با .loc[]" }} */ -}}
+     text. A run never ends on "(" nor starts with ")", so a Latin word
+     before a Persian parenthetical keeps the bracket with the Persian text. Usage: {{ partial "bidi.html" "متن با .loc[]" }} */ -}}
 {{- $s := replace . "‎" "" -}}
 {{- $s = htmlEscape $s -}}
-{{- $s = replaceRE `([A-Za-z0-9_.\[\]()*/@#+-][A-Za-z0-9_.\[\]()*/@#+&;' -]*[A-Za-z0-9_\]()*+])` `<bdi>$1</bdi>` $s -}}
+{{- $s = replaceRE `([A-Za-z0-9_.\[(*/@#+-][A-Za-z0-9_.\[\]()*/@#+&;' -]*[A-Za-z0-9_\])*+])` `<bdi>$1</bdi>` $s -}}
 {{- $s | safeHTML -}}

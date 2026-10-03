@@ -1,20 +1,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-{{- $title := cond .IsHome (printf "%s | %s" site.Title site.Params.headline) (printf "%s | %s" .Title site.Title) -}}
+{{- $is404 := eq .Kind "404" -}}
+{{- $title := cond .IsHome (printf "%s | %s" site.Title site.Params.headline) (printf "%s | %s" (cond $is404 "صفحه پیدا نشد" (.Params.seoTitle | default .Title)) site.Title) -}}
 {{- $desc := cond (ne .Description "") .Description site.Params.description -}}
 {{- with .Params.summary }}{{ if not $.Description }}{{ $desc = . }}{{ end }}{{ end -}}
 {{- $img := "images/og.jpg" | absURL -}}
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $desc }}">
 <meta name="author" content="{{ site.Params.author }}">
-<link rel="canonical" href="{{ .Permalink }}">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+{{ if $is404 }}<meta name="robots" content="noindex">
+{{ else }}<link rel="canonical" href="{{ .Permalink }}">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">{{ end }}
 
 {{/* Open Graph / Twitter — share previews in Telegram, WhatsApp, LinkedIn, X */}}
 <meta property="og:site_name" content="{{ site.Title }}">
 <meta property="og:locale" content="fa_IR">
 <meta property="og:type" content="{{ if eq .Section "posts" }}{{ if .IsPage }}article{{ else }}website{{ end }}{{ else if .IsHome }}website{{ else }}website{{ end }}">
-<meta property="og:title" content="{{ cond .IsHome site.Title .Title }}">
+<meta property="og:title" content="{{ cond .IsHome site.Title (.Params.seoTitle | default .Title) }}">
 <meta property="og:description" content="{{ $desc }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:image" content="{{ $img }}">
@@ -27,7 +29,7 @@
 {{ range .Params.tags }}<meta property="article:tag" content="{{ . }}">{{ end }}
 {{ end }}
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ cond .IsHome site.Title .Title }}">
+<meta name="twitter:title" content="{{ cond .IsHome site.Title (.Params.seoTitle | default .Title) }}">
 <meta name="twitter:description" content="{{ $desc }}">
 <meta name="twitter:image" content="{{ $img }}">
 

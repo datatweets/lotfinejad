@@ -50,7 +50,9 @@ Persian — no first person:
 | `hugo.toml` `[params]`  | Name, headline, tagline, email, "how I work" list, `about` paragraphs |
 | `data/home.yaml`        | Home page: hero text, stats, "worked with" names, services      |
 | `data/training.yaml`    | Training page (`/training/`): formats, career paths, course catalogue (mirrors datatweets.com), FAQ |
-| `content/training.md`   | Training page (`type: training`)                                 |
+| `data/courses/<slug>.yaml` | One course: summary, level, outcomes, prerequisites, tools, modules/lessons; optional `hours:` (shown on the course page and sent as `courseWorkload`) |
+| `content/training/_index.md` | Training page (`layouts/training/list.html`)                |
+| `content/training/_content.gotmpl` | Generates one page per course at `/training/<slug>/` (`layouts/training/single.html`) |
 | `data/consultation.yaml` | Consultation page (`/consultation/`): offer, next steps, topics, FAQ |
 | `data/services.yaml`    | Services page (`/services/`): 13 consulting services, engagement models, industries |
 | `content/services.md`   | Services page (`type: services`)                                 |
@@ -176,7 +178,11 @@ project and every module/lesson. From these:
 - `content/outlines/_content.gotmpl` generates one printable page per course at
   `/outlines/<slug>/` (template: `layouts/outlines/single.html`, A4 print styles,
   static Vazirmatn weights in `static/fonts/vazirmatn/static/`);
-- the training page shows each course as a collapsible summary with its PDF;
+- `content/training/_content.gotmpl` generates an indexable course page per
+  course at `/training/<slug>/` (full syllabus, outcomes, prerequisites, tools,
+  related courses, Course schema with offers and course instances);
+- the training page shows each course as a collapsible summary with its PDF
+  and a link to its course page;
 - `static/files/outlines/<slug>.pdf` are printed from the outline pages.
 
 After editing a course YAML, regenerate the PDFs and commit them:
@@ -210,7 +216,13 @@ node scripts/build-resume.mjs    # terminal 2
 - `layouts/partials/schema.html`: one JSON-LD `@graph` per page, built from the
   same data files as the visible content — WebSite + Person everywhere,
   ProfessionalService, BreadcrumbList, BlogPosting (posts), Service list
-  (`/services/`), Course list (`/training/`) and FAQPage wherever an FAQ is shown.
+  (`/services/`), Course list (`/training/`), Course (each `/training/<slug>/`;
+  add `hours:` to a course YAML to supply `courseWorkload`, which Google needs
+  for Course rich results), ContactPage (`/contact/`) and FAQPage wherever an
+  FAQ is shown.
+- Titles: front matter `seoTitle` overrides the `<title>`/og:title while the
+  menu and H1 keep `title`. The 404 page is `noindex`.
+- RSS (`layouts/_default/rss.xml`): Persian channel text, notes only.
 - `/llms.txt` (template `layouts/index.llms.txt`): a plain-text summary of
   services, courses, FAQ and contact for AI answer engines; regenerated on build.
 - `/sitemap.xml`: `lastmod` from a post's own date, else git (`enableGitInfo`), per-page `priority`

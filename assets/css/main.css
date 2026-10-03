@@ -550,19 +550,6 @@ pre code { background: none; padding: 0; font-size: .9em; }
 .pager-item b { display: block; margin-block-start: 5px; font-size: 15px; color: var(--ink); font-weight: 700; line-height: 1.55; }
 
 /* ============================================================
-   PROJECTS — repository cards (home + projects page)
-   ============================================================ */
-.h-projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-@media (max-width: 900px) { .h-projects { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .h-projects { grid-template-columns: 1fr; } }
-.h-proj { display: flex; flex-direction: column; gap: 10px; padding: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; color: inherit; transition: border-color .15s ease, transform .15s ease; }
-.h-proj:hover { text-decoration: none; border-color: var(--line-strong); transform: translateY(-2px); }
-.h-proj-name { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 14.5px; font-weight: 500; color: var(--ink); word-break: break-word; }
-.h-proj-name svg { width: 15px; height: 15px; color: var(--ink-3); flex: 0 0 auto; }
-.h-proj:hover .h-proj-name { color: var(--accent); }
-.h-proj p { flex: 1 1 auto; font-size: 14px; color: var(--ink-2); line-height: 1.85; }
-
-/* ============================================================
    RESUME
    ============================================================ */
 .logo-sq { width: 44px; height: 44px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: center; color: var(--ink-3); flex: 0 0 auto; }

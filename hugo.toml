@@ -85,12 +85,6 @@ summaryLength = 40
   params = { icon = "people" }
 
 [[menu.main]]
-  name = "نمونه‌کارها"
-  pageRef = "/projects"
-  weight = 30
-  params = { icon = "grid" }
-
-[[menu.main]]
   name = "رزومه"
   pageRef = "/resume"
   weight = 40

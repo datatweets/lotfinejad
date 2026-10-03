@@ -1,0 +1,168 @@
+{{ define "main" }}
+{{ $t := site.Data.training }}
+<div class="page">
+
+  {{/* ---------- intro ---------- */}}
+  <div class="h-in">
+    <header class="page-head">
+      <span class="h-eyebrow">{{ $t.eyebrow }}</span>
+      <h1>{{ $t.title }}</h1>
+      <p class="h-lead">{{ $t.lead }}</p>
+      <div class="h-cta">
+        <a class="btn btn-primary" href="{{ "contact/?type=course" | relLangURL }}">{{ partial "icon.html" "mail" }}درخواست برگزاری دوره</a>
+        <a class="btn btn-plain" href="#catalog">مشاهده‌ی فهرست دوره‌ها</a>
+      </div>
+    </header>
+    <div class="trust">
+      <dl class="trust-stats">
+        {{ range $t.highlights }}<div><dt>{{ .label }}</dt><dd><bdi>{{ .value }}</bdi></dd></div>{{ end }}
+      </dl>
+    </div>
+  </div>
+
+  {{/* ---------- delivery formats ---------- */}}
+  <section class="h-in h-sec">
+    <header class="h-sec-head">
+      <h2>شیوه‌های برگزاری</h2>
+      <p>دوره‌ها متناسب با شرایط سازمان، به یکی از این شکل‌ها برگزار می‌شوند.</p>
+    </header>
+    <div class="h-services h-services-3">
+      {{ range $t.formats }}
+      <div class="h-service">
+        <span class="h-ico">{{ partial "icon.html" .icon }}</span>
+        <h3>{{ .title }}</h3>
+        <p>{{ .desc }}</p>
+      </div>
+      {{ end }}
+    </div>
+  </section>
+
+  {{/* ---------- career paths ---------- */}}
+  <section class="h-in h-sec">
+    <header class="h-sec-head">
+      <h2>{{ $t.paths.title }}</h2>
+      <p>{{ $t.paths.intro }}</p>
+    </header>
+    <div class="tr-paths">
+      {{ range $t.paths.items }}
+      <div class="tr-path">
+        <div class="tr-path-head">
+          <h3>{{ .title }}</h3>
+          <span class="lat" dir="ltr">{{ .en }}</span>
+        </div>
+        <p>{{ .desc }}</p>
+        <span class="tr-level">{{ .level }}</span>
+      </div>
+      {{ end }}
+    </div>
+  </section>
+
+  {{/* ---------- full catalogue ---------- */}}
+  <section class="h-in h-sec" id="catalog">
+    <header class="h-sec-head">
+      <h2>{{ $t.catalog.title }}</h2>
+      <p>{{ $t.catalog.intro }}</p>
+    </header>
+    <p class="tr-hint">{{ partial "icon.html" "doc" }}برای دیدن خلاصه و سرفصل هر دوره روی عنوان آن بزنید؛ سرفصل کامل هر دوره به‌صورت PDF نیز قابل دریافت است.</p>
+    {{ range $t.catalog.groups }}
+    <div class="tr-group">
+      <h3 class="tr-group-title"><span class="h-ico">{{ partial "icon.html" .icon }}</span>{{ .title }}</h3>
+      <div class="tr-courses">
+        {{ range .courses }}
+        {{ $c := index site.Data.courses .slug }}
+        {{ $lessons := 0 }}{{ range $c.modules }}{{ $lessons = add $lessons (len .l) }}{{ end }}
+        {{ $pdf := printf "files/outlines/%s.pdf" .slug | relURL }}
+        {{/* The PDF link sits outside <summary> (no link nested in the toggle),
+             positioned over the reserved slot in the row. */}}
+        <div class="tr-item">
+        <details class="tr-course" id="course-{{ .slug }}">
+          <summary>
+            <span class="tr-course-name"><b>{{ .fa }}</b><span class="lat" dir="ltr">{{ .en }}</span></span>
+            <span class="tr-course-meta">
+              <span class="tr-chip">{{ $c.level }}</span>
+              <span class="tr-pdf-slot" aria-hidden="true"></span>
+              <span class="tr-toggle" aria-hidden="true">{{ partial "icon.html" "plus" }}</span>
+            </span>
+          </summary>
+          <div class="tr-course-body">
+            <p class="tr-summary">{{ partial "bidi.html" $c.summary }}</p>
+            <div class="tr-facts">
+              <span>{{ partial "fa-digits.html" (len $c.modules) }} بخش</span>
+              <span>{{ partial "fa-digits.html" $lessons }} درس</span>
+              <span>حضوری یا آنلاین</span>
+            </div>
+            <div class="tr-course-cols">
+              <div>
+                <h4>آنچه شرکت‌کنندگان می‌آموزند</h4>
+                <ul class="tr-dots">{{ range $c.outcomes }}<li>{{ partial "bidi.html" . }}</li>{{ end }}</ul>
+              </div>
+              <div>
+                <h4>بخش‌های دوره</h4>
+                <ol class="tr-mods">{{ range $c.modules }}<li><span>{{ partial "bidi.html" .t }}</span><small>{{ partial "fa-digits.html" (len .l) }} درس</small></li>{{ end }}</ol>
+              </div>
+            </div>
+            <p class="tr-pre"><b>پیش‌نیاز:</b> {{ partial "bidi.html" (index $c.prereqs 0) }}</p>
+            <div class="h-cta tr-course-cta">
+              <a class="btn btn-primary" href="{{ $pdf }}" target="_blank" rel="noopener">{{ partial "icon.html" "doc" }}دریافت سرفصل کامل (PDF)</a>
+              <a class="btn btn-plain" href="{{ printf "training/%s/" .slug | relLangURL }}">صفحه‌ی کامل دوره</a>
+              <a class="tr-req" href="{{ "contact/" | relLangURL }}?course={{ .fa | urlquery }}">درخواست برگزاری این دوره {{ partial "icon.html" "arrow" }}</a>
+            </div>
+          </div>
+        </details>
+        <a class="tr-pdf tr-pdf-float" href="{{ $pdf }}" target="_blank" rel="noopener" aria-label="دریافت سرفصل PDF دوره‌ی {{ .fa }}">{{ partial "icon.html" "doc" }}PDF</a>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+    <div class="tr-exec">
+      <span class="tr-exec-label">{{ $t.executive.label }}</span>
+      <h3>{{ $t.executive.title }}</h3>
+      <p>{{ $t.executive.desc }}</p>
+    </div>
+  </section>
+
+  {{/* ---------- how it runs: a real sequence, so numbered ---------- */}}
+  <section class="h-in h-sec">
+    <header class="h-sec-head"><h2>روند برگزاری دوره</h2></header>
+    <ol class="h-steps">
+      {{ range $i, $s := $t.steps }}
+      <li>
+        <span class="h-step-n">{{ partial "fa-digits.html" (add $i 1) }}</span>
+        <h3>{{ .title }}</h3>
+        <p>{{ .desc }}</p>
+      </li>
+      {{ end }}
+    </ol>
+  </section>
+
+  {{/* ---------- what participants get ---------- */}}
+  <section class="h-in h-sec">
+    <div class="tr-outcomes">
+      <div>
+        <header class="h-sec-head">
+          <h2>آنچه شرکت‌کنندگان دریافت می‌کنند</h2>
+          <p>{{ $t.preview.text }}</p>
+        </header>
+        <a class="h-more" href="{{ $t.preview.url }}" target="_blank" rel="noopener">{{ $t.preview.label }} {{ partial "icon.html" "arrow" }}</a>
+      </div>
+      <ul class="check-list tr-checks">{{ range $t.outcomes }}<li>{{ partial "icon.html" "check" }}{{ . }}</li>{{ end }}</ul>
+    </div>
+  </section>
+
+  {{/* ---------- FAQ ---------- */}}
+  <section class="h-in h-sec">
+    <header class="h-sec-head"><h2>پرسش‌های متداول درباره‌ی دوره‌ها</h2></header>
+    <div class="h-faq">
+      {{ range $t.faq }}
+      <details>
+        <summary>{{ .q }}<span>{{ partial "icon.html" "plus" }}</span></summary>
+        <p>{{ .a }}</p>
+      </details>
+      {{ end }}
+    </div>
+  </section>
+
+  <div class="h-in">{{ partial "cta.html" (dict "title" "برای برگزاری دوره در سازمان خود هماهنگ کنید" "text" "موضوع، تعداد شرکت‌کنندگان و زمان مدنظر را بفرستید تا برای نیازسنجی و هماهنگی برنامه‌ی دوره با شما تماس گرفته شود." "button" "درخواست برگزاری دوره" "href" "contact/?type=course") }}</div>
+</div>
+{{ end }}

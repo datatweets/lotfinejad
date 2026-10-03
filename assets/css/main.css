@@ -25,7 +25,7 @@
   --accent-soft: #3F66A6;
   --accent-wash: #E9EEF6;
   --accent-ink: #1E3F73;
-  --gold: #A87622;
+  --gold: #8F6317; /* AA (≥4.5:1) on all light surfaces */
   --gold-wash: #F6EEDC;
 
   --ground: #F5F6F8;
@@ -35,7 +35,7 @@
 
   --ink: #141B26;
   --ink-2: #4A5465;
-  --ink-3: #7A8394;
+  --ink-3: #626B7B;
   --line: #E1E5EB;
   --line-strong: #C9D0DA;
 
@@ -76,7 +76,7 @@
 
     --ink: #E8ECF2;
     --ink-2: #A6B0BF;
-    --ink-3: #758195;
+    --ink-3: #8D98AA;
     --line: #253041;
     --line-strong: #364357;
 
@@ -106,7 +106,7 @@
 
   --ink: #E8ECF2;
   --ink-2: #A6B0BF;
-  --ink-3: #758195;
+  --ink-3: #8D98AA;
   --line: #253041;
   --line-strong: #364357;
 
@@ -667,10 +667,37 @@ pre code { background: none; padding: 0; font-size: .9em; }
 .tr-pdf { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 700; color: var(--accent); border: 1px solid var(--line-strong); padding: 4px 11px; border-radius: 999px; background: var(--surface); white-space: nowrap; }
 .tr-pdf:hover { border-color: var(--accent); background: var(--accent-wash); text-decoration: none; }
 .tr-pdf svg { width: 14px; height: 14px; }
+.tr-item { position: relative; }
+.tr-course summary { min-height: 60px; }
+.tr-pdf-slot { width: 64px; flex: 0 0 auto; }
+.tr-pdf-float { position: absolute; inset-block-start: 16px; inset-inline-end: 56px; width: 64px; justify-content: center; }
+@media (max-width: 560px) { .tr-pdf-slot, .tr-pdf-float { display: none; } }
 .tr-toggle { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line-strong); color: var(--ink-2); transition: transform .2s ease, background .2s ease; flex: 0 0 auto; }
 .tr-toggle svg { width: 15px; height: 15px; }
 .tr-course[open] .tr-toggle { transform: rotate(45deg); background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 @media (max-width: 560px) { .tr-course-meta { width: 100%; justify-content: flex-start; } .tr-toggle { margin-inline-start: auto; } }
+/* course page (/training/<slug>/) */
+.crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-block-end: 18px; font-size: 13px; color: var(--ink-3); }
+.crumbs a { color: var(--ink-2); }
+.crumbs [aria-current] { color: var(--ink); font-weight: 600; }
+.cr-en { margin-block-start: 6px; font-size: 15px; color: var(--ink-3); text-align: right; }
+.cr-head .h-lead { margin-block-start: 10px; }
+.trust-stats dd.cr-fact { font-size: clamp(16px, 2vw, 19px); line-height: 1.6; }
+.cr-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px 32px; align-items: start; }
+@media (max-width: 900px) { .cr-grid { grid-template-columns: 1fr; } }
+.cr-outcomes li { font-size: 15.5px; }
+.cr-project { display: flex; gap: 10px; align-items: flex-start; margin-block-start: 18px; padding: 14px 16px; border-radius: 12px; background: var(--gold-wash); font-size: 14.5px; line-height: 1.9; }
+.cr-project svg { width: 18px; height: 18px; flex: none; margin-block-start: 5px; color: var(--gold); }
+.cr-mods { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 760px) { .cr-mods { grid-template-columns: 1fr; } }
+.cr-mod { padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.cr-mod-head { display: flex; align-items: center; gap: 10px; }
+.cr-mod-head h3 { font-size: 15.5px; flex: 1; min-width: 0; }
+.cr-mod-head small { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+.cr-mod-n { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; flex: none; font-size: 13px; font-weight: 800; color: var(--accent); background: var(--accent-wash); }
+.cr-lessons { margin: 10px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.cr-lessons li { position: relative; padding-inline-start: 14px; font-size: 14px; line-height: 1.8; color: var(--ink-2); }
+.cr-lessons li::before { content: ""; position: absolute; inset-inline-start: 2px; inset-block-start: .8em; width: 4px; height: 4px; border-radius: 50%; background: var(--line-strong); }
 .tr-course-body { padding: 4px 18px 20px; border-block-start: 1px solid var(--line); }
 .tr-summary { margin-block-start: 14px; font-size: 15px; line-height: 1.95; color: var(--ink); max-width: 80ch; }
 .tr-facts { display: flex; flex-wrap: wrap; gap: 8px; margin-block-start: 12px; }

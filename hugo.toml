@@ -62,42 +62,48 @@ summaryLength = 40
 
 [[menu.main]]
   name = "خانه"
-  url = "/"
+  pageRef = "/"
   weight = 10
   params = { icon = "home" }
 
 [[menu.main]]
   name = "درباره"
-  url = "/about/"
+  pageRef = "/about"
   weight = 20
   params = { icon = "user" }
 
 [[menu.main]]
+  name = "خدمات"
+  pageRef = "/services"
+  weight = 22
+  params = { icon = "grid" }
+
+[[menu.main]]
   name = "دوره‌ها"
-  url = "/training/"
+  pageRef = "/training"
   weight = 25
   params = { icon = "people" }
 
 [[menu.main]]
   name = "نمونه‌کارها"
-  url = "/projects/"
+  pageRef = "/projects"
   weight = 30
   params = { icon = "grid" }
 
 [[menu.main]]
   name = "رزومه"
-  url = "/resume/"
+  pageRef = "/resume"
   weight = 40
   params = { icon = "doc" }
 
 [[menu.main]]
   name = "مقالات"
-  url = "/posts/"
+  pageRef = "/posts"
   weight = 50
   params = { icon = "news" }
 
 [[menu.main]]
   name = "تماس"
-  url = "/contact/"
+  pageRef = "/contact"
   weight = 60
   params = { icon = "mail" }

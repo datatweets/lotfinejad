@@ -1,0 +1,55 @@
+{{ define "main" }}
+{{ $s := site.Data.services }}
+{{ $req := "consultation/" | relLangURL }}
+<div class="page">
+  <div class="h-in">
+    <header class="page-head">
+      <span class="h-eyebrow">{{ $s.eyebrow }}</span>
+      <h1>{{ $s.title }}</h1>
+      <p class="h-lead">{{ $s.lead }}</p>
+      <div class="h-cta">
+        <a class="btn btn-primary" href="{{ $req }}">{{ partial "icon.html" "mail" }}درخواست جلسه‌ی آشنایی</a>
+        <a class="btn btn-plain" href="#models">شیوه‌های همکاری</a>
+      </div>
+    </header>
+
+    <nav class="sv-toc" aria-label="گروه‌های خدمات">
+      {{ range $i, $g := $s.services.groups }}<a href="#group-{{ $i }}">{{ partial "icon.html" .icon }}{{ .title }}</a>{{ end }}
+    </nav>
+
+    {{ range $i, $g := $s.services.groups }}
+    <section class="sv-group" id="group-{{ $i }}">
+      <h2 class="tr-group-title"><span class="h-ico">{{ partial "icon.html" .icon }}</span>{{ .title }}</h2>
+      <div class="sv-grid sv-n{{ len .items }}">
+        {{ range .items }}
+        <article class="sv-card">
+          <h3>{{ .title }}</h3>
+          <span class="sv-en lat" dir="ltr">{{ .en }}</span>
+          <p>{{ partial "bidi.html" .desc }}</p>
+          <h4>خروجی‌ها</h4>
+          <ul class="check-list sv-out">{{ range .outputs }}<li>{{ partial "icon.html" "check" }}<span>{{ partial "bidi.html" . }}</span></li>{{ end }}</ul>
+          <p class="sv-ev"><b>تجربه‌ی مرتبط:</b> {{ partial "bidi.html" .evidence }}</p>
+          <a class="sv-req" href="{{ $req }}?type=consulting&amp;service={{ .title | urlquery }}#formTitle">درخواست این خدمت {{ partial "icon.html" "arrow" }}</a>
+        </article>
+        {{ end }}
+      </div>
+    </section>
+    {{ end }}
+
+    <section class="h-sec" id="models">
+      <header class="h-sec-head"><h2>{{ $s.models.title }}</h2></header>
+      <ol class="h-steps">
+        {{ range $i, $m := $s.models.items }}
+        <li><span class="h-step-n">{{ partial "fa-digits.html" (add $i 1) }}</span><h3>{{ .title }}</h3><p>{{ .desc }}</p></li>
+        {{ end }}
+      </ol>
+      <div class="sv-ind">
+        <span>{{ $s.industries.title }}</span>
+        <ul>{{ range $s.industries.items }}<li>{{ . }}</li>{{ end }}</ul>
+      </div>
+    </section>
+
+    {{ partial "cta.html" (dict "title" "کدام خدمت برای سازمان شما مناسب است؟" "text" "اگر هنوز مطمئن نیستید از کجا باید شروع کنید، در جلسه‌ی آشنایی نیاز سازمان بررسی و مسیر مناسب پیشنهاد می‌شود.") }}
+  </div>
+</div>
+{{ end }}

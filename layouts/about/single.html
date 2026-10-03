@@ -34,15 +34,17 @@
     </div>
   </section>
 
+  {{ with site.Data.principles }}
   <section class="h-in h-sec">
     <header class="h-sec-head">
-      <h2>اصول کاری</h2>
-      <p>اصولی که در همه‌ی پروژه‌ها، از مشاوره تا اجرا، رعایت می‌شود.</p>
+      <h2>{{ .title }}</h2>
+      <p>{{ .intro }}</p>
     </header>
     <div class="h-problems">
-      {{ range site.Params.howIWork }}<div class="h-problem"><p class="h-principle">{{ . }}</p></div>{{ end }}
+      {{ range .items }}<div class="h-problem"><h3>{{ .title }}</h3><p>{{ .desc }}</p></div>{{ end }}
     </div>
   </section>
+  {{ end }}
 
   <div class="h-in">{{ partial "cta.html" . }}</div>
 </div>

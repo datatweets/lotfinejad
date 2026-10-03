@@ -47,7 +47,8 @@ Persian — no first person:
 
 | Path                    | Purpose                                                        |
 | ------------------------ | ---------------------------------------------------------------- |
-| `hugo.toml` `[params]`  | Name, headline, tagline, email, "how I work" list, `about` paragraphs |
+| `hugo.toml` `[params]`  | Name, headline, tagline, email, `about` paragraphs |
+| `data/principles.yaml`  | «اصول کاری» on the About page (title + description per principle) |
 | `data/home.yaml`        | Home page: hero text, stats, "worked with" names, services      |
 | `data/training.yaml`    | Training page (`/training/`): formats, career paths, course catalogue (mirrors datatweets.com), FAQ |
 | `data/courses/<slug>.yaml` | One course: summary, level, outcomes, prerequisites, tools, modules/lessons. Duration is derived in `layouts/partials/course-duration.html` (≤36 lessons → 2 days, 37–49 → 3, 50+ → 4; 8 h/day); an optional `hours:` overrides it |
@@ -230,6 +231,26 @@ Cookie-free [Umami](https://umami.is) analytics, off until
 production builds and only on lotfinejad.ir. Events: `form-submit` and
 `form-fallback` (with topic and source), `pdf-outline` (course), `pdf-resume`,
 and `cta-click` (where: nav, drawer, closing, course-page, service-page).
+
+## Daily analytics email
+
+`.github/workflows/daily-report.yml` runs `scripts/daily-report.mjs` every
+morning (~07:15 Tehran) and emails a Persian summary of yesterday from Umami:
+visitors, visits, page views, bounce rate, visit length (each vs the day
+before), events (forms, PDF downloads, CTA clicks), top pages, referrers and
+countries. It needs repository secrets (Settings → Secrets and variables →
+Actions):
+
+| Secret | Value |
+|---|---|
+| `UMAMI_API_KEY` | Umami Cloud → Settings → API keys |
+| `SMTP_USERNAME` | the Gmail address that sends the report |
+| `SMTP_PASSWORD` | a Gmail App Password (Google Account → Security → App passwords) |
+| `REPORT_TO` | optional recipient; defaults to `SMTP_USERNAME` |
+
+Without them the job skips quietly. Test it from Actions → Daily analytics
+report → Run workflow. Local preview with sample data:
+`node scripts/daily-report.mjs --mock mock.json --out report.html`.
 
 ## SEO and answer engines
 

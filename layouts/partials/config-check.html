@@ -1,0 +1,8 @@
+{{- /* Fail the build (instead of publishing a broken page) when required
+     site params are missing, e.g. after a TOML table header is inserted above
+     them and swallows them. Called once from the home page head. */ -}}
+{{- range slice "author" "headline" "description" "email" "domain" "formEndpoint" "about" -}}
+  {{- if not (index site.Params .) -}}
+    {{- errorf "hugo.toml: [params].%s is missing or empty (check that it is not placed after a [params.*] table header)" . -}}
+  {{- end -}}
+{{- end -}}

@@ -478,6 +478,7 @@ pre code { background: none; padding: 0; font-size: .9em; }
 .author-box div > span { display: block; font-size: 13.5px; color: var(--accent); font-weight: 600; margin-block-start: 2px; }
 .author-box p { margin-block-start: 10px; font-size: 14.5px; color: var(--ink-2); line-height: 1.9; }
 .author-box .h-cta { margin-block-start: 16px; }
+.article-original { margin-block-start: 28px; padding-block-start: 14px; border-block-start: 1px solid var(--line); font-size: 13.5px; color: var(--ink-3); }
 .prose { max-width: 68ch; font-size: 17px; line-height: 1.92; color: var(--ink); }
 .prose > * + * { margin-block-start: 1.05em; }
 .prose > p:first-of-type { font-size: 19px; line-height: 1.85; font-weight: 500; }
@@ -491,6 +492,30 @@ pre code { background: none; padding: 0; font-size: .9em; }
 .prose ol.steps li::before { content: counter(s, persian); font-family: var(--fa); font-weight: 800; font-size: 15px; color: var(--accent-ink); background: var(--accent-wash); width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; }
 .prose ol.steps b { display: block; font-size: 16.5px; }
 .prose ol.steps p { font-size: 15.5px; color: var(--ink-2); line-height: 1.8; margin-block-start: 2px; }
+/* long-form notes: tables, quotes, numbered lists, inline code */
+.prose h4 { font-size: 16.5px; margin-block-start: 1.3em; }
+.prose ol:not(.steps) { padding-inline-start: 1.4em; display: flex; flex-direction: column; gap: 8px; }
+.prose ol:not(.steps) li { font-size: 16.5px; padding-inline-start: 4px; }
+.prose ol:not(.steps) li::marker { color: var(--accent); font-weight: 700; }
+.prose a { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent-soft); text-underline-offset: 3px; }
+.prose code { font-family: var(--mono); font-size: .88em; background: var(--surface-2); border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; direction: ltr; unicode-bidi: isolate; }
+.prose blockquote:not(.pull) { margin: 0; padding: 12px 18px; border-inline-start: 3px solid var(--gold); background: var(--gold-wash); border-radius: 0 10px 10px 0; font-weight: 500; }
+.prose blockquote:not(.pull) > * + * { margin-block-start: .6em; }
+.prose table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14.5px; line-height: 1.75; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+@media (max-width: 640px) { .prose table { display: block; overflow-x: auto; } }
+.prose thead th { background: var(--surface-2); font-weight: 700; color: var(--ink); }
+.prose th, .prose td { padding: 9px 12px; text-align: start; vertical-align: top; border-block-end: 1px solid var(--line); }
+.prose tr:last-child td { border-block-end: 0; }
+.prose td + td, .prose th + th { border-inline-start: 1px solid var(--line); }
+/* job-ad evidence card (shortcode jobad) */
+.jobad { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
+.jobad-head { display: flex; flex-direction: column; gap: 2px; padding: 12px 16px; background: var(--surface-2); border-block-end: 1px solid var(--line); }
+.jobad-head b { font-size: 15.5px; }
+.jobad-head span { font-size: 14.5px; color: var(--ink-2); }
+.jobad-head small { font-size: 13px; color: var(--ink-3); }
+.jobad-body { padding: 12px 16px 14px; font-size: 15px; line-height: 1.85; }
+.jobad-body > * + * { margin-block-start: .5em; }
+.jobad-link { display: inline-block; margin: 0 16px 14px; font-size: 14px; font-weight: 700; }
 .pull { border-inline-start: 3px solid var(--gold); padding: 4px 16px; font-size: 18px; font-weight: 600; color: var(--ink); line-height: 1.75; margin: 0; }
 
 /* bar chart */

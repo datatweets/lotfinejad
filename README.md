@@ -213,6 +213,23 @@ hugo server                      # terminal 1
 node scripts/build-resume.mjs    # terminal 2
 ```
 
+## Notes (یادداشت‌ها)
+
+`content/posts/` holds the notes. Most are full Persian translations of the
+author's English articles on [DATATWEETS Insights](https://datatweets.com/insights/):
+each keeps the original date (`date`, plus `jdate` in the Persian calendar)
+and links back via `original:` (shown at the end of the note). Job-ad
+evidence cards use the `jobad` shortcode so English company/role names keep
+their order inside RTL text:
+
+```
+{{</* jobad company="Kering" role="AI Engineer — Data & AI" place="پاریس" url="https://…" */>}}
+**خواسته‌ها:** …
+
+**چه چیزی را نشان می‌دهد:** …
+{{</* /jobad */>}}
+```
+
 ## Share images
 
 Every page except the home page has its own 1200×630 share image

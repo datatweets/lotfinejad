@@ -9,7 +9,7 @@
       </div>
       <h1>{{ .Title }}</h1>
       <div class="byline">
-        <span class="av">{{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="">{{ else }}{{ site.Params.monoInitial }}{{ end }}</span>
+        <span class="av">{{ partial "avatar.html" (dict "w" 44 "alt" "") }}</span>
         <div>
           <b>{{ site.Params.author }}</b>
           <span class="h-meta">{{ with .Params.jdate }}{{ partial "jalali-long.html" . }}{{ end }} · {{ partial "fa-digits.html" .Params.readMinutes }} دقیقه مطالعه</span>
@@ -24,7 +24,7 @@
     {{ end }}
 
     <aside class="author-box">
-      <span class="av">{{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="">{{ end }}</span>
+      <span class="av">{{ partial "avatar.html" (dict "w" 64 "alt" "" "lazy" true) }}</span>
       <div>
         <b>{{ site.Params.author }}</b>
         <span>{{ site.Params.headline }}</span>

@@ -12,9 +12,10 @@
   {{ partial "head.html" . }}
 </head>
 <body id="top">
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
   <div class="progress" id="progress"></div>
   {{ partial "header.html" . }}
-  <main id="view">
+  <main id="main" tabindex="-1">
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}

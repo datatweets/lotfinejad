@@ -8,7 +8,7 @@
     <div class="pad">
       <div class="cv-top">
         <div class="cv-id">
-          <div class="cv-av">{{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="">{{ else }}{{ site.Params.monoInitial }}{{ end }}</div>
+          <div class="cv-av">{{ partial "avatar.html" (dict "w" 104 "alt" site.Params.author) }}</div>
           <div>
             <span class="h-eyebrow">{{ .Title }}</span>
             <h1>{{ site.Params.author }}</h1>

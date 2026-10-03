@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /outlines/
+
+Sitemap: {{ "sitemap.xml" | absURL }}

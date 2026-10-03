@@ -1,0 +1,94 @@
+{{- /* schema.org JSON-LD for search engines and AI answer engines.
+     Built from site data so it never drifts from the visible page:
+     - every page: WebSite + Person (+ BreadcrumbList off the home page)
+     - home/about/services: ProfessionalService
+     - services: Service catalogue; training: Course list
+     - posts: BlogPosting; pages with an FAQ: FAQPage
+*/ -}}
+{{- $base := site.BaseURL -}}
+{{- $personID := printf "%s#person" $base -}}
+{{- $siteID := printf "%s#website" $base -}}
+{{- $bizID := printf "%s#business" $base -}}
+{{- $img := "" -}}{{- with resources.Get "images/avatar.jpg" -}}{{- $img = (.Fill "400x400 jpg q85 Top").Permalink -}}{{- end -}}
+{{- $sameAs := slice -}}{{- range site.Data.links -}}{{- $sameAs = $sameAs | append .href -}}{{- end -}}
+
+{{- $person := dict
+  "@type" "Person" "@id" $personID
+  "name" site.Params.author "alternateName" "Mehdi Lotfinejad"
+  "jobTitle" site.Params.headline "description" (index site.Params.about 0)
+  "url" $base "image" $img "email" (printf "mailto:%s" site.Params.email)
+  "sameAs" $sameAs
+  "knowsLanguage" (slice "fa" "en")
+  "knowsAbout" (slice "هوش مصنوعی" "مهندسی داده" "علم داده" "یادگیری ماشین" "مدل‌های زبانی بزرگ" "RAG" "هوش مصنوعی ایجنتیک" "LLMOps" "Apache Spark" "Databricks" "Microsoft Fabric" "Kubernetes" "Power BI" "Model Risk Management")
+  "alumniOf" (dict "@type" "CollegeOrUniversity" "name" "Islamic Azad University")
+  "hasCredential" (slice (dict "@type" "EducationalOccupationalCredential" "name" "HRDC Accredited Trainer") (dict "@type" "EducationalOccupationalCredential" "name" "Business CORe — Harvard Business School"))
+-}}
+{{- $website := dict "@type" "WebSite" "@id" $siteID "url" $base "name" site.Title "description" site.Params.description "inLanguage" "fa-IR" "publisher" (dict "@id" $personID) -}}
+{{- $graph := slice $website $person -}}
+
+{{- /* Professional service business */ -}}
+{{- if or .IsHome (in (slice "about" "services" "consultation" "training") .Type) -}}
+  {{- $types := slice -}}{{- range site.Data.services.services.groups -}}{{- range .items -}}{{- $types = $types | append .title -}}{{- end -}}{{- end -}}
+  {{- $biz := dict "@type" "ProfessionalService" "@id" $bizID
+      "name" (printf "%s — %s" site.Params.author site.Params.headline)
+      "description" site.Params.description "url" $base "image" $img
+      "founder" (dict "@id" $personID) "employee" (dict "@id" $personID)
+      "areaServed" (dict "@type" "Country" "name" "Iran")
+      "availableLanguage" (slice "fa" "en")
+      "serviceType" $types
+      "email" site.Params.email -}}
+  {{- $graph = $graph | append $biz -}}
+{{- end -}}
+
+{{- /* Breadcrumbs */ -}}
+{{- if not .IsHome -}}
+  {{- $items := slice (dict "@type" "ListItem" "position" 1 "name" "خانه" "item" $base) -}}
+  {{- if and (eq .Section "posts") .IsPage -}}
+    {{- with site.GetPage "/posts" -}}{{- $items = $items | append (dict "@type" "ListItem" "position" 2 "name" .Title "item" .Permalink) -}}{{- end -}}
+  {{- end -}}
+  {{- $items = $items | append (dict "@type" "ListItem" "position" (add (len $items) 1) "name" .Title "item" .Permalink) -}}
+  {{- $graph = $graph | append (dict "@type" "BreadcrumbList" "itemListElement" $items) -}}
+{{- end -}}
+
+{{- /* Page-type specifics */ -}}
+{{- if and (eq .Section "posts") .IsPage -}}
+  {{- $graph = $graph | append (dict "@type" "BlogPosting" "headline" .Title "description" (.Params.summary | default .Summary | plainify)
+      "datePublished" (.Date.Format "2006-01-02") "dateModified" (.Lastmod.Format "2006-01-02")
+      "inLanguage" "fa-IR" "author" (dict "@id" $personID) "publisher" (dict "@id" $personID)
+      "mainEntityOfPage" .Permalink "image" ("images/og.jpg" | absURL) "keywords" (delimit (.Params.tags | default slice) "، ")
+      "articleSection" (.Params.category | default "")) -}}
+{{- else if eq .Type "about" -}}
+  {{- $graph = $graph | append (dict "@type" "AboutPage" "url" .Permalink "name" .Title "mainEntity" (dict "@id" $personID)) -}}
+{{- else if eq .Type "resume" -}}
+  {{- $graph = $graph | append (dict "@type" "ProfilePage" "url" .Permalink "name" .Title "mainEntity" (dict "@id" $personID)) -}}
+{{- else if eq .Type "services" -}}
+  {{- $list := slice -}}{{- $i := 0 -}}
+  {{- range site.Data.services.services.groups -}}{{- $cat := .title -}}{{- range .items -}}{{- $i = add $i 1 -}}
+    {{- $list = $list | append (dict "@type" "ListItem" "position" $i "item" (dict "@type" "Service" "name" .title "alternateName" .en "description" .desc "category" $cat "provider" (dict "@id" $bizID) "areaServed" (dict "@type" "Country" "name" "Iran"))) -}}
+  {{- end -}}{{- end -}}
+  {{- $graph = $graph | append (dict "@type" "ItemList" "name" "خدمات مشاوره‌ی داده و هوش مصنوعی" "itemListElement" $list) -}}
+{{- else if eq .Type "training" -}}
+  {{- $list := slice -}}{{- $i := 0 -}}{{- $page := . -}}
+  {{- range site.Data.training.catalog.groups -}}{{- range .courses -}}{{- $c := index site.Data.courses .slug -}}{{- $i = add $i 1 -}}
+    {{- $mods := slice -}}{{- range $c.modules -}}{{- $mods = $mods | append .t -}}{{- end -}}
+    {{- $course := dict "@type" "Course" "name" .fa "alternateName" .en "description" $c.summary
+        "url" (printf "%s#course-%s" $page.Permalink .slug) "inLanguage" "fa-IR" "educationalLevel" $c.level
+        "teaches" $c.outcomes "syllabusSections" (apply $mods "dict" "@type" "Syllabus" "name" ".")
+        "provider" (dict "@id" $personID)
+        "hasCourseInstance" (slice (dict "@type" "CourseInstance" "courseMode" "Onsite" "instructor" (dict "@id" $personID)) (dict "@type" "CourseInstance" "courseMode" "Online" "instructor" (dict "@id" $personID))) -}}
+    {{- $list = $list | append (dict "@type" "ListItem" "position" $i "item" $course) -}}
+  {{- end -}}{{- end -}}
+  {{- $graph = $graph | append (dict "@type" "ItemList" "name" "دوره‌های آموزشی داده و هوش مصنوعی" "itemListElement" $list) -}}
+{{- end -}}
+
+{{- /* FAQ (mirrors the visible FAQ on that page) */ -}}
+{{- $faq := slice -}}
+{{- if .IsHome -}}{{- $faq = site.Data.home.faq -}}
+{{- else if eq .Type "consultation" -}}{{- $faq = site.Data.consultation.faq -}}
+{{- else if eq .Type "training" -}}{{- $faq = site.Data.training.faq -}}{{- end -}}
+{{- with $faq -}}
+  {{- $qs := slice -}}{{- range . -}}{{- $qs = $qs | append (dict "@type" "Question" "name" .q "acceptedAnswer" (dict "@type" "Answer" "text" .a)) -}}{{- end -}}
+  {{- $graph = $graph | append (dict "@type" "FAQPage" "mainEntity" $qs) -}}
+{{- end -}}
+
+<script type="application/ld+json">{{ dict "@context" "https://schema.org" "@graph" $graph | jsonify | safeJS }}</script>

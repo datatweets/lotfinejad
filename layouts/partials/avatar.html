@@ -1,0 +1,9 @@
+{{- /* Resized portrait from assets/images/avatar.jpg (Hugo image processing),
+     so a 36px header avatar doesn't download the 800px original.
+     Usage: {{ partial "avatar.html" (dict "w" 72 "h" 72 "alt" "") }}
+     w/h are the *rendered* CSS size; a 2x image is generated. */ -}}
+{{- $w := .w | default 64 -}}{{- $h := .h | default $w -}}
+{{- with resources.Get "images/avatar.jpg" -}}
+  {{- $img := .Fill (printf "%dx%d webp q82 Top" (mul $w 2) (mul $h 2)) -}}
+  <img src="{{ $img.RelPermalink }}" alt="{{ $.alt }}" width="{{ $w }}" height="{{ $h }}"{{ if $.lazy }} loading="lazy" decoding="async"{{ end }}>
+{{- end -}}

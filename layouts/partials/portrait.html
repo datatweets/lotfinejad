@@ -1,0 +1,9 @@
+{{- /* Hero portrait with name/role caption (home + about). */ -}}
+<figure class="h-portrait">
+  {{ partial "avatar.html" (dict "w" 340 "h" 425 "alt" site.Params.author) }}
+  <figcaption>
+    <b>{{ site.Params.author }}</b>
+    <span>{{ site.Params.headline }}</span>
+    <small>{{ site.Data.home.card.current }}</small>
+  </figcaption>
+</figure>

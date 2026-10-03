@@ -28,7 +28,7 @@ clients: ["CIMB", "Petronas", "Shell", "TNB", "Axiata", "Magna.ai"]
 stats:
   - value: "۱۵+"
     label: "سال سابقه‌ی کار"
-  - value: "۵۰۰+"
+  - value: "۱۰۰۰+"
     label: "متخصص آموزش‌دیده"
   - value: "۹"
     label: "کشور محل پروژه‌ها"

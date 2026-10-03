@@ -1,7 +1,7 @@
 <header class="nav">
   <div class="nav-inner">
     <a class="brand" href="{{ "/" | relLangURL }}" aria-label="{{ site.Params.author }} — صفحه‌ی اصلی">
-      {{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="" width="36" height="36">{{ end }}
+      {{ partial "avatar.html" (dict "w" 36 "alt" "") }}
       <span><b>{{ site.Params.author }}</b><small>{{ site.Params.headline }}</small></span>
     </a>
     <nav class="nav-links" aria-label="ناوبری اصلی">

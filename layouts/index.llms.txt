@@ -11,7 +11,7 @@
 - [درخواست مشاوره]({{ "consultation/" | absURL }}): {{ site.Data.consultation.lead }}
 - [درباره]({{ "about/" | absURL }})
 - [رزومه]({{ "resume/" | absURL }}) — PDF: {{ site.Data.resume.pdf | absURL }}
-- [مقالات]({{ "posts/" | absURL }})
+- [یادداشت‌ها]({{ "posts/" | absURL }})
 
 ## خدمات مشاوره
 {{ range site.Data.services.services.groups }}
@@ -27,12 +27,13 @@
 {{ range site.Data.home.faq }}- {{ .q }} {{ .a }}
 {{ end }}{{ range site.Data.training.faq }}- {{ .q }} {{ .a }}
 {{ end }}
-## مقالات
+## یادداشت‌ها
 {{ range where site.RegularPages "Section" "posts" }}- [{{ .Title }}]({{ .Permalink }}): {{ .Params.summary }}
 {{ end }}
 ## تماس
-- فرم درخواست مشاوره: {{ "consultation/" | absURL }}
-- فرم درخواست برگزاری دوره: {{ "contact/" | absURL }}
+- فرم تماس (پیام عمومی، مشاوره، اجرای پروژه یا برگزاری دوره): {{ "contact/" | absURL }}
+- درخواست جلسه‌ی مشاوره: {{ "consultation/" | absURL }}
+- درخواست برگزاری یک دوره‌ی مشخص: {{ "contact/?course=" | absURL }}<عنوان فارسی دوره>
 - ایمیل: {{ site.Params.email }}
 {{ range site.Data.links }}- {{ .title }}: {{ .href }}
 {{ end -}}

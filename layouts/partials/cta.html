@@ -1,6 +1,6 @@
 {{- /* Closing call-to-action shared by every page. Default copy comes from
   data/home.yaml; pass a dict to override:
-  {{ partial "cta.html" (dict "title" "…" "text" "…" "button" "…" "href" "contact/") }} */ -}}
+  {{ partial "cta.html" (dict "title" "…" "text" "…" "button" "…" "href" "contact/?type=course") }} */ -}}
 {{ $c := site.Data.home.closing }}
 {{ $title := $c.title }}{{ $text := $c.text }}{{ $button := "درخواست جلسه‌ی مشاوره" }}{{ $href := "consultation/" | relLangURL }}
 {{ if reflect.IsMap . }}

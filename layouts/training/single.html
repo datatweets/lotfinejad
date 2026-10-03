@@ -9,7 +9,7 @@
       <h1>{{ $t.title }}</h1>
       <p class="h-lead">{{ $t.lead }}</p>
       <div class="h-cta">
-        <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}درخواست برگزاری دوره</a>
+        <a class="btn btn-primary" href="{{ "contact/?type=course" | relLangURL }}">{{ partial "icon.html" "mail" }}درخواست برگزاری دوره</a>
         <a class="btn btn-plain" href="#catalog">مشاهده‌ی فهرست دوره‌ها</a>
       </div>
     </header>
@@ -158,6 +158,6 @@
     </div>
   </section>
 
-  <div class="h-in">{{ partial "cta.html" (dict "title" "برای برگزاری دوره در سازمان خود هماهنگ کنید" "text" "موضوع، تعداد شرکت‌کنندگان و زمان مدنظر را بفرستید تا پیشنهاد آموزشی و برنامه‌ی دوره برای شما ارسال شود." "button" "درخواست برگزاری دوره" "href" "contact/") }}</div>
+  <div class="h-in">{{ partial "cta.html" (dict "title" "برای برگزاری دوره در سازمان خود هماهنگ کنید" "text" "موضوع، تعداد شرکت‌کنندگان و زمان مدنظر را بفرستید تا پیشنهاد آموزشی و برنامه‌ی دوره برای شما ارسال شود." "button" "درخواست برگزاری دوره" "href" "contact/?type=course") }}</div>
 </div>
 {{ end }}

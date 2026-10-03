@@ -1,34 +1,33 @@
 {{ define "main" }}
+{{ $d := site.Data.contact }}
 <div class="page">
   <div class="h-in">
-    {{ partial "page-head.html" (dict "eyebrow" "تماس" "title" "درخواست برگزاری دوره‌ی آموزشی" "lead" "دوره‌ی موردنظر، تعداد شرکت‌کنندگان و شیوه‌ی برگزاری را مشخص کنید تا برای نیازسنجی و هماهنگی جزئیات با شما تماس گرفته شود. برای مشاوره یا اجرای پروژه از صفحه‌ی درخواست مشاوره استفاده کنید.") }}
+    {{ partial "page-head.html" (dict "eyebrow" $d.eyebrow "title" $d.title "lead" $d.lead) }}
 
     <div class="contact-grid">
       <section class="panel" aria-labelledby="formTitle">
-        <h2 id="formTitle">فرم درخواست دوره</h2>
-        {{ partial "course-form.html" . }}
+        <h2 id="formTitle">فرم درخواست</h2>
+        {{ partial "smart-form.html" (dict "default" "message") }}
       </section>
 
       <aside class="contact-side">
-        <section class="panel">
-          <h2>پس از ثبت درخواست</h2>
-          <ol class="mini-steps">
-            <li><span>{{ partial "fa-digits.html" 1 }}</span>درخواست شما بررسی می‌شود.</li>
-            <li><span>{{ partial "fa-digits.html" 2 }}</span>برای نیازسنجی و شناخت سطح تیم با شما تماس گرفته می‌شود.</li>
-            <li><span>{{ partial "fa-digits.html" 3 }}</span>سرفصل، مدت و تمرین‌های دوره متناسب با نیاز تیم شما تنظیم می‌شود.</li>
-          </ol>
-        </section>
-        <section class="panel">
+        {{ partial "smart-steps.html" (dict "default" "message") }}
+        <section class="panel" data-for="course" hidden>
           <h2>سرفصل دوره‌ها</h2>
           <p class="side-text">سرفصل کامل هر دوره به‌صورت PDF در صفحه‌ی دوره‌ها در دسترس است.</p>
           <a class="h-more" href="{{ "training/" | relLangURL }}#catalog">مشاهده‌ی فهرست دوره‌ها {{ partial "icon.html" "arrow" }}</a>
+        </section>
+        <section class="panel" data-for="consulting project" hidden>
+          <h2>خدمات مشاوره</h2>
+          <p class="side-text">شرح هر خدمت، خروجی‌ها و نمونه‌ی سوابق اجرایی در صفحه‌ی خدمات آمده است.</p>
+          <a class="h-more" href="{{ "services/" | relLangURL }}">مشاهده‌ی خدمات {{ partial "icon.html" "arrow" }}</a>
         </section>
         <section class="panel panel-quiet">
           <h2>راه‌های دیگر</h2>
           <ul class="info-list">
             <li>{{ partial "icon.html" "mail" }}<div><span>ایمیل</span><a class="lat" dir="ltr" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></div></li>
             {{ range first 1 (where site.Data.links "title" "LinkedIn") }}<li>{{ partial "icon.html" "ext" }}<div><span>LinkedIn</span><a class="lat" dir="ltr" href="{{ .href }}" target="_blank" rel="noopener">{{ .label }}</a></div></li>{{ end }}
-            <li>{{ partial "icon.html" "grid" }}<div><span>مشاوره و اجرای پروژه</span><a href="{{ "consultation/" | relLangURL }}">درخواست جلسه‌ی مشاوره</a></div></li>
+            {{ with site.Params.bookingUrl }}<li>{{ partial "icon.html" "clock" }}<div><span>رزرو مستقیم وقت (تقویم آنلاین)</span><a href="{{ . }}" target="_blank" rel="noopener">انتخاب زمان جلسه</a></div></li>{{ end }}
           </ul>
         </section>
       </aside>

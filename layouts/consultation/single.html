@@ -8,15 +8,12 @@
     <div class="contact-grid">
       <section class="panel" aria-labelledby="formTitle">
         <h2 id="formTitle">فرم درخواست</h2>
-        {{ partial "lead-form.html" (dict "subject" "درخواست جلسه‌ی مشاوره از وب‌سایت" "submit" "ارسال درخواست مشاوره") }}
+        {{ partial "smart-form.html" (dict "default" "consulting") }}
       </section>
 
       <aside class="contact-side">
-        <section class="panel">
-          <h2>{{ $c.next.title }}</h2>
-          <ol class="mini-steps">{{ range $i, $s := $c.next.steps }}<li><span>{{ partial "fa-digits.html" (add $i 1) }}</span>{{ $s }}</li>{{ end }}</ol>
-        </section>
-        <section class="panel">
+        {{ partial "smart-steps.html" (dict "default" "consulting") }}
+        <section class="panel" data-for="consulting">
           <h2>{{ $c.topics.title }}</h2>
           <ul class="check-list">{{ range $c.topics.items }}<li>{{ partial "icon.html" "check" }}{{ . }}</li>{{ end }}</ul>
           <p class="h-note">{{ partial "icon.html" "shield" }}محرمانگی اطلاعات سازمان در همه‌ی مراحل رعایت می‌شود.</p>

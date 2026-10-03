@@ -127,7 +127,18 @@
       return data;
     }
 
-    function showFallback(data) {
+    // Explain *why* sending failed, so the site owner can tell a pending
+    // FormSubmit activation from a network block (e.g. a filtered service).
+    function reason(err) {
+      var m = String((err && err.message) || "");
+      if (/activat/i.test(m)) return "فرم هنوز فعال نشده است (مدیر سایت باید لینک فعال‌سازی ارسال‌شده به ایمیل را تأیید کند).";
+      if (err && (err.name === "AbortError" || err.name === "TypeError")) return "اتصال به سرویس ارسال فرم برقرار نشد؛ ممکن است اینترنت یا دسترسی به سرویس محدود باشد.";
+      return m ? "پاسخ سرویس: " + m : "";
+    }
+
+    function showFallback(data, err) {
+      var why = document.getElementById("leadWhy");
+      if (why) why.textContent = reason(err);
       var lines = [];
       Object.keys(data).forEach(function (k) {
         if (k.charAt(0) !== "_" && data[k]) lines.push(k + ": " + data[k]);
@@ -176,11 +187,12 @@
           form.hidden = true;
           if (done) { done.hidden = false; done.focus(); }
         })
-        .catch(function () {
+        .catch(function (err) {
           clearTimeout(timer);
           button.disabled = false;
           setStatus("", false);
-          showFallback(data);
+          if (window.console) console.warn("Lead form send failed:", err);
+          showFallback(data, err);
         });
     });
   }

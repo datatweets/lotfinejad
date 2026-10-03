@@ -24,5 +24,11 @@
     <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer
       data-is-article="{{ if eq $.Type "posts" }}{{ if not $.IsSection }}1{{ end }}{{ end }}"></script>
   {{ end }}
+  {{- /* Cookie-free analytics (Umami): production builds only, and only once
+       params.analytics.umamiWebsiteId is set in hugo.toml. Clicks on elements
+       with data-umami-event are tracked automatically; app.js sends form events. */ -}}
+  {{ with site.Params.analytics }}{{ if and hugo.IsProduction .umamiWebsiteId }}
+  <script defer src="{{ .umamiScript }}" data-website-id="{{ .umamiWebsiteId }}" data-domains="{{ site.Params.domain }}"></script>
+  {{ end }}{{ end }}
 </body>
 </html>

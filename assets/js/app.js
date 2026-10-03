@@ -311,6 +311,11 @@
       paintCount();
     });
 
+    // Analytics event (Umami), a no-op when analytics is off or blocked.
+    function track(name, data) {
+      try { if (window.umami && typeof window.umami.track === "function") window.umami.track(name, data); } catch (e) {}
+    }
+
     function setStatus(text, isError) {
       status.textContent = text;
       status.classList.toggle("is-error", !!isError);
@@ -385,6 +390,7 @@
           var ok = r.ok && String(r.body.success) === "true";
           if (!ok) throw new Error(r.body.message || "send failed");
           clearDraft();
+          track("form-submit", { topic: current, source: $("#lf-src").value });
           button.disabled = false;
           setStatus("", false);
           form.hidden = true;
@@ -395,6 +401,7 @@
           button.disabled = false;
           setStatus("", false);
           if (window.console) console.warn("Lead form send failed:", err);
+          track("form-fallback", { topic: current, reason: (err && err.name) || "error" });
           showFallback(data, err);
         });
     });

@@ -1,0 +1,7 @@
+{{- /* Find a service item in data/services.yaml by slug.
+     Usage: {{ $sv := partial "service-lookup.html" "model-monitoring" }} */ -}}
+{{- $found := dict -}}
+{{- range site.Data.services.services.groups -}}{{- $g := .title -}}
+  {{- range .items -}}{{- if eq .slug $ -}}{{- $found = merge . (dict "group" $g) -}}{{- end -}}{{- end -}}
+{{- end -}}
+{{- return $found -}}

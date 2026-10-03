@@ -1,0 +1,19 @@
+{{/* One page per service that has a `slug` and `page` block in
+     data/services.yaml, at /services/<slug>/ (layouts/services/single.html). */}}
+{{ range $g := site.Data.services.services.groups }}
+  {{ range $g.items }}
+    {{ if and .slug .page }}
+      {{ $.AddPage (dict
+          "path" .slug
+          "kind" "page"
+          "title" .title
+          "params" (dict
+              "service" .slug
+              "group" $g.title
+              "description" .desc
+              "seoTitle" (.page.seoTitle | default (printf "%s برای سازمان‌ها" .title)))
+          "sitemap" (dict "priority" 0.8)
+      ) }}
+    {{ end }}
+  {{ end }}
+{{ end }}

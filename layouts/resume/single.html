@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="actions no-print">
-          {{ with $r.pdf }}<a class="btn btn-primary" href="{{ . | relURL }}" download>{{ partial "icon.html" "doc" }}رزومه‌ی انگلیسی (PDF)</a>{{ end }}
+          {{ with $r.pdf }}<a class="btn btn-primary" href="{{ . | relURL }}" download data-umami-event="pdf-resume">{{ partial "icon.html" "doc" }}رزومه‌ی انگلیسی (PDF)</a>{{ end }}
           <button class="btn btn-plain" id="printBtn" type="button">{{ partial "icon.html" "print" }}چاپ نسخه‌ی فارسی</button>
         </div>
       </div>

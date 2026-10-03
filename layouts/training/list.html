@@ -104,13 +104,13 @@
             </div>
             <p class="tr-pre"><b>پیش‌نیاز:</b> {{ partial "bidi.html" (index $c.prereqs 0) }}</p>
             <div class="h-cta tr-course-cta">
-              <a class="btn btn-primary" href="{{ $pdf }}" target="_blank" rel="noopener">{{ partial "icon.html" "doc" }}دریافت سرفصل کامل (PDF)</a>
+              <a class="btn btn-primary" href="{{ $pdf }}" target="_blank" rel="noopener" data-umami-event="pdf-outline" data-umami-event-course="{{ .slug }}">{{ partial "icon.html" "doc" }}دریافت سرفصل کامل (PDF)</a>
               <a class="btn btn-plain" href="{{ printf "training/%s/" .slug | relLangURL }}">صفحه‌ی کامل دوره</a>
               <a class="tr-req" href="{{ "contact/" | relLangURL }}?course={{ .fa | urlquery }}">درخواست برگزاری این دوره {{ partial "icon.html" "arrow" }}</a>
             </div>
           </div>
         </details>
-        <a class="tr-pdf tr-pdf-float" href="{{ $pdf }}" target="_blank" rel="noopener" aria-label="دریافت سرفصل PDF دوره‌ی {{ .fa }}">{{ partial "icon.html" "doc" }}PDF</a>
+        <a class="tr-pdf tr-pdf-float" href="{{ $pdf }}" target="_blank" rel="noopener" data-umami-event="pdf-outline" data-umami-event-course="{{ .slug }}" aria-label="دریافت سرفصل PDF دوره‌ی {{ .fa }}">{{ partial "icon.html" "doc" }}PDF</a>
         </div>
         {{ end }}
       </div>

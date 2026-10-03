@@ -55,7 +55,7 @@
   {{- $graph = $graph | append (dict "@type" "BlogPosting" "headline" .Title "description" (.Params.summary | default .Summary | plainify)
       "datePublished" (.Date.Format "2006-01-02") "dateModified" (.Lastmod.Format "2006-01-02")
       "inLanguage" "fa-IR" "author" (dict "@id" $personID) "publisher" (dict "@id" $personID)
-      "mainEntityOfPage" .Permalink "image" ("images/og.jpg" | absURL) "keywords" (delimit (.Params.tags | default slice) "، ")
+      "mainEntityOfPage" .Permalink "image" (partial "og-image.html" .).url "keywords" (delimit (.Params.tags | default slice) "، ")
       "articleSection" (.Params.category | default "")) -}}
 {{- else if eq .Type "about" -}}
   {{- $graph = $graph | append (dict "@type" "AboutPage" "url" .Permalink "name" .Title "mainEntity" (dict "@id" $personID)) -}}
@@ -63,10 +63,17 @@
   {{- $graph = $graph | append (dict "@type" "ContactPage" "url" .Permalink "name" .Title "description" .Description "about" (dict "@id" $personID)) -}}
 {{- else if eq .Type "resume" -}}
   {{- $graph = $graph | append (dict "@type" "ProfilePage" "url" .Permalink "name" .Title "mainEntity" (dict "@id" $personID)) -}}
+{{- else if and (eq .Type "services") .IsPage -}}
+  {{- /* Service page */ -}}
+  {{- $sv := partial "service-lookup.html" .Params.service -}}
+  {{- $graph = $graph | append (dict "@type" "Service" "@id" (printf "%s#service" .Permalink)
+      "name" $sv.title "alternateName" $sv.en "description" $sv.page.intro "url" .Permalink
+      "serviceType" $sv.title "category" $sv.group "provider" (dict "@id" $bizID)
+      "areaServed" (dict "@type" "Country" "name" "Iran") "availableLanguage" (slice "fa" "en")) -}}
 {{- else if eq .Type "services" -}}
   {{- $list := slice -}}{{- $i := 0 -}}
   {{- range site.Data.services.services.groups -}}{{- $cat := .title -}}{{- range .items -}}{{- $i = add $i 1 -}}
-    {{- $list = $list | append (dict "@type" "ListItem" "position" $i "item" (dict "@type" "Service" "name" .title "alternateName" .en "description" .desc "category" $cat "provider" (dict "@id" $bizID) "areaServed" (dict "@type" "Country" "name" "Iran"))) -}}
+    {{- $list = $list | append (dict "@type" "ListItem" "position" $i "url" (cond (ne (.slug | default "") "") (printf "%sservices/%s/" $base (.slug | default "")) (printf "%sservices/" $base)) "item" (dict "@type" "Service" "name" .title "alternateName" .en "description" .desc "category" $cat "provider" (dict "@id" $bizID) "areaServed" (dict "@type" "Country" "name" "Iran"))) -}}
   {{- end -}}{{- end -}}
   {{- $graph = $graph | append (dict "@type" "ItemList" "name" "خدمات مشاوره‌ی داده و هوش مصنوعی" "itemListElement" $list) -}}
 {{- else if and (eq .Type "training") .IsPage -}}
@@ -84,7 +91,7 @@
       "name" $c.fa "alternateName" $c.en "description" $c.summary "url" .Permalink
       "inLanguage" "fa-IR" "educationalLevel" $c.level "teaches" $c.outcomes
       "coursePrerequisites" $c.prereqs "syllabusSections" $mods "keywords" (delimit ($c.tools | default slice) ", ")
-      "image" ("images/og.jpg" | absURL)
+      "image" (partial "og-image.html" .).url
       "provider" (dict "@id" $bizID)
       "offers" (dict "@type" "Offer" "category" "Paid" "url" (printf "https://%s/contact/?course=%s" site.Params.domain (urlquery $c.fa)) "availability" "https://schema.org/InStock")
       "hasCourseInstance" $inst) -}}
@@ -108,7 +115,8 @@
 {{- $faq := slice -}}
 {{- if .IsHome -}}{{- $faq = site.Data.home.faq -}}
 {{- else if eq .Type "consultation" -}}{{- $faq = site.Data.consultation.faq -}}
-{{- else if and (eq .Type "training") .IsSection -}}{{- $faq = site.Data.training.faq -}}{{- end -}}
+{{- else if and (eq .Type "training") .IsSection -}}{{- $faq = site.Data.training.faq -}}
+{{- else if and (eq .Type "services") .IsPage -}}{{- $faq = (partial "service-lookup.html" .Params.service).page.faq -}}{{- end -}}
 {{- with $faq -}}
   {{- $qs := slice -}}{{- range . -}}{{- $qs = $qs | append (dict "@type" "Question" "name" .q "acceptedAnswer" (dict "@type" "Answer" "text" .a)) -}}{{- end -}}
   {{- $graph = $graph | append (dict "@type" "FAQPage" "mainEntity" $qs) -}}

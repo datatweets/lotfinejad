@@ -23,8 +23,8 @@
       <p class="cr-en lat" dir="ltr">{{ $c.en }}</p>
       <p class="h-lead">{{ partial "bidi.html" $c.summary }} این دوره برای تیم‌های سازمانی، به‌صورت حضوری یا آنلاین و به زبان فارسی برگزار می‌شود.</p>
       <div class="h-cta">
-        <a class="btn btn-primary" href="{{ $req }}">{{ partial "icon.html" "mail" }}درخواست برگزاری این دوره</a>
-        <a class="btn btn-plain" href="{{ $pdf }}" target="_blank" rel="noopener">{{ partial "icon.html" "doc" }}دریافت سرفصل (PDF)</a>
+        <a class="btn btn-primary" href="{{ $req }}" data-umami-event="cta-click" data-umami-event-where="course-page" data-umami-event-course="{{ $slug }}">{{ partial "icon.html" "mail" }}درخواست برگزاری این دوره</a>
+        <a class="btn btn-plain" href="{{ $pdf }}" target="_blank" rel="noopener" data-umami-event="pdf-outline" data-umami-event-course="{{ $slug }}">{{ partial "icon.html" "doc" }}دریافت سرفصل (PDF)</a>
       </div>
     </header>
 

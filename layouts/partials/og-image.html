@@ -1,0 +1,12 @@
+{{- /* Share image for a page: its own card from static/images/og/<key>.jpg
+     (scripts/build-og.mjs) when it exists, else the site-wide og.jpg.
+     Returns dict: url (absolute), alt. */ -}}
+{{- $url := "images/og.jpg" | absURL -}}
+{{- $alt := printf "%s — %s" site.Params.author site.Params.headline -}}
+{{- if not .IsHome -}}{{- $key := partial "og-key.html" . -}}
+  {{- if and $key (fileExists (printf "static/images/og/%s.jpg" $key)) -}}
+    {{- $url = printf "images/og/%s.jpg" $key | absURL -}}
+    {{- $alt = .Params.ogTitle | default (.Params.seoTitle | default .Title) -}}
+  {{- end -}}
+{{- end -}}
+{{- return (dict "url" $url "alt" $alt) -}}

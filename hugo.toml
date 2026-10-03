@@ -32,6 +32,13 @@ enableGitInfo = true
   # random alias you can use instead of the plain address.
   formEndpoint = "https://formsubmit.co/ajax/lotfinejad@gmail.com"
 
+  # Cookie-free analytics (Umami). Paste the Website ID from Umami Cloud
+  # (cloud.umami.is → Settings → Websites → Edit) to switch it on. Loads only
+  # in production builds (hugo, not hugo server) and only for lotfinejad.ir.
+  [params.analytics]
+    umamiWebsiteId = ""
+    umamiScript = "https://cloud.umami.is/script.js"
+
   about = [
     "محمدمهدی لطفی‌نژاد مشاور و مدرس داده و هوش مصنوعی است و بیش از پانزده سال در زمینه‌ی مهندسی داده، یادگیری ماشین و مدل‌های زبانی بزرگ سابقه دارد. او پروژه‌های داده و هوش مصنوعی را برای سازمان‌هایی مانند بانک CIMB، Petronas، Shell، TNB و Axiata هدایت کرده و سال‌ها نیز در دانشگاه تدریس و پژوهش کرده است.",
     "کار او سه بخش اصلی دارد: مشاوره در طراحی و اجرای زیرساخت داده و سامانه‌های هوش مصنوعی، برگزاری دوره‌های جامع حضوری و آنلاین برای تیم‌های فنی، و ساخت راهکارهای هوش مصنوعی که مستقیماً در کار روزانه‌ی سازمان به کار گرفته می‌شوند.",

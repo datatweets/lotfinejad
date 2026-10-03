@@ -27,6 +27,16 @@ const env = process.env;
 const site = env.SITE_DOMAIN || "lotfinejad.ir";
 const websiteId = env.UMAMI_WEBSITE_ID;
 const mockFile = opt("--mock");
+// Accept either the share code or the whole Share URL (…/share/<code>[/…]).
+if (env.UMAMI_SHARE_ID) {
+  const m = env.UMAMI_SHARE_ID.trim().match(/\/share\/([^/?#]+)/);
+  env.UMAMI_SHARE_ID = m ? m[1] : env.UMAMI_SHARE_ID.trim();
+}
+// Which settings arrived (never the values), so a run log shows what is missing.
+if (!mockFile) {
+  const has = (k) => (env[k] ? "yes" : "no");
+  console.log(`Config: UMAMI_SHARE_ID=${has("UMAMI_SHARE_ID")} UMAMI_API_KEY=${has("UMAMI_API_KEY")} SMTP_USERNAME=${has("SMTP_USERNAME")} SMTP_PASSWORD=${has("SMTP_PASSWORD")} REPORT_TO=${has("REPORT_TO")}`);
+}
 
 if (!mockFile && (!(env.UMAMI_SHARE_ID || env.UMAMI_API_KEY) || !websiteId)) {
   console.log("UMAMI_SHARE_ID (or UMAMI_API_KEY) and UMAMI_WEBSITE_ID are required; skipping the report.");

@@ -75,16 +75,20 @@ async function connect() {
     const html = await page.text();
     console.log(`Share page: HTTP ${page.status}, ${html.length} bytes`);
     const sources = [html];
-    for (const m of html.matchAll(/src="(\/_next\/static\/[^"]+\.js)"/g)) {
-      if (sources.length > 25) break;
-      try { sources.push(await (await fetch(`https://cloud.umami.is${m[1]}`)).text()); } catch {}
+    const scripts = [...new Set([...html.matchAll(/["'(]((?:https:\/\/[^"'()\s]+)?\/_next\/static\/[^"'()\s]+?\.js)/g)].map((m) => m[1]))];
+    console.log(`Share page scripts: ${scripts.length}`);
+    for (const src of scripts.slice(0, 40)) {
+      try { sources.push(await (await fetch(src.startsWith("http") ? src : `https://cloud.umami.is${src}`)).text()); } catch {}
     }
     const found = new Set();
     for (const src of sources) {
-      for (const m of src.matchAll(/https:\/\/[a-z0-9.-]*umami\.is(?:\/[a-z0-9_\/-]*)?/gi)) found.add(m[0].replace(/\/+$/, ""));
+      // absolute URLs on umami hosts that look like an API, and configured apiUrl values
+      for (const m of src.matchAll(/https:\/\/[a-z0-9.-]*umami[a-z0-9.-]*(?:\/[a-z0-9_\/.-]*)?/gi)) found.add(m[0].replace(/\/+$/, ""));
       for (const m of src.matchAll(/apiUrl["']?\s*[:=]\s*["']([^"']+)["']/g)) found.add(m[1]);
+      for (const m of src.matchAll(/NEXT_PUBLIC_[A-Z_]*API[A-Z_]*["']?\s*[:=]\s*["']([^"']+)["']/g)) found.add(m[1]);
     }
-    const apiLike = [...found].filter((u) => /api/i.test(u));
+    console.log(`Umami URLs seen: ${[...found].slice(0, 30).join(", ") || "none"}`);
+    const apiLike = [...found].filter((u) => /api|gateway/i.test(u) && !/\.js$|script/i.test(u));
     console.log(`API bases seen on the share page: ${apiLike.join(", ") || "none"}`);
     for (const u of apiLike.reverse()) {
       const b = u.startsWith("http") ? u : `https://cloud.umami.is${u.startsWith("/") ? "" : "/"}${u}`;

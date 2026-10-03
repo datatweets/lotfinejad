@@ -808,6 +808,30 @@ fieldset.field legend { padding: 0; margin-block-end: 8px; font-size: 13.5px; fo
 .panel-quiet { background: var(--surface-2); }
 .side-text { font-size: 14.5px; color: var(--ink-2); line-height: 1.85; margin-block-end: 6px; }
 .field-hint { margin-block-start: 8px; font-size: 13px; color: var(--ink-3); }
+.field-hint { line-height: 1.8; }
+.field-hint svg { width: 15px; height: 15px; vertical-align: -3px; margin-inline-end: 4px; color: var(--accent); }
+.field-hint a { font-weight: 700; }
+/* smart form: topic cards, per-topic parts, context notes */
+.intent-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 1100px) { .intent-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.intent { position: relative; cursor: pointer; display: block; }
+.intent input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.intent-card { height: 100%; display: flex; flex-direction: column; gap: 4px; padding: 14px; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--ground); transition: border-color .15s ease, background .15s ease, box-shadow .15s ease; }
+.intent-card b { font-size: 14.5px; color: var(--ink); }
+.intent-card small { font-size: 12.5px; color: var(--ink-3); line-height: 1.7; }
+.intent-ico { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--surface); border: 1px solid var(--line); color: var(--accent); margin-block-end: 4px; }
+.intent-ico svg { width: 17px; height: 17px; }
+.intent:hover .intent-card { border-color: var(--accent-soft); }
+.intent input:checked + .intent-card { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 1px var(--accent) inset; }
+.intent input:checked + .intent-card .intent-ico { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.intent input:focus-visible + .intent-card { outline: 2px solid var(--accent); outline-offset: 2px; }
+.intent-part { border: 0; margin: 0; padding: 0; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.intent-part[hidden] { display: none; }
+.form-context { margin: 0; padding: 10px 14px; border-radius: 10px; background: var(--gold-wash); border: 1px solid var(--line); font-size: 13.5px; line-height: 1.8; color: var(--ink-2); }
+.form-context[hidden] { display: none; }
+.link-btn { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.field-count { align-self: flex-end; font-size: 12px; color: var(--ink-3); min-height: 1em; }
+.was-validated .field select:invalid { border-color: #C2410C; }
 
 .info-list { display: flex; flex-direction: column; gap: 16px; }
 .info-list li { display: flex; align-items: flex-start; gap: 12px; }

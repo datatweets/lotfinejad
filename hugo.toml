@@ -93,7 +93,7 @@ enableGitInfo = true
   weight = 40
 
 [[menu.main]]
-  name = "مقالات"
+  name = "یادداشت‌ها"
   pageRef = "/posts"
   weight = 50
 

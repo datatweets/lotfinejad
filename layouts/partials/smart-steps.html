@@ -1,0 +1,11 @@
+{{- /* "After you send" steps for the smart form; switches with the chosen
+  intent (data-for). Usage: {{ partial "smart-steps.html" (dict "default" "message") }} */ -}}
+{{ $default := .default | default "message" }}
+<section class="panel">
+  <h2>پس از ارسال</h2>
+  {{ range site.Data.contact.intents }}
+  <ol class="mini-steps" data-for="{{ .key }}"{{ if ne .key $default }} hidden{{ end }}>
+    {{ range $i, $s := .steps }}<li><span>{{ partial "fa-digits.html" (add $i 1) }}</span>{{ $s }}</li>{{ end }}
+  </ol>
+  {{ end }}
+</section>

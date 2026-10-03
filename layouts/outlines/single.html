@@ -155,7 +155,7 @@ ul, ol { padding: 0; list-style: none; }
     </section>
   </div>
 
-  {{- $req := printf "https://%s/contact/?course=%s" site.Params.domain (urlquery $c.fa) }}
+  {{- $req := printf "https://%s/contact/?course=%s&ref=pdf" site.Params.domain (urlquery $c.fa) }}
   <footer class="closing">
     <div>
       <b>درخواست برگزاری اختصاصی این دوره برای سازمان شما</b>

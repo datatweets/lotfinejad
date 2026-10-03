@@ -105,53 +105,215 @@
   var printBtn = document.getElementById("printBtn");
   if (printBtn) printBtn.addEventListener("click", function () { window.print(); });
 
-  /* ---------- lead form: real submission (FormSubmit AJAX) ----------
-     Validates in place, posts JSON, shows a success panel. If the request
-     fails (network, service blocked, not yet activated), it reveals a
-     prefilled mailto fallback so no enquiry is lost. */
+  /* ---------- smart request form (layouts/partials/smart-form.html) ----------
+     One form, four intents. The intent comes from the link (?type=, ?course=,
+     ?service=), then the referring page, then a saved draft, then the page
+     default. Parts marked data-for="<intents>" are shown only for those
+     intents; hidden fieldsets are disabled so they are neither validated nor
+     sent. Submits JSON to FormSubmit; on failure reveals a prefilled mailto. */
   var form = document.getElementById("leadForm");
   if (form) {
+    var cfg = {};
+    try { cfg = JSON.parse(document.getElementById("lf-config").textContent); } catch (e) {}
+    var intents = cfg.intents || {};
+    var sources = cfg.sources || {};
     var status = form.querySelector(".form-status");
     var button = form.querySelector('button[type="submit"]');
     var done = document.getElementById("leadDone");
     var fail = document.getElementById("leadFail");
+    var msg = document.getElementById("lf-msg");
+    var org = document.getElementById("lf-org");
+    var courseSel = document.getElementById("lf-course");
+    var DRAFT_KEY = "lnj-form-draft";
+    var ALIASES = { training: "course", course: "course", consulting: "consulting", consultation: "consulting",
+      project: "project", message: "message", other: "message", contact: "message" };
+    var qs = new URLSearchParams(location.search);
+    var current = form.getAttribute("data-default") || "message";
 
-    // Prefill from links: ?service=<title> (consultation form) and
-    // ?course=<Persian course title> (course form on /contact/)
-    try {
-      var qs = new URLSearchParams(location.search);
-      var course = qs.get("course");
-      var service = qs.get("service");
-      var msg = document.getElementById("lf-msg");
-      if (service && msg && !msg.value) {
-        msg.value = "درخواست خدمت «" + service + "».\nشرح مختصر وضعیت فعلی و هدف: ";
+    function $(sel, root) { return (root || document).querySelector(sel); }
+    function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+    function radioFor(key) { return form.querySelector('input[name="موضوع"][data-key="' + key + '"]'); }
+    function selectOption(sel, text) {
+      if (!sel || !text) return false;
+      for (var i = 0; i < sel.options.length; i++) {
+        var o = sel.options[i];
+        if (o.value === text || o.text === text) { sel.selectedIndex = i; sel.dispatchEvent(new Event("change")); return true; }
       }
-      var courseSel = document.getElementById("lf-course");
-      if (course && courseSel) {
-        for (var i = 0; i < courseSel.options.length; i++) {
-          if (courseSel.options[i].value === course || courseSel.options[i].text === course) { courseSel.selectedIndex = i; break; }
+      return false;
+    }
+    function toggle(el, on) {
+      if (on) el.removeAttribute("hidden"); else el.setAttribute("hidden", "");
+    }
+
+    /* Apply an intent: show/hide parts (form and sidebar), retitle fields. */
+    function applyIntent(key) {
+      if (!intents[key]) return;
+      current = key;
+      var c = intents[key];
+      var r = radioFor(key); if (r) r.checked = true;
+      $all("[data-for]").forEach(function (el) {
+        var on = (" " + el.getAttribute("data-for") + " ").indexOf(" " + key + " ") !== -1;
+        el.hidden = !on;
+        if (el.tagName === "FIELDSET") el.disabled = !on;
+      });
+      $("#lf-msg-label").textContent = c.msgLabel;
+      msg.placeholder = c.msgPlaceholder;
+      msg.required = !!c.msgRequired;
+      toggle($("[data-msg-req]", form), !!c.msgRequired);
+      toggle($("[data-msg-opt]", form), !c.msgRequired);
+      org.required = !!c.orgRequired;
+      toggle($("[data-org-req]", form), !!c.orgRequired);
+      toggle($("[data-org-opt]", form), !c.orgRequired);
+      $("#lf-submit").textContent = c.submit;
+      $("#leadDoneText").textContent = c.done;
+      var when = $('label[for="lf-when"]');
+      if (when) when.firstChild.nodeValue = (key === "course" ? when.getAttribute("data-label-course") : when.getAttribute("data-label")) + " ";
+    }
+
+    /* Keep the address bar in step with the chosen topic (shareable, survives reload). */
+    function syncUrl(key) {
+      try {
+        var u = new URL(location.href);
+        u.searchParams.set("type", key);
+        if (key !== "course") u.searchParams.delete("course");
+        if (key !== "consulting" && key !== "project") u.searchParams.delete("service");
+        history.replaceState(null, "", u.pathname + u.search + u.hash);
+      } catch (e) {}
+    }
+
+    /* Where did the visitor come from? ?ref= wins, then a same-site referrer. */
+    var refKey = qs.get("ref") || "";
+    var refIntent = "";
+    try {
+      if (!refKey && document.referrer) {
+        var ru = new URL(document.referrer);
+        if (ru.host === location.host && ru.pathname !== location.pathname) {
+          refKey = ru.pathname.split("/").filter(Boolean)[0] || "home";
+        } else if (ru.host !== location.host) {
+          refKey = ru.host;
         }
       }
     } catch (e) {}
+    if (refKey === "training" || refKey === "outlines" || refKey === "pdf") refIntent = "course";
+    else if (refKey === "services") refIntent = "consulting";
+    var srcText = sources[refKey] || refKey;
+    if (qs.get("utm_source")) srcText = (srcText ? srcText + " · " : "") + "utm: " + qs.get("utm_source");
+    $("#lf-src").value = srcText || "مستقیم";
 
-    // Preselect the request type from ?type=training|consulting|project|other
-    try {
-      var want = new URLSearchParams(location.search).get("type");
-      if (want) {
-        var pre = form.querySelector('input[data-key="' + want + '"]');
-        if (pre) pre.checked = true;
+    /* Saved draft (per-browser convenience only). */
+    var draft = null;
+    try { draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); } catch (e) {}
+
+    /* Resolve the intent. */
+    var course = qs.get("course"), service = qs.get("service");
+    var linkIntent = ALIASES[qs.get("type") || ""] || (course ? "course" : service ? "consulting" : "");
+    var chosen = linkIntent || refIntent || (draft && draft.intent) || current;
+    applyIntent(intents[chosen] ? chosen : current);
+
+    // Restore the draft first, then let the link's specifics win.
+    var restored = false;
+    if (draft && draft.fields) {
+      Object.keys(draft.fields).forEach(function (name) {
+        var v = draft.fields[name];
+        $all('[name="' + name.replace(/"/g, '\\"') + '"]', form).forEach(function (el) {
+          if (el.type === "hidden" || name === "موضوع") return;
+          if (el.type === "radio") { if (el.value === v) { el.checked = true; restored = true; } }
+          else if (!el.value && v) { el.value = v; restored = true; if (el.tagName === "SELECT") el.dispatchEvent(new Event("change")); }
+        });
+      });
+    }
+    if (restored) toggle($("#lf-draft"), true);
+
+    var ctx = $("#lf-context");
+    if (course && selectOption(courseSel, course)) {
+      ctx.textContent = "این فرم برای درخواست دوره‌ی «" + course + "» تنظیم شده است. در صورت نیاز می‌توانید دوره یا موضوع را تغییر دهید.";
+      ctx.hidden = false;
+    } else if (service) {
+      var target = current === "project" ? $("#lf-ptype") : $("#lf-service");
+      if (selectOption(target, service)) {
+        ctx.textContent = "این فرم برای خدمت «" + service + "» تنظیم شده است. در صورت نیاز می‌توانید موضوع را تغییر دهید.";
+        ctx.hidden = false;
       }
-    } catch (e) {}
-
-    function setStatus(text, isError) {
-      status.textContent = text;
-      status.classList.toggle("is-error", !!isError);
+    } else if (!linkIntent && refIntent && intents[refIntent]) {
+      ctx.textContent = "بر اساس صفحه‌ای که از آن آمده‌اید، موضوع «" + intents[refIntent].label + "» انتخاب شده است. در صورت نیاز آن را تغییر دهید.";
+      ctx.hidden = false;
     }
 
+    /* Topic change by the visitor. */
+    $all('input[name="موضوع"]', form).forEach(function (r) {
+      r.addEventListener("change", function () {
+        if (!r.checked) return;
+        applyIntent(r.getAttribute("data-key"));
+        syncUrl(current);
+        ctx.hidden = true;
+        form.classList.remove("was-validated");
+        setStatus("", false);
+        saveDraft();
+      });
+    });
+
+    /* Course → link to its PDF outline; service → its description. */
+    if (courseSel) courseSel.addEventListener("change", function () {
+      var o = courseSel.options[courseSel.selectedIndex], box = $("#lf-pdf");
+      var pdf = o && o.getAttribute("data-pdf");
+      if (pdf) $("a", box).href = pdf;
+      box.hidden = !pdf;
+    });
+    $all("select[data-service]", form).forEach(function (sel) {
+      sel.addEventListener("change", function () {
+        var o = sel.options[sel.selectedIndex], box = $('[data-desc-for="' + sel.id + '"]', form);
+        var d = o && o.getAttribute("data-desc");
+        box.textContent = d || "";
+        box.hidden = !d;
+      });
+    });
+
+    // Paint hints for selections made by the link or the draft above.
+    $all("select", form).forEach(function (s) { s.dispatchEvent(new Event("change")); });
+
+    /* Character counter for the message. */
+    var count = $("#lf-count");
+    function paintCount() {
+      var n = msg.value.length, max = msg.maxLength;
+      count.textContent = n > max * 0.6 ? (n.toLocaleString("fa-IR") + " / " + max.toLocaleString("fa-IR")) : "";
+    }
+    msg.addEventListener("input", paintCount);
+
+    /* Draft autosave. */
     function fields() {
       var data = {};
       new FormData(form).forEach(function (v, k) { data[k] = typeof v === "string" ? v.trim() : v; });
       return data;
+    }
+    var saveTimer;
+    function saveDraft() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(function () {
+        var f = {};
+        $all("input, select, textarea", form).forEach(function (el) {
+          if (!el.name || el.type === "hidden" || el.name.charAt(0) === "_" || el.name === "موضوع") return;
+          if (el.type === "radio") { if (el.checked) f[el.name] = el.value; }
+          else if (el.value) f[el.name] = el.value;
+        });
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ intent: current, fields: f })); } catch (e) {}
+      }, 400);
+    }
+    function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); } catch (e) {} }
+    form.addEventListener("input", saveDraft);
+    form.addEventListener("change", saveDraft);
+    $("#lf-clear").addEventListener("click", function () {
+      var keep = current;
+      form.reset();
+      clearDraft();
+      applyIntent(keep);
+      $all("select", form).forEach(function (s) { s.dispatchEvent(new Event("change")); });
+      $("#lf-draft").hidden = true;
+      paintCount();
+    });
+
+    function setStatus(text, isError) {
+      status.textContent = text;
+      status.classList.toggle("is-error", !!isError);
     }
 
     // Explain *why* sending failed, so the site owner can tell a pending
@@ -179,12 +341,20 @@
       if (fail) fail.hidden = false;
     }
 
+    /* Subject line that tells the inbox what this is at a glance. */
+    function subjectFor(data) {
+      var c = intents[current] || {};
+      var topic = data["دوره"] || data["حوزه‌ی مشاوره"] || data["نوع پروژه"] || data["عنوان"] || "";
+      var who = data["سازمان و سمت"] || data["نام"] || "";
+      return [c.subject || "درخواست از وب‌سایت", topic, who].filter(Boolean).join(" — ");
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (fail) fail.hidden = true;
 
       if (!form.checkValidity()) {
-        var bad = form.querySelector(":invalid");
+        var bad = form.querySelector(":invalid:not(fieldset)");
         setStatus("لطفاً فیلدهای ستاره‌دار را کامل و درست وارد کنید.", true);
         form.classList.add("was-validated");
         if (bad) bad.focus();
@@ -193,6 +363,9 @@
 
       var data = fields();
       if (data._honey) return; // bot
+      Object.keys(data).forEach(function (k) { if (data[k] === "") delete data[k]; }); // keep the email table short
+      data._subject = subjectFor(data);
+      data["صفحه"] = location.pathname;
 
       button.disabled = true;
       setStatus("در حال ارسال…", false);
@@ -211,6 +384,9 @@
           clearTimeout(timer);
           var ok = r.ok && String(r.body.success) === "true";
           if (!ok) throw new Error(r.body.message || "send failed");
+          clearDraft();
+          button.disabled = false;
+          setStatus("", false);
           form.hidden = true;
           if (done) { done.hidden = false; done.focus(); }
         })
@@ -221,6 +397,21 @@
           if (window.console) console.warn("Lead form send failed:", err);
           showFallback(data, err);
         });
+    });
+
+    var again = document.getElementById("leadAgain");
+    if (again) again.addEventListener("click", function () {
+      var keepName = $("#lf-name").value, keepEmail = $("#lf-email").value, keepOrg = org.value, keepPhone = $("#lf-phone").value;
+      form.reset();
+      $("#lf-name").value = keepName; $("#lf-email").value = keepEmail; org.value = keepOrg; $("#lf-phone").value = keepPhone;
+      applyIntent(current);
+      $all("select", form).forEach(function (s) { s.dispatchEvent(new Event("change")); });
+      $("#lf-draft").hidden = true; $("#lf-context").hidden = true;
+      paintCount();
+      done.hidden = true;
+      form.hidden = false;
+      form.classList.remove("was-validated");
+      $("#lf-name").focus();
     });
   }
 })();

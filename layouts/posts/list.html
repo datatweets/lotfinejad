@@ -9,7 +9,7 @@
     <div class="filters" id="postFilters">
       <button class="chip is-on" type="button" data-cat="همه">همه</button>
       {{ range $cats }}<button class="chip" type="button" data-cat="{{ . }}">{{ . }}</button>{{ end }}
-      <span class="search">{{ partial "icon.html" "search" }}<input id="postSearch" type="search" placeholder="جست‌وجو در مقالات" aria-label="جست‌وجو در مقالات" autocomplete="off"></span>
+      <span class="search">{{ partial "icon.html" "search" }}<input id="postSearch" type="search" placeholder="جست‌وجو در یادداشت‌ها" aria-label="جست‌وجو در یادداشت‌ها" autocomplete="off"></span>
     </div>
 
     <div class="post-list" id="postList">
@@ -23,7 +23,7 @@
         <p class="excerpt">{{ .Params.summary }}</p>
       </article>
       {{ end }}
-      <p class="empty" id="postEmpty" hidden>مقاله‌ای با این مشخصات پیدا نشد.</p>
+      <p class="empty" id="postEmpty" hidden>یادداشتی با این مشخصات پیدا نشد.</p>
     </div>
     {{ partial "cta.html" . }}
   </div>

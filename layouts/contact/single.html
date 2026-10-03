@@ -14,7 +14,6 @@
           <h2>اطلاعات تماس</h2>
           <ul class="info-list">
             <li>{{ partial "icon.html" "mail" }}<div><span>ایمیل</span><a class="lat" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></div></li>
-            <li>{{ partial "icon.html" "pin" }}<div><span>محل فعلی</span><b>{{ site.Data.resume.location }}</b></div></li>
             {{ range first 2 site.Data.links }}<li>{{ partial "icon.html" "ext" }}<div><span>{{ .title }}</span><a class="lat" dir="ltr" href="{{ .href }}" target="_blank" rel="noopener">{{ .label }}</a></div></li>{{ end }}
           </ul>
         </section>

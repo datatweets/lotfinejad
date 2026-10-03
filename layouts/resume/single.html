@@ -21,7 +21,6 @@
       </div>
       <div class="cv-roles">{{ range $i, $e := $r.roles }}{{ if $i }}<i aria-hidden="true"></i>{{ end }}<bdi>{{ $e }}</bdi>{{ end }}</div>
       <div class="cv-contact">
-        <span>{{ partial "icon.html" "pin" }}{{ $r.location }}</span>
         {{ range $r.contact }}<a href="{{ .href }}"{{ if hasPrefix .href "http" }} target="_blank" rel="noopener"{{ end }}>{{ partial "icon.html" .icon }}<bdi class="lat">{{ .label }}</bdi></a>{{ end }}
       </div>
       <p class="cv-summary">{{ $r.summary }}</p>
@@ -50,7 +49,7 @@
           <div class="cv-job-head">
             <div>
               <h3><bdi>{{ .role }}</bdi></h3>
-              <div class="cv-org"><bdi>{{ .org }}</bdi><span class="dot"></span><span>{{ .place }}</span></div>
+              <div class="cv-org"><bdi>{{ .org }}</bdi></div>
             </div>
             <span class="cv-when">{{ if .current }}<i aria-hidden="true"></i>{{ end }}{{ .when }}</span>
           </div>

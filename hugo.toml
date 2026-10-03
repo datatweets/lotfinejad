@@ -36,7 +36,7 @@ enableGitInfo = true
   # (cloud.umami.is → Settings → Websites → Edit) to switch it on. Loads only
   # in production builds (hugo, not hugo server) and only for lotfinejad.ir.
   [params.analytics]
-    umamiWebsiteId = ""
+    umamiWebsiteId = "79b750c9-0c59-4886-9f0f-ba74462f7798"
     umamiScript = "https://cloud.umami.is/script.js"
 
   about = [

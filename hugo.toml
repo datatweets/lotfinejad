@@ -3,6 +3,7 @@ languageCode = "fa-ir"
 defaultContentLanguage = "fa"
 title = "محمدمهدی لطفی‌نژاد"
 enableRobotsTXT = true
+disableKinds = ["taxonomy", "term"]
 summaryLength = 40
 
 [pagination]
@@ -11,17 +12,10 @@ summaryLength = 40
 [params]
   description = "محمدمهدی لطفی‌نژاد، مشاور و مدرس داده و هوش مصنوعی: مشاوره، اجرای پروژه و برگزاری دوره‌های جامع حضوری و آنلاین برای سازمان‌ها."
   author = "محمدمهدی لطفی‌نژاد"
-  brand = "لطفی‌نژاد"
-  brandMark = "ل"
-  monoInitial = "م.ل"
   headline = "مشاور و مدرس داده و هوش مصنوعی"
   tagline = "مشاوره، اجرای پروژه و برگزاری دوره‌های آموزشی داده و هوش مصنوعی برای سازمان‌ها."
   email = "lotfinejad@gmail.com"
   domain = "lotfinejad.ir"
-  coverTag = "Data & AI"
-  direction = "rtl"
-  githubUser = "datatweets"
-  avatarImage = "/images/avatar.jpg"
   # Lead forms post here (FormSubmit: free, no backend). The first submission
   # sends a one-time activation email to this address; click it once and all
   # later submissions are delivered. After activation FormSubmit also offers a
@@ -42,12 +36,15 @@ summaryLength = 40
     "هزینه و سرعت پاسخ‌گویی سامانه بخشی از کیفیت آن است، نه موضوعی فرعی."
   ]
 
-[taxonomies]
-  tag = "tags"
-  category = "categories"
+
+[outputFormats.llms]
+  mediaType = "text/plain"
+  baseName = "llms"
+  isPlainText = true
+  notAlternative = true
 
 [outputs]
-  home = ["HTML", "RSS"]
+  home = ["HTML", "RSS", "llms"]
   section = ["HTML", "RSS"]
 
 [markup]
@@ -64,40 +61,28 @@ summaryLength = 40
   name = "خانه"
   pageRef = "/"
   weight = 10
-  params = { icon = "home" }
 
 [[menu.main]]
   name = "درباره"
   pageRef = "/about"
   weight = 20
-  params = { icon = "user" }
 
 [[menu.main]]
   name = "خدمات"
   pageRef = "/services"
   weight = 22
-  params = { icon = "grid" }
 
 [[menu.main]]
   name = "دوره‌ها"
   pageRef = "/training"
   weight = 25
-  params = { icon = "people" }
 
 [[menu.main]]
   name = "رزومه"
   pageRef = "/resume"
   weight = 40
-  params = { icon = "doc" }
 
 [[menu.main]]
   name = "مقالات"
   pageRef = "/posts"
   weight = 50
-  params = { icon = "news" }
-
-[[menu.main]]
-  name = "تماس"
-  pageRef = "/contact"
-  weight = 60
-  params = { icon = "mail" }

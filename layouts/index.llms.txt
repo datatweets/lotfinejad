@@ -1,0 +1,37 @@
+# {{ site.Params.author }} ({{ site.Params.domain }})
+
+> {{ site.Params.description }}
+
+{{ range site.Params.about }}{{ . }}
+
+{{ end -}}
+## صفحات اصلی
+- [خدمات مشاوره]({{ "services/" | absURL }}): {{ site.Data.services.lead }}
+- [دوره‌های آموزشی]({{ "training/" | absURL }}): {{ site.Data.training.lead }}
+- [درخواست مشاوره]({{ "consultation/" | absURL }}): {{ site.Data.consultation.lead }}
+- [درباره]({{ "about/" | absURL }})
+- [رزومه]({{ "resume/" | absURL }}) — PDF: {{ site.Data.resume.pdf | absURL }}
+- [مقالات]({{ "posts/" | absURL }})
+
+## خدمات مشاوره
+{{ range site.Data.services.services.groups }}
+### {{ .title }}
+{{ range .items }}- {{ .title }} ({{ .en }}): {{ .desc }} تجربه‌ی مرتبط: {{ .evidence }}
+{{ end }}{{ end }}
+## دوره‌های آموزشی (حضوری یا آنلاین، به زبان فارسی)
+{{ range site.Data.training.catalog.groups }}
+### {{ .title }}
+{{ range .courses }}{{ $c := index site.Data.courses .slug }}- {{ .fa }} ({{ .en }}) — سطح: {{ $c.level }}. {{ $c.summary }} سرفصل PDF: {{ printf "files/outlines/%s.pdf" .slug | absURL }}
+{{ end }}{{ end }}
+## پرسش‌های متداول
+{{ range site.Data.home.faq }}- {{ .q }} {{ .a }}
+{{ end }}{{ range site.Data.training.faq }}- {{ .q }} {{ .a }}
+{{ end }}
+## مقالات
+{{ range where site.RegularPages "Section" "posts" }}- [{{ .Title }}]({{ .Permalink }}): {{ .Params.summary }}
+{{ end }}
+## تماس
+- فرم درخواست: {{ "consultation/" | absURL }}
+- ایمیل: {{ site.Params.email }}
+{{ range site.Data.links }}- {{ .title }}: {{ .href }}
+{{ end -}}

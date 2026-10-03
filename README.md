@@ -42,7 +42,7 @@ already in sync with `origin/main`) is a normal, silent no-op.
 
 Most identity/profile content lives in **config and data files**, not
 Markdown, since it's reused across several pages (home, about, resume,
-contact, footer). Site copy is written in formal third-person/impersonal
+consultation, footer). Site copy is written in formal third-person/impersonal
 Persian — no first person:
 
 | Path                    | Purpose                                                        |
@@ -63,7 +63,6 @@ Persian — no first person:
 | `content/_index.md`     | Home page (front matter only — body isn't used)                 |
 | `content/about.md`      | About page (`type: about`)                                       |
 | `content/resume.md`     | Resume page (`type: resume`)                                     |
-| `content/contact.md`    | Contact page (`type: contact`)                                   |
 | `content/posts/`        | Blog posts — real Markdown content                                |
 
 `hugo.toml`'s `email` param is still the placeholder `you@lotfinejad.ir` —
@@ -166,3 +165,21 @@ hugo server                       # terminal 1
 npm i -D playwright               # once
 node scripts/build-outlines.mjs   # terminal 2 (default base http://localhost:1313)
 ```
+
+## SEO and answer engines
+
+- `layouts/partials/head.html`: titles (`Page | Name`), per-page descriptions
+  (front matter `description`, else a post's `summary`), canonical, Open Graph /
+  Twitter tags with the share image `static/images/og.jpg` (1200×630).
+- `layouts/partials/schema.html`: one JSON-LD `@graph` per page, built from the
+  same data files as the visible content — WebSite + Person everywhere,
+  ProfessionalService, BreadcrumbList, BlogPosting (posts), Service list
+  (`/services/`), Course list (`/training/`) and FAQPage wherever an FAQ is shown.
+- `/llms.txt` (template `layouts/index.llms.txt`): a plain-text summary of
+  services, courses, FAQ and contact for AI answer engines; regenerated on build.
+- `layouts/robots.txt` points to the sitemap and keeps `/outlines/` (print
+  pages) out of the index; taxonomy pages are disabled.
+- No third-party fonts: only self-hosted Vazirmatn (Google Fonts is slow or
+  filtered for many Iranian visitors). The portrait is resized by Hugo from
+  `assets/images/avatar.jpg` (`layouts/partials/avatar.html`).
+- `/contact/` redirects to `/consultation/` (alias), the single enquiry page.

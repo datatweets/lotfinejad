@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="page">
+  <div class="h-in">
+    {{ partial "page-head.html" (dict "eyebrow" "خطای ۴۰۴" "title" "صفحه‌ی موردنظر پیدا نشد" "lead" "ممکن است نشانی تغییر کرده یا صفحه حذف شده باشد. از پیوندهای زیر می‌توانید به بخش موردنظر بروید.") }}
+    <div class="h-cta" style="margin-block-start:0">
+      <a class="btn btn-primary" href="{{ "/" | relLangURL }}">صفحه‌ی اصلی</a>
+      <a class="btn btn-plain" href="{{ "services/" | relLangURL }}">خدمات مشاوره</a>
+      <a class="btn btn-plain" href="{{ "training/" | relLangURL }}">دوره‌های آموزشی</a>
+      <a class="btn btn-plain" href="{{ "consultation/" | relLangURL }}">درخواست مشاوره</a>
+    </div>
+  </div>
+</div>
+{{ end }}

@@ -12,6 +12,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
+<meta name="description" content="{{ $c.summary }}">
 <title>سرفصل دوره‌ی {{ $c.fa }} · {{ site.Params.author }}</title>
 <style>
 @font-face { font-family: "Vazirmatn"; src: url("{{ "fonts/vazirmatn/static/Vazirmatn-400.woff2" | relURL }}") format("woff2"); font-weight: 400; font-display: block; }
@@ -86,7 +87,8 @@ ul, ol { padding: 0; list-style: none; }
 .closing { margin: 4mm 14mm 10mm; padding: 10px 14px; border-radius: 10px; background: var(--gold-wash); display: flex; justify-content: space-between; align-items: center; gap: 12px; break-inside: avoid; }
 .closing b { display: block; font-size: 10.5pt; }
 .closing p { font-size: 9pt; color: var(--ink-2); }
-.closing .site { font-size: 9.5pt; font-weight: 700; color: var(--lapis); direction: ltr; white-space: nowrap; }
+.closing .req { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 14px; border-radius: 10px; background: var(--lapis); color: #fff; text-decoration: none; font-weight: 700; font-size: 10pt; white-space: nowrap; }
+.closing .req span { font-size: 8pt; font-weight: 400; color: #C9D5EA; direction: ltr; }
 
 .toolbar { max-width: 210mm; margin: 16px auto 0; display: flex; justify-content: space-between; gap: 10px; font-family: inherit; }
 .toolbar a { font-size: 10pt; color: var(--lapis); text-decoration: none; font-weight: 600; }
@@ -107,7 +109,6 @@ ul, ol { padding: 0; list-style: none; }
   <header class="cover">
     <div class="cover-top">
       <div class="brand">
-        <img src="{{ "images/avatar-160.jpg" | relURL }}" alt="" width="34" height="34">
         <div><b>{{ site.Params.author }}</b>{{ site.Params.headline }}</div>
       </div>
       <span>{{ $group }}</span>
@@ -154,12 +155,13 @@ ul, ol { padding: 0; list-style: none; }
     </section>
   </div>
 
+  {{- $req := printf "https://%s/consultation/?type=training&course=%s" site.Params.domain (urlquery $c.fa) }}
   <footer class="closing">
     <div>
-      <b>برگزاری اختصاصی برای سازمان شما</b>
-      <p>سرفصل، مدت، سطح و تمرین‌های این دوره بر اساس نیاز تیم شما تنظیم می‌شود. آموزش به زبان فارسی و به‌صورت حضوری یا آنلاین برگزار می‌شود.</p>
+      <b>درخواست برگزاری اختصاصی این دوره برای سازمان شما</b>
+      <p>سرفصل، مدت، سطح و تمرین‌های دوره بر اساس نیاز تیم شما تنظیم می‌شود و آموزش به زبان فارسی، به‌صورت حضوری یا آنلاین برگزار می‌شود. برای ثبت درخواست، فرم مربوط به همین دوره را تکمیل کنید.</p>
     </div>
-    <span class="site">{{ site.Params.domain }}/consultation</span>
+    <a class="req" href="{{ $req }}">ثبت درخواست این دوره<span>{{ site.Params.domain }}/consultation</span></a>
   </footer>
 </main>
 </body>

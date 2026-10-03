@@ -15,14 +15,7 @@
       </div>
       <p class="h-audience">{{ partial "icon.html" "people" }}{{ $h.audience }}</p>
     </div>
-    <figure class="h-portrait">
-      {{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="{{ site.Params.author }}" width="400" height="500">{{ end }}
-      <figcaption>
-        <b>{{ site.Params.author }}</b>
-        <span>{{ site.Params.headline }}</span>
-        <small>{{ $h.card.current }}</small>
-      </figcaption>
-    </figure>
+    {{ partial "portrait.html" . }}
   </section>
 
   {{/* ---------- trust bar ---------- */}}
@@ -46,6 +39,7 @@
     <header class="h-sec-head">
       <h2>خدمات</h2>
       <p>از برنامه‌ریزی و طراحی تا اجرا و آموزش تیم؛ متناسب با مرحله‌ای که سازمان شما در آن قرار دارد.</p>
+      <a class="h-more" href="{{ "services/" | relLangURL }}">مشاهده‌ی همه‌ی خدمات مشاوره {{ partial "icon.html" "arrow" }}</a>
     </header>
     <div class="h-services">
       {{ range $h.services }}

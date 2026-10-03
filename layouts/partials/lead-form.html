@@ -56,6 +56,7 @@
 
 <div class="form-fail" id="leadFail" hidden>
   <p><b>ارسال فرم با مشکل روبه‌رو شد.</b> لطفاً درخواست خود را مستقیم به ایمیل زیر بفرستید؛ متن شما آماده شده است.</p>
+  <p class="form-why" id="leadWhy"></p>
   <div class="h-cta">
     <a class="btn btn-primary" id="leadMailto" href="mailto:{{ site.Params.email }}">{{ partial "icon.html" "mail" }}ارسال با ایمیل</a>
     <span class="lat form-email" dir="ltr">{{ site.Params.email }}</span>

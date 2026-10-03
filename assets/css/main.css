@@ -772,6 +772,8 @@ fieldset.field legend { padding: 0; margin-block-end: 8px; font-size: 13.5px; fo
 .form-done p { margin-block-start: 8px; font-size: 15px; color: var(--ink-2); line-height: 1.9; max-width: 48ch; margin-inline: auto; }
 .form-fail { margin-block-start: 16px; padding: 16px 18px; border-radius: 12px; background: var(--gold-wash); border: 1px solid var(--line); font-size: 14.5px; line-height: 1.9; }
 .form-fail .h-cta { margin-block-start: 12px; }
+.form-why { margin-block-start: 4px; font-size: 13px; color: var(--ink-3); }
+.form-why:empty { display: none; }
 .form-email { font-size: 14px; color: var(--ink-2); user-select: all; }
 .mini-steps { display: flex; flex-direction: column; gap: 12px; }
 .mini-steps li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 14.5px; line-height: 1.8; }

@@ -155,13 +155,13 @@ ul, ol { padding: 0; list-style: none; }
     </section>
   </div>
 
-  {{- $req := printf "https://%s/consultation/?type=training&course=%s" site.Params.domain (urlquery $c.fa) }}
+  {{- $req := printf "https://%s/contact/?course=%s" site.Params.domain (urlquery $c.fa) }}
   <footer class="closing">
     <div>
       <b>درخواست برگزاری اختصاصی این دوره برای سازمان شما</b>
       <p>سرفصل، مدت، سطح و تمرین‌های دوره بر اساس نیاز تیم شما تنظیم می‌شود و آموزش به زبان فارسی، به‌صورت حضوری یا آنلاین برگزار می‌شود. برای ثبت درخواست، فرم مربوط به همین دوره را تکمیل کنید.</p>
     </div>
-    <a class="req" href="{{ $req }}">ثبت درخواست این دوره<span>{{ site.Params.domain }}/consultation</span></a>
+    <a class="req" href="{{ $req }}">ثبت درخواست این دوره<span>{{ site.Params.domain }}/contact</span></a>
   </footer>
 </main>
 </body>

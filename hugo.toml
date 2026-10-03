@@ -5,6 +5,16 @@ title = "محمدمهدی لطفی‌نژاد"
 enableRobotsTXT = true
 disableKinds = ["taxonomy", "term"]
 summaryLength = 40
+# Sitemap lastmod: a page's own lastmod/date (posts), else its last git commit
+# (the deploy workflow checks out full history: fetch-depth: 0).
+enableGitInfo = true
+
+[frontmatter]
+  lastmod = ["lastmod", "date", ":git"]
+
+[sitemap]
+  changeFreq = "monthly"
+  priority = 0.5
 
 [pagination]
   pagerSize = 8
@@ -86,3 +96,8 @@ summaryLength = 40
   name = "مقالات"
   pageRef = "/posts"
   weight = 50
+
+[[menu.main]]
+  name = "تماس"
+  pageRef = "/contact"
+  weight = 60

@@ -22,7 +22,7 @@
           <li><a href="{{ "consultation/?type=consulting" | relLangURL }}">مشاوره‌ی داده و هوش مصنوعی</a></li>
           <li><a href="{{ "consultation/?type=project" | relLangURL }}">اجرای پروژه</a></li>
           <li><a href="{{ "training/" | relLangURL }}">دوره‌های آموزشی سازمانی</a></li>
-          <li><a href="{{ "consultation/?type=training" | relLangURL }}">درخواست برگزاری دوره</a></li>
+          <li><a href="{{ "contact/" | relLangURL }}">درخواست برگزاری دوره</a></li>
         </ul>
       </nav>
 
@@ -36,7 +36,8 @@
         <ul class="ft-contact">
           <li><span>ایمیل</span><a class="ft-mail" dir="ltr" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></li>
           {{ with site.Params.bookingUrl }}<li><span>رزرو آنلاین وقت</span><a href="{{ . }}" target="_blank" rel="noopener">انتخاب زمان جلسه</a></li>{{ end }}
-          <li><span>فرم درخواست</span><a href="{{ "consultation/" | relLangURL }}">ارسال پیام</a></li>
+          <li><span>درخواست مشاوره</span><a href="{{ "consultation/" | relLangURL }}">فرم مشاوره</a></li>
+          <li><span>درخواست دوره</span><a href="{{ "contact/" | relLangURL }}">فرم برگزاری دوره</a></li>
         </ul>
       </div>
     </div>

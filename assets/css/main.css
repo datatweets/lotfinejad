@@ -806,6 +806,8 @@ fieldset.field legend { padding: 0; margin-block-end: 8px; font-size: 13.5px; fo
 .mini-steps li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 14.5px; line-height: 1.8; }
 .mini-steps span { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--gold); color: var(--gold); font-weight: 800; font-size: 13px; margin-block-start: 1px; }
 .panel-quiet { background: var(--surface-2); }
+.side-text { font-size: 14.5px; color: var(--ink-2); line-height: 1.85; margin-block-end: 6px; }
+.field-hint { margin-block-start: 8px; font-size: 13px; color: var(--ink-3); }
 
 .info-list { display: flex; flex-direction: column; gap: 16px; }
 .info-list li { display: flex; align-items: flex-start; gap: 12px; }

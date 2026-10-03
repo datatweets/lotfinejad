@@ -1,21 +1,49 @@
 <footer class="site-footer">
-  <div class="h-in footer-grid">
-    <div class="footer-about">
-      <b>{{ site.Params.author }}</b>
-      <span>{{ site.Params.headline }}</span>
-      <p>{{ site.Params.tagline }}</p>
-      <a class="lat" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
+  <div class="h-in">
+    <div class="ft-top">
+      <a class="ft-brand" href="{{ "/" | relLangURL }}">
+        {{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="" width="52" height="52" loading="lazy">{{ end }}
+        <span><b>{{ site.Params.author }}</b><small>{{ site.Params.headline }}</small></span>
+      </a>
+      <a class="btn btn-gold" href="{{ "consultation/" | relLangURL }}">{{ partial "icon.html" "mail" }}درخواست جلسه‌ی مشاوره</a>
     </div>
-    <nav aria-label="صفحات">
-      <h2>صفحات</h2>
-      <ul>{{ range site.Menus.main }}<li><a href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>{{ end }}</ul>
-    </nav>
-    <nav aria-label="شبکه‌های اجتماعی">
-      <h2>شبکه‌های اجتماعی</h2>
-      <ul>{{ range site.Data.links }}<li><a href="{{ .href }}" target="_blank" rel="noopener">{{ .title }}</a></li>{{ end }}</ul>
-    </nav>
-  </div>
-  <div class="h-in footer-bottom">
-    <span>© {{ partial "fa-digits.html" "1405" }} {{ site.Params.author }} · تمامی حقوق محفوظ است.</span>
+
+    <div class="ft-grid">
+      <div class="ft-about">
+        <p>{{ site.Params.tagline }}</p>
+        <ul class="ft-social" aria-label="شبکه‌های اجتماعی">
+          {{ range site.Data.links }}<li><a href="{{ .href }}" target="_blank" rel="noopener">{{ .title }}</a></li>{{ end }}
+        </ul>
+      </div>
+
+      <nav aria-labelledby="ft-services">
+        <h2 id="ft-services">خدمات</h2>
+        <ul>
+          <li><a href="{{ "consultation/?type=consulting" | relLangURL }}">مشاوره‌ی داده و هوش مصنوعی</a></li>
+          <li><a href="{{ "consultation/?type=project" | relLangURL }}">اجرای پروژه</a></li>
+          <li><a href="{{ "training/" | relLangURL }}">دوره‌های آموزشی سازمانی</a></li>
+          <li><a href="{{ "consultation/?type=training" | relLangURL }}">درخواست برگزاری دوره</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="ft-pages">
+        <h2 id="ft-pages">دسترسی سریع</h2>
+        <ul class="ft-cols">{{ range site.Menus.main }}<li><a href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>{{ end }}</ul>
+      </nav>
+
+      <div>
+        <h2>ارتباط</h2>
+        <ul class="ft-contact">
+          <li><span>ایمیل</span><a class="ft-mail" dir="ltr" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></li>
+          {{ with site.Params.bookingUrl }}<li><span>رزرو آنلاین وقت</span><a href="{{ . }}" target="_blank" rel="noopener">انتخاب زمان جلسه</a></li>{{ end }}
+          <li><span>فرم تماس</span><a href="{{ "contact/" | relLangURL }}">ارسال پیام</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ft-bottom">
+      <span>© {{ partial "fa-digits.html" "1405" }} {{ site.Params.author }} · تمامی حقوق محفوظ است.</span>
+      <a href="#top" class="ft-top-link">بازگشت به بالا <span aria-hidden="true">↑</span></a>
+    </div>
   </div>
 </footer>

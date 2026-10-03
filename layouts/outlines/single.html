@@ -5,7 +5,7 @@
 {{- $c := index site.Data.courses $slug -}}
 {{- $group := "" -}}
 {{- range site.Data.training.catalog.groups -}}{{- $g := .title -}}{{- range .courses -}}{{- if eq .slug $slug -}}{{- $group = $g -}}{{- end -}}{{- end -}}{{- end -}}
-{{- $lessons := 0 -}}{{- range $c.modules -}}{{- $lessons = add $lessons (len .l) -}}{{- end -}}
+{{- $dur := partial "course-duration.html" $c -}}{{- $lessons := $dur.lessons -}}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -121,8 +121,8 @@ ul, ol { padding: 0; list-style: none; }
 
   <div class="glance">
     <div><span>سطح دوره</span><b>{{ $c.level }}</b></div>
-    <div><span>تعداد بخش‌ها</span><b>{{ partial "fa-digits.html" (len $c.modules) }} بخش</b></div>
-    <div><span>تعداد درس‌ها</span><b>{{ partial "fa-digits.html" $lessons }} درس</b></div>
+    <div><span>مدت دوره</span><b>{{ partial "fa-digits.html" $dur.days }} روز ({{ partial "fa-digits.html" $dur.hours }} ساعت)</b></div>
+    <div><span>بخش و درس</span><b>{{ partial "fa-digits.html" (len $c.modules) }} بخش، {{ partial "fa-digits.html" $lessons }} درس</b></div>
     <div><span>شیوه‌ی برگزاری</span><b>حضوری یا آنلاین</b></div>
   </div>
 

@@ -1,0 +1,10 @@
+{{- /* Course length from its lesson count (8 teaching hours per day):
+     ≤ 36 lessons → 2 days; 37–49 → 3 days; 50+ → 4 days.
+     An explicit `hours:` in data/courses/<slug>.yaml overrides the rule.
+     Usage: {{ $d := partial "course-duration.html" $course }} → .days .hours .lessons */ -}}
+{{- $lessons := 0 -}}{{- range .modules -}}{{- $lessons = add $lessons (len .l) -}}{{- end -}}
+{{- $days := 4 -}}
+{{- if le $lessons 36 -}}{{- $days = 2 -}}{{- else if lt $lessons 50 -}}{{- $days = 3 -}}{{- end -}}
+{{- $hours := mul $days 8 -}}
+{{- with .hours -}}{{- $hours = . -}}{{- $days = div (add . 7) 8 -}}{{- end -}}
+{{- return (dict "days" $days "hours" $hours "lessons" $lessons) -}}

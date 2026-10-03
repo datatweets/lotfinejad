@@ -72,11 +72,12 @@
 {{- else if and (eq .Type "training") .IsPage -}}
   {{- /* Course page */ -}}
   {{- $c := index site.Data.courses .Params.course -}}
+  {{- $dur := partial "course-duration.html" $c -}}
   {{- $mods := slice -}}{{- range $c.modules -}}{{- $mods = $mods | append (dict "@type" "Syllabus" "name" .t "description" (delimit .l "، ")) -}}{{- end -}}
   {{- $inst := slice -}}
   {{- range slice "Onsite" "Online" -}}
     {{- $ci := dict "@type" "CourseInstance" "courseMode" . "inLanguage" "fa-IR" "instructor" (dict "@id" $personID) -}}
-    {{- with $c.hours -}}{{- $ci = merge $ci (dict "courseWorkload" (printf "PT%vH" .)) -}}{{- end -}}
+    {{- $ci = merge $ci (dict "courseWorkload" (printf "PT%dH" $dur.hours)) -}}
     {{- $inst = $inst | append $ci -}}
   {{- end -}}
   {{- $graph = $graph | append (dict "@type" "Course" "@id" (printf "%s#course" .Permalink)
@@ -91,11 +92,13 @@
   {{- $list := slice -}}{{- $i := 0 -}}{{- $page := . -}}
   {{- range site.Data.training.catalog.groups -}}{{- range .courses -}}{{- $c := index site.Data.courses .slug -}}{{- $i = add $i 1 -}}
     {{- $mods := slice -}}{{- range $c.modules -}}{{- $mods = $mods | append .t -}}{{- end -}}
+    {{- $wl := printf "PT%dH" (partial "course-duration.html" $c).hours -}}
     {{- $course := dict "@type" "Course" "name" .fa "alternateName" .en "description" $c.summary
         "url" (printf "%s%s/" $page.Permalink .slug) "inLanguage" "fa-IR" "educationalLevel" $c.level
         "teaches" $c.outcomes "syllabusSections" (apply $mods "dict" "@type" "Syllabus" "name" ".")
         "provider" (dict "@id" $personID)
-        "hasCourseInstance" (slice (dict "@type" "CourseInstance" "courseMode" "Onsite" "instructor" (dict "@id" $personID)) (dict "@type" "CourseInstance" "courseMode" "Online" "instructor" (dict "@id" $personID))) -}}
+        "hasCourseInstance" (slice (dict "@type" "CourseInstance" "courseMode" "Onsite" "courseWorkload" $wl "instructor" (dict "@id" $personID)) (dict "@type" "CourseInstance" "courseMode" "Online" "courseWorkload" $wl "instructor" (dict "@id" $personID)))
+        "offers" (dict "@type" "Offer" "category" "Paid") -}}
     {{- $list = $list | append (dict "@type" "ListItem" "position" $i "item" $course) -}}
   {{- end -}}{{- end -}}
   {{- $graph = $graph | append (dict "@type" "ItemList" "name" "دوره‌های آموزشی داده و هوش مصنوعی" "itemListElement" $list) -}}

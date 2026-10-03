@@ -70,7 +70,7 @@
       <div class="tr-courses">
         {{ range .courses }}
         {{ $c := index site.Data.courses .slug }}
-        {{ $lessons := 0 }}{{ range $c.modules }}{{ $lessons = add $lessons (len .l) }}{{ end }}
+        {{ $dur := partial "course-duration.html" $c }}{{ $lessons := $dur.lessons }}
         {{ $pdf := printf "files/outlines/%s.pdf" .slug | relURL }}
         {{/* The PDF link sits outside <summary> (no link nested in the toggle),
              positioned over the reserved slot in the row. */}}
@@ -89,6 +89,7 @@
             <div class="tr-facts">
               <span>{{ partial "fa-digits.html" (len $c.modules) }} بخش</span>
               <span>{{ partial "fa-digits.html" $lessons }} درس</span>
+              <span>{{ partial "fa-digits.html" $dur.days }} روز ({{ partial "fa-digits.html" $dur.hours }} ساعت)</span>
               <span>حضوری یا آنلاین</span>
             </div>
             <div class="tr-course-cols">

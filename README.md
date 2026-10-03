@@ -50,7 +50,7 @@ Persian — no first person:
 | `hugo.toml` `[params]`  | Name, headline, tagline, email, "how I work" list, `about` paragraphs |
 | `data/home.yaml`        | Home page: hero text, stats, "worked with" names, services      |
 | `data/training.yaml`    | Training page (`/training/`): formats, career paths, course catalogue (mirrors datatweets.com), FAQ |
-| `data/courses/<slug>.yaml` | One course: summary, level, outcomes, prerequisites, tools, modules/lessons; optional `hours:` (shown on the course page and sent as `courseWorkload`) |
+| `data/courses/<slug>.yaml` | One course: summary, level, outcomes, prerequisites, tools, modules/lessons. Duration is derived in `layouts/partials/course-duration.html` (≤36 lessons → 2 days, 37–49 → 3, 50+ → 4; 8 h/day); an optional `hours:` overrides it |
 | `content/training/_index.md` | Training page (`layouts/training/list.html`)                |
 | `content/training/_content.gotmpl` | Generates one page per course at `/training/<slug>/` (`layouts/training/single.html`) |
 | `data/consultation.yaml` | Consultation page (`/consultation/`): offer, next steps, topics, FAQ |
@@ -216,9 +216,9 @@ node scripts/build-resume.mjs    # terminal 2
 - `layouts/partials/schema.html`: one JSON-LD `@graph` per page, built from the
   same data files as the visible content — WebSite + Person everywhere,
   ProfessionalService, BreadcrumbList, BlogPosting (posts), Service list
-  (`/services/`), Course list (`/training/`), Course (each `/training/<slug>/`;
-  add `hours:` to a course YAML to supply `courseWorkload`, which Google needs
-  for Course rich results), ContactPage (`/contact/`) and FAQPage wherever an
+  (`/services/`), Course list (`/training/`), Course (each `/training/<slug>/`,
+  with `courseWorkload` from the duration rule, which Google needs for Course
+  rich results), ContactPage (`/contact/`) and FAQPage wherever an
   FAQ is shown.
 - Titles: front matter `seoTitle` overrides the `<title>`/og:title while the
   menu and H1 keep `title`. The 404 page is `noindex`.

@@ -1,0 +1,33 @@
+slug: docker-kubernetes-for-data
+en: "Docker & Kubernetes for Data Engineering"
+fa: "Docker و Kubernetes برای مهندسان داده"
+level: "متوسط"
+summary: "کانتینری‌کردن و مدیریت یک جریان داده‌ی واقعی با Docker و Kubernetes: Image، Dockerfile، Compose و یک خوشه‌ی محلی Kind؛ همه به‌صورت واقعی روی رایانه‌ی شخصی."
+project: "ETL شرکت CityFlow، کانتینری‌شده و در حال اجرا روی Docker و Kubernetes واقعی"
+outcomes:
+  - "نوشتن و سبک‌سازی Dockerfile برای پردازش‌های داده‌ای، از جمله ساخت چندمرحله‌ای"
+  - "تعریف پشته‌های چندکانتینری با Compose برای توسعه‌ی محلی"
+  - "استقرار یک پردازش داده روی خوشه‌ی محلی Kubernetes با Kind"
+  - "مدیریت پیکربندی، ذخیره‌سازی و پردازش‌های دسته‌ای زمان‌بندی‌شده در Kubernetes"
+prereqs:
+  - "تسلط بر پایتون: خواندن و اجرای اسکریپت و مدیریت وابستگی‌های پایه"
+  - "آشنایی با خط فرمان"
+  - "چند گیگابایت فضای خالی و اتصال اینترنت؛ همه‌چیز به‌صورت محلی اجرا می‌شود و نیازی به حساب ابری نیست"
+tools: ["Docker Desktop", "Kubernetes (Kind)", "PostgreSQL", "pandas", "PyArrow"]
+modules:
+  - t: "شروع کار با Docker"
+    l: ["نصب Docker Desktop", "چرا کانتینر؟", "Image در برابر Container", "اجرای یک سرویس واقعی", "پروژه‌ی راهنمادار: آزمون اولیه‌ی CityFlow"]
+  - t: "مبانی Docker"
+    l: ["ساختار یک Dockerfile", "لایه‌ها و کش ساخت", "مخزن‌های Image", "اشکال‌زدایی یک کانتینر", "پروژه‌ی راهنمادار: ممیز تعداد سفرها"]
+  - t: "ساخت Image برای پردازش‌های داده‌ای"
+    l: ["بسته‌بندی یک پردازش داده‌ی پایتونی", "ساخت چندمرحله‌ای", "سبک‌سازی Image", "بررسی سلامت و سیاست‌های راه‌اندازی مجدد", "پروژه‌ی راهنمادار: پردازش ETL شرکت CityFlow"]
+  - t: "Docker Compose"
+    l: ["چرا Compose", "Volumeها", "شبکه‌ها", "یک پشته‌ی داده‌ی محلی", "پروژه‌ی راهنمادار: ETL و Postgres"]
+  - t: "مفاهیم Kubernetes روی Kind"
+    l: ["چرا Kubernetes (و Kind)", "اولین خوشه و Pod", "Deployment و ReplicaSet", "Service و Namespace", "پروژه‌ی راهنمادار: API مناطق روی Kubernetes"]
+  - t: "پیکربندی، ذخیره‌سازی و پردازش‌های دسته‌ای"
+    l: ["ConfigMap و Secret", "Persistent Volume", "Job در Kubernetes", "CronJob", "پروژه‌ی راهنمادار: پردازش دسته‌ای CityFlow"]
+  - t: "اجرای پردازش داده روی Kubernetes"
+    l: ["از Compose تا Kubernetes", "درخواست و سقف منابع", "گزارش‌ها و اشکال‌زدایی در Kubernetes", "بسته‌بندی ETL شرکت CityFlow برای Kubernetes", "پروژه‌ی راهنمادار: ETL روی Kubernetes"]
+  - t: "پروژه‌ی پایانی"
+    l: ["پروژه‌ی پایانی: جریان پردازش زمان‌بندی‌شده با CronJob"]

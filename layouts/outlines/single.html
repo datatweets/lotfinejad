@@ -1,0 +1,166 @@
+{{- /* Printable course outline (A4). Standalone page — not wrapped in the
+     site shell — so it prints cleanly to PDF via scripts/build-outlines.mjs.
+     Content: data/courses/<slug>.yaml. */ -}}
+{{- $slug := .Params.course -}}
+{{- $c := index site.Data.courses $slug -}}
+{{- $group := "" -}}
+{{- range site.Data.training.catalog.groups -}}{{- $g := .title -}}{{- range .courses -}}{{- if eq .slug $slug -}}{{- $group = $g -}}{{- end -}}{{- end -}}{{- end -}}
+{{- $lessons := 0 -}}{{- range $c.modules -}}{{- $lessons = add $lessons (len .l) -}}{{- end -}}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>سرفصل دوره‌ی {{ $c.fa }} · {{ site.Params.author }}</title>
+<style>
+@font-face { font-family: "Vazirmatn"; src: url("{{ "fonts/vazirmatn/static/Vazirmatn-400.woff2" | relURL }}") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Vazirmatn"; src: url("{{ "fonts/vazirmatn/static/Vazirmatn-600.woff2" | relURL }}") format("woff2"); font-weight: 600; font-display: block; }
+@font-face { font-family: "Vazirmatn"; src: url("{{ "fonts/vazirmatn/static/Vazirmatn-700.woff2" | relURL }}") format("woff2"); font-weight: 700; font-display: block; }
+@font-face { font-family: "Vazirmatn"; src: url("{{ "fonts/vazirmatn/static/Vazirmatn-800.woff2" | relURL }}") format("woff2"); font-weight: 800; font-display: block; }
+:root {
+  --lapis: #1E3F73; --lapis-deep: #142C54; --lapis-wash: #E9EEF6;
+  --gold: #A87622; --gold-soft: #D8AA58; --gold-wash: #F6EEDC;
+  --ink: #141B26; --ink-2: #4A5465; --ink-3: #7A8394; --line: #E1E5EB; --paper: #FFFFFF; --ground: #F5F6F8;
+}
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: "Vazirmatn", system-ui, sans-serif; font-size: 10.5pt; line-height: 1.85; }
+.sheet { max-width: 210mm; margin: 24px auto; background: var(--paper); box-shadow: 0 2px 18px rgba(20, 27, 38, .1); }
+@media print { body { background: #fff; } .sheet { margin: 0; max-width: none; box-shadow: none; } .noprint { display: none !important; } }
+@page { size: A4; margin: 14mm 14mm 16mm; }
+@page :first { margin-top: 0; }
+h1, h2, h3, p, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+.lat { font-family: "Vazirmatn", system-ui, sans-serif; direction: ltr; unicode-bidi: isolate; }
+
+/* cover header */
+.cover { background: linear-gradient(135deg, var(--lapis-deep), var(--lapis)); color: #fff; padding: 16mm 14mm 12mm; position: relative; }
+.cover::after { content: ""; position: absolute; inset-inline: 14mm; bottom: 0; height: 3px; background: var(--gold-soft); }
+.cover-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 9pt; color: #C9D5EA; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px var(--lapis-deep), 0 0 0 3px var(--gold-soft); }
+.brand b { display: block; color: #fff; font-size: 10pt; }
+.eyebrow { display: inline-block; margin-top: 12mm; font-size: 9.5pt; font-weight: 700; color: var(--gold-soft); }
+.cover h1 { margin-top: 4px; font-size: 25pt; line-height: 1.45; font-weight: 800; }
+.cover .en { margin-top: 2px; font-size: 11pt; color: #C9D5EA; text-align: right; }
+.cover .summary { margin-top: 8px; max-width: 150mm; font-size: 10.5pt; color: #E6ECF6; line-height: 1.95; }
+
+/* at a glance */
+.glance { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); }
+.glance div { padding: 10px 12px; border-inline-start: 1px solid var(--line); }
+.glance div:first-child { border-inline-start: 0; }
+.glance span { display: block; font-size: 8.5pt; color: var(--ink-3); }
+.glance b { display: block; font-size: 11pt; color: var(--lapis); }
+
+.body { padding: 9mm 14mm 6mm; }
+.sec + .sec { margin-top: 8mm; }
+.sec-title { display: flex; align-items: center; gap: 8px; font-size: 13pt; font-weight: 800; margin-bottom: 4mm; }
+.sec-title::before { content: ""; width: 14px; height: 3px; border-radius: 2px; background: var(--gold); }
+
+.cols { display: grid; grid-template-columns: 1.25fr 1fr; gap: 8mm; }
+.checks li { position: relative; padding-inline-start: 18px; margin-bottom: 5px; }
+.checks li::before { content: ""; position: absolute; inset-inline-start: 2px; top: .62em; width: 7px; height: 7px; transform: rotate(45deg); background: var(--gold); }
+.box { background: var(--ground); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.box + .box { margin-top: 4mm; }
+.box h3 { font-size: 10pt; color: var(--lapis); margin-bottom: 4px; }
+.box li { position: relative; padding-inline-start: 12px; font-size: 9.5pt; color: var(--ink-2); margin-bottom: 3px; }
+.box li::before { content: "•"; position: absolute; inset-inline-start: 0; color: var(--gold); }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chips span { font-size: 8.5pt; padding: 1px 9px; border-radius: 999px; background: #fff; border: 1px solid var(--line); color: var(--ink-2); direction: ltr; unicode-bidi: isolate; }
+.box p { font-size: 9.5pt; color: var(--ink-2); }
+
+/* syllabus */
+.keep { break-inside: avoid; page-break-inside: avoid; }
+.module { border: 1px solid var(--line); border-radius: 10px; margin-bottom: 4mm; break-inside: avoid; page-break-inside: avoid; overflow: hidden; }
+.module-head { display: flex; align-items: center; gap: 10px; padding: 7px 12px; background: var(--lapis-wash); }
+.module-head .n { flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--lapis); color: #fff; font-weight: 800; font-size: 9.5pt; }
+.module-head h3 { font-size: 11pt; flex: 1 1 auto; }
+.module-head small { font-size: 8.5pt; color: var(--ink-3); white-space: nowrap; }
+.lessons { columns: 2; column-gap: 8mm; padding: 7px 12px 8px; counter-reset: l; }
+.lessons li { counter-increment: l; break-inside: avoid; position: relative; padding-inline-start: 22px; font-size: 9.5pt; color: var(--ink-2); line-height: 1.75; margin-bottom: 2px; }
+.lessons li::before { content: counter(l, persian) "."; position: absolute; inset-inline-start: 0; color: var(--ink-3); font-size: 8.5pt; }
+.lessons li.proj { color: var(--ink); font-weight: 600; }
+
+/* closing */
+.closing { margin: 4mm 14mm 10mm; padding: 10px 14px; border-radius: 10px; background: var(--gold-wash); display: flex; justify-content: space-between; align-items: center; gap: 12px; break-inside: avoid; }
+.closing b { display: block; font-size: 10.5pt; }
+.closing p { font-size: 9pt; color: var(--ink-2); }
+.closing .site { font-size: 9.5pt; font-weight: 700; color: var(--lapis); direction: ltr; white-space: nowrap; }
+
+.toolbar { max-width: 210mm; margin: 16px auto 0; display: flex; justify-content: space-between; gap: 10px; font-family: inherit; }
+.toolbar a { font-size: 10pt; color: var(--lapis); text-decoration: none; font-weight: 600; }
+.toolbar a.pdf { background: var(--lapis); color: #fff; padding: 6px 14px; border-radius: 999px; }
+@media (max-width: 640px) {
+  .sheet { margin: 0; } .cols { grid-template-columns: 1fr; } .lessons { columns: 1; } .glance { grid-template-columns: repeat(2, 1fr); }
+  .glance div:nth-child(3) { border-inline-start: 0; } .cover, .body { padding-inline: 18px; } .closing { margin-inline: 18px; flex-direction: column; align-items: flex-start; }
+  .toolbar { padding-inline: 16px; }
+}
+</style>
+</head>
+<body>
+<div class="toolbar noprint">
+  <a href="{{ "training/" | relLangURL }}#course-{{ $slug }}">→ بازگشت به فهرست دوره‌ها</a>
+  <a class="pdf" href="{{ printf "files/outlines/%s.pdf" $slug | relURL }}" download>دریافت PDF</a>
+</div>
+<main class="sheet">
+  <header class="cover">
+    <div class="cover-top">
+      <div class="brand">
+        <img src="{{ "images/avatar-160.jpg" | relURL }}" alt="" width="34" height="34">
+        <div><b>{{ site.Params.author }}</b>{{ site.Params.headline }}</div>
+      </div>
+      <span>{{ $group }}</span>
+    </div>
+    <span class="eyebrow">سرفصل دوره‌ی آموزشی</span>
+    <h1>{{ $c.fa }}</h1>
+    <p class="en lat">{{ $c.en }}</p>
+    <p class="summary">{{ partial "bidi.html" $c.summary }}</p>
+  </header>
+
+  <div class="glance">
+    <div><span>سطح دوره</span><b>{{ $c.level }}</b></div>
+    <div><span>تعداد بخش‌ها</span><b>{{ partial "fa-digits.html" (len $c.modules) }} بخش</b></div>
+    <div><span>تعداد درس‌ها</span><b>{{ partial "fa-digits.html" $lessons }} درس</b></div>
+    <div><span>شیوه‌ی برگزاری</span><b>حضوری یا آنلاین</b></div>
+  </div>
+
+  <div class="body">
+    <section class="sec cols">
+      <div>
+        <h2 class="sec-title">آنچه شرکت‌کنندگان می‌آموزند</h2>
+        <ul class="checks">{{ range $c.outcomes }}<li>{{ partial "bidi.html" . }}</li>{{ end }}</ul>
+      </div>
+      <div>
+        <div class="box"><h3>پیش‌نیازها</h3><ul>{{ range $c.prereqs }}<li>{{ partial "bidi.html" . }}</li>{{ end }}</ul></div>
+        <div class="box"><h3>ابزارها و فناوری‌ها</h3><div class="chips">{{ range $c.tools }}<span>{{ . }}</span>{{ end }}</div></div>
+        {{ with $c.project }}<div class="box"><h3>پروژه‌ی عملی</h3><p>{{ partial "bidi.html" . }}</p></div>{{ end }}
+      </div>
+    </section>
+
+    <section class="sec">
+      {{ range $i, $m := $c.modules }}
+      {{ if eq $i 0 }}<div class="keep"><h2 class="sec-title">سرفصل‌های دوره</h2>{{ end }}
+      <div class="module">
+        <div class="module-head">
+          <span class="n">{{ partial "fa-digits.html" (add $i 1) }}</span>
+          <h3>{{ partial "bidi.html" $m.t }}</h3>
+          <small>{{ partial "fa-digits.html" (len $m.l) }} درس</small>
+        </div>
+        <ol class="lessons">{{ range $m.l }}<li{{ if or (strings.Contains . "پروژه") (strings.Contains . "پایانی") }} class="proj"{{ end }}>{{ partial "bidi.html" . }}</li>{{ end }}</ol>
+      </div>
+      {{ if eq $i 0 }}</div>{{ end }}
+      {{ end }}
+    </section>
+  </div>
+
+  <footer class="closing">
+    <div>
+      <b>برگزاری اختصاصی برای سازمان شما</b>
+      <p>سرفصل، مدت، سطح و تمرین‌های این دوره بر اساس نیاز تیم شما تنظیم می‌شود. آموزش به زبان فارسی و به‌صورت حضوری یا آنلاین برگزار می‌شود.</p>
+    </div>
+    <span class="site">{{ site.Params.domain }}/consultation</span>
+  </footer>
+</main>
+</body>
+</html>

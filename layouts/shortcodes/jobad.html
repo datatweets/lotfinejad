@@ -1,0 +1,13 @@
+{{- /* Job-ad evidence card in translated notes.
+     {{< jobad company="…" role="…" place="…" url="…" >}}markdown{{< /jobad >}}
+     Company and role stay in their original (Latin) form, isolated LTR so
+     they don't reorder inside RTL text. */ -}}
+<aside class="jobad">
+  <div class="jobad-head">
+    <b dir="ltr" lang="en">{{ .Get "company" }}</b>
+    <span dir="ltr" lang="en">{{ .Get "role" }}</span>
+    {{ with .Get "place" }}<small>{{ . }}</small>{{ end }}
+  </div>
+  <div class="jobad-body">{{ .Inner | .Page.RenderString (dict "display" "block") }}</div>
+  {{ with .Get "url" }}<a class="jobad-link" href="{{ . }}" target="_blank" rel="noopener">مشاهده‌ی آگهی اصلی ↗</a>{{ end }}
+</aside>

@@ -4,14 +4,20 @@
 //
 //   hugo server                   # terminal 1
 //   npm i -D playwright           # once
-//   node scripts/build-og.mjs     # terminal 2 (default base http://localhost:1313)
+//   node scripts/build-og.mjs     # terminal 2: only pages without an image yet
+//   node scripts/build-og.mjs --all            # rebuild every image (design change)
+//   node scripts/build-og.mjs --only key1,key2 # rebuild these (e.g. a retitled page)
 //
 // Commit the generated images; the GitHub Pages build only runs Hugo.
-import { mkdirSync } from "node:fs";
+import { mkdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { chromium } from "playwright";
 
-const base = (process.argv[2] || "http://localhost:1313").replace(/\/$/, "");
+const args = process.argv.slice(2);
+const all = args.includes("--all");
+const onlyArg = args.indexOf("--only");
+const only = onlyArg >= 0 ? new Set(args[onlyArg + 1].split(",")) : null;
+const base = (args.find((a) => a.startsWith("http")) || "http://localhost:1313").replace(/\/$/, "");
 const root = new URL("..", import.meta.url).pathname;
 const outDir = join(root, "static/images/og");
 mkdirSync(outDir, { recursive: true });
@@ -21,8 +27,12 @@ const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, dev
 await page.goto(`${base}/print/og/`, { waitUntil: "networkidle" });
 await page.evaluate(() => document.fonts.ready);
 const ids = await page.$$eval("section.card", (els) => els.map((e) => e.id));
+let written = 0;
 for (const id of ids) {
-  await page.locator(`[id="${id}"]`).screenshot({ path: join(outDir, `${id}.jpg`), type: "jpeg", quality: 82 });
+  const out = join(outDir, `${id}.jpg`);
+  if (only ? !only.has(id) : !all && existsSync(out)) continue;
+  await page.locator(`[id="${id}"]`).screenshot({ path: out, type: "jpeg", quality: 82 });
+  written++;
 }
 await browser.close();
-console.log(`✓ ${ids.length} share images in static/images/og/`);
+console.log(`✓ ${written} share image(s) written (${ids.length} pages) in static/images/og/`);

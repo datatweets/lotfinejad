@@ -19,6 +19,10 @@
 
     <div class="prose">{{ .Content }}</div>
 
+    {{ with .Params.original }}
+    <p class="article-original">نسخه‌ی انگلیسی این یادداشت در <a href="{{ . }}" target="_blank" rel="noopener" hreflang="en" lang="en">DATATWEETS</a> منتشر شده است.</p>
+    {{ end }}
+
     {{ with .Params.tags }}
     <div class="tagrow article-tags"><span>برچسب‌ها:</span>{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</div>
     {{ end }}

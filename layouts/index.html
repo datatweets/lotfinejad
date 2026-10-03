@@ -15,21 +15,18 @@
       </div>
       <p class="h-audience">{{ partial "icon.html" "people" }}{{ $h.audience }}</p>
     </div>
-    {{ partial "profile-card.html" . }}
+    <figure class="h-portrait">
+      {{ with site.Params.avatarImage }}<img src="{{ . | relURL }}" alt="{{ site.Params.author }}" width="400" height="500">{{ end }}
+      <figcaption>
+        <b>{{ site.Params.author }}</b>
+        <span>{{ site.Params.headline }}</span>
+        <small>{{ $h.card.current }}</small>
+      </figcaption>
+    </figure>
   </section>
 
-  {{/* ---------- proof strip ---------- */}}
-  <section class="h-in">
-    <div class="h-proof">
-      <div class="h-clients">
-        <span>سابقه‌ی همکاری با</span>
-        <ul>{{ range $h.clients }}<li class="lat">{{ . }}</li>{{ end }}</ul>
-      </div>
-      <dl class="h-stats">
-        {{ range $h.stats }}<div><dt>{{ .label }}</dt><dd><bdi>{{ .value }}</bdi></dd></div>{{ end }}
-      </dl>
-    </div>
-  </section>
+  {{/* ---------- trust bar ---------- */}}
+  <section class="h-in">{{ partial "trust-bar.html" . }}</section>
 
   {{/* ---------- the client's problem ---------- */}}
   <section class="h-in h-sec">
@@ -105,16 +102,6 @@
         </div>
         {{ end }}
       </div>
-    </div>
-  </section>
-
-  {{/* ---------- why me ---------- */}}
-  <section class="h-in h-sec">
-    <header class="h-sec-head"><h2>{{ $h.why.title }}</h2></header>
-    <div class="h-why">
-      {{ range $h.why.items }}
-      <div><span class="h-why-ico">{{ partial "icon.html" "shield" }}</span><div><h3>{{ .title }}</h3><p>{{ .desc }}</p></div></div>
-      {{ end }}
     </div>
   </section>
 

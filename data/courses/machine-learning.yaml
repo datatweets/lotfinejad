@@ -2,6 +2,7 @@ slug: machine-learning
 en: "Machine Learning"
 fa: "یادگیری ماشین"
 level: "مقدماتی تا پیشرفته"
+hours: 40   # 5 days × 8 h (overrides the lesson-count rule)
 summary: "آموزش جامع یادگیری ماشین از مبانی ریاضی تا یادگیری عمیق، همراه با تمرین عملی در پایتون."
 project: "کار با داده‌های واقعی و پروژه‌های راهنمادار"
 outcomes:

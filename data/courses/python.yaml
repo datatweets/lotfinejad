@@ -2,6 +2,7 @@ slug: python
 en: "Python for Data Analytics"
 fa: "پایتون برای تحلیل داده"
 level: "مقدماتی تا متوسط"
+hours: 40   # 5 days × 8 h (overrides the lesson-count rule)
 summary: "آموزش پایتون برای تحلیل داده، از مبانی برنامه‌نویسی تا کار با NumPy، pandas و مصورسازی داده."
 project: "پروژه‌های عملی تحلیل داده‌های واقعی"
 outcomes:

@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $r := site.Data.resume }}
-<div class="page"><div class="h-in stack">
+<div class="page cv-page"><div class="h-in stack">
 
   {{/* ---------- header ---------- */}}
   <section class="card cv-hero">
@@ -15,8 +15,8 @@
           </div>
         </div>
         <div class="actions no-print">
-          {{ with $r.pdf }}<a class="btn btn-primary" href="{{ . | relURL }}" download>{{ partial "icon.html" "doc" }}دانلود PDF</a>{{ end }}
-          <button class="btn btn-plain" id="printBtn" type="button">{{ partial "icon.html" "print" }}چاپ</button>
+          {{ with $r.pdf }}<a class="btn btn-primary" href="{{ . | relURL }}" download>{{ partial "icon.html" "doc" }}رزومه‌ی انگلیسی (PDF)</a>{{ end }}
+          <button class="btn btn-plain" id="printBtn" type="button">{{ partial "icon.html" "print" }}چاپ نسخه‌ی فارسی</button>
         </div>
       </div>
       <div class="cv-roles">{{ range $i, $e := $r.roles }}{{ if $i }}<i aria-hidden="true"></i>{{ end }}<bdi>{{ $e }}</bdi>{{ end }}</div>
@@ -24,6 +24,7 @@
         {{ range $r.contact }}<a href="{{ .href }}"{{ if hasPrefix .href "http" }} target="_blank" rel="noopener"{{ end }}>{{ partial "icon.html" .icon }}<bdi class="lat">{{ .label }}</bdi></a>{{ end }}
       </div>
       <p class="cv-summary">{{ $r.summary }}</p>
+      <p class="print-only cv-online">نسخه‌ی برخط: <bdi class="lat">{{ site.Params.domain }}/resume</bdi></p>
     </div>
     <div class="cv-stats">
       {{ range $r.stats }}<div class="cv-stat"><b><bdi>{{ .value }}</bdi></b><span>{{ .label }}</span></div>{{ end }}
@@ -123,10 +124,7 @@
     <section class="card"><div class="pad">
       <div class="card-head"><h2>زبان‌ها</h2></div>
       {{ range $r.languages }}
-      <div class="cv-lang">
-        <div><b>{{ .name }}</b><span>{{ .level }}</span></div>
-        <div class="cv-meter"><i style="inline-size:{{ .pct }}%"></i></div>
-      </div>
+      <div class="cv-lang"><b>{{ .name }}</b><span>{{ .level }}</span></div>
       {{ end }}
     </div></section>
   </div>

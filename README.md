@@ -187,6 +187,21 @@ npm i -D playwright               # once
 node scripts/build-outlines.mjs   # terminal 2 (default base http://localhost:1313)
 ```
 
+## Résumé
+
+- `/resume/` (Persian) is built from `data/resume.yaml`. Its print styles
+  (`@media print` in `assets/css/main.css`) lay it out as a compact A4 document,
+  so the page's «چاپ نسخه‌ی فارسی» button gives a clean Persian printout.
+- The English PDF `static/files/Mehdi_Lotfinejad_Resume.pdf` is printed from
+  `/print/resume-en/` (`data/resume_en.yaml`, `layouts/resume-en/single.html`,
+  Inter in `static/fonts/inter/`). It is a two-page, single-column, ATS-friendly
+  layout. After editing the YAML (keep it to two pages):
+
+```bash
+hugo server                      # terminal 1
+node scripts/build-resume.mjs    # terminal 2
+```
+
 ## SEO and answer engines
 
 - `layouts/partials/head.html`: titles (`Page | Name`), per-page descriptions
@@ -200,8 +215,8 @@ node scripts/build-outlines.mjs   # terminal 2 (default base http://localhost:13
   services, courses, FAQ and contact for AI answer engines; regenerated on build.
 - `/sitemap.xml`: `lastmod` from a post's own date, else git (`enableGitInfo`), per-page `priority`
   and `changefreq` in front matter (`sitemap:`); outline print pages excluded.
-- `layouts/robots.txt` points to the sitemap and keeps `/outlines/` (print
-  pages) out of the index; taxonomy pages are disabled.
+- `layouts/robots.txt` points to the sitemap and keeps `/outlines/` and `/print/`
+  (print pages) out of the index; taxonomy pages are disabled.
 - No third-party fonts: only self-hosted Vazirmatn (Google Fonts is slow or
   filtered for many Iranian visitors). The portrait is resized by Hugo from
   `assets/images/avatar.jpg` (`layouts/partials/avatar.html`).

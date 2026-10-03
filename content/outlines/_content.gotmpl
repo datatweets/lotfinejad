@@ -1,0 +1,12 @@
+{{/* One printable outline page per course in data/courses/*.yaml.
+     The PDFs in static/files/outlines/ are printed from these pages
+     (scripts/build-outlines.mjs). */}}
+{{ range $slug, $c := site.Data.courses }}
+  {{ $.AddPage (dict
+      "path" $slug
+      "kind" "page"
+      "title" $c.fa
+      "params" (dict "course" $slug "description" $c.summary)
+      "sitemap" (dict "disable" true)
+  ) }}
+{{ end }}

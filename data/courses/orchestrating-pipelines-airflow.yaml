@@ -1,0 +1,33 @@
+slug: orchestrating-pipelines-airflow
+en: "Orchestrating Data Pipelines with Airflow"
+fa: "مدیریت و زمان‌بندی جریان‌های داده با Airflow"
+level: "متوسط"
+summary: "مدیریت و زمان‌بندی جریان‌های داده با Apache Airflow: DAG، Operator، Sensor، Hook، آزمون، پایش و یک پروژه‌ی پایانی که Airflow، PySpark و Kubernetes را به هم متصل می‌کند."
+project: "یک DAG واقعی در Airflow که پردازش PySpark شرکت CityFlow را روی Kubernetes اجرا می‌کند"
+outcomes:
+  - "طراحی و نوشتن DAG در Airflow با TaskFlow API و Operatorهای کلاسیک"
+  - "انتظار برای سامانه‌های بیرونی و اتصال به آن‌ها با Sensor، Hook و Connection"
+  - "آزمون، ثبت رویداد، پایش و هشدار در صورت شکست DAG"
+  - "اجرای یک پردازش PySpark روی Kubernetes از درون DAG در Airflow"
+prereqs:
+  - "تسلط بر پایتون: خواندن و اجرای اسکریپت و مدیریت وابستگی‌های پایه"
+  - "آشنایی با خط فرمان"
+  - "Docker Desktop و برای پروژه‌ی پایانی، یک خوشه‌ی محلی Kind"
+tools: ["Apache Airflow", "Docker", "Kubernetes (Kind)", "PySpark", "PostgreSQL"]
+modules:
+  - t: "جریان داده (Data Pipeline) چیست؟"
+    l: ["جریان داده چیست؟", "ساخت دستی یک جریان داده", "چرا Cron کافی نیست", "آشنایی مفهومی با Airflow", "پروژه‌ی راهنمادار: طراحی DAG روی کاغذ"]
+  - t: "آشنایی با Airflow"
+    l: ["معماری Airflow", "نصب و اجرای محلی Airflow با Docker", "اولین DAG", "آشنایی با رابط کاربری Airflow", "پروژه‌ی راهنمادار: گزارش روزانه‌ی CityFlow به‌صورت یک DAG واقعی"]
+  - t: "نوشتن DAG"
+    l: ["TaskFlow API", "Operatorها", "وابستگی‌ها", "تلاش مجدد، Catchup و Backfill", "پروژه‌ی راهنمادار: انشعاب و تلاش مجدد در کنار هم"]
+  - t: "Sensor، Hook و Connection"
+    l: ["Sensorها", "Hookها", "Connectionها و Variableها", "ترکیب Sensor و Hook", "پروژه‌ی راهنمادار: انتظار و سپس بارگذاری"]
+  - t: "مدیریت جریان ETL"
+    l: ["طراحی DAG", "وظیفه‌ی دریافت داده", "وظایف اعتبارسنجی و تبدیل", "وظیفه‌ی بارگذاری", "پروژه‌ی راهنمادار: جریان ETL واقعی CityFlow"]
+  - t: "آزمون، ثبت رویداد و پایش DAG"
+    l: ["آزمون واحد برای وظایف", "خواندن گزارش‌ها", "پایش DAG", "هشدار هنگام شکست", "پروژه‌ی راهنمادار: ابزارگذاری DAG ETL شرکت CityFlow"]
+  - t: "Airflow، Spark و Kubernetes"
+    l: ["معماری کلی", "ارسال Pod از درون DAG", "اتصال یک پردازش PySpark", "پایش اجرای پردازش", "پروژه‌ی راهنمادار: Airflow، Spark و Kubernetes به‌صورت کامل"]
+  - t: "پروژه‌ی پایانی"
+    l: ["پروژه‌ی پایانی: جریانی که خودش را به‌طور کامل اجرا می‌کند"]

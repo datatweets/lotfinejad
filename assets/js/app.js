@@ -92,6 +92,15 @@
     }
   }
 
+  /* ---------- training catalogue: open the course named in the URL hash ---------- */
+  function openCourseFromHash() {
+    if (location.hash.indexOf("#course-") !== 0) return;
+    var d = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (d && d.tagName === "DETAILS") { d.open = true; d.scrollIntoView({ block: "start" }); }
+  }
+  openCourseFromHash();
+  window.addEventListener("hashchange", openCourseFromHash);
+
   /* ---------- resume print button ---------- */
   var printBtn = document.getElementById("printBtn");
   if (printBtn) printBtn.addEventListener("click", function () { window.print(); });
@@ -106,6 +115,15 @@
     var button = form.querySelector('button[type="submit"]');
     var done = document.getElementById("leadDone");
     var fail = document.getElementById("leadFail");
+
+    // Prefill from a course link: ?type=training&course=<Persian course title>
+    try {
+      var course = new URLSearchParams(location.search).get("course");
+      var msg = document.getElementById("lf-msg");
+      if (course && msg && !msg.value) {
+        msg.value = "درخواست برگزاری دوره‌ی «" + course + "» برای سازمان.\nتعداد تقریبی شرکت‌کنندگان: \nشیوه‌ی برگزاری مدنظر (حضوری / آنلاین): ";
+      }
+    } catch (e) {}
 
     // Preselect the request type from ?type=training|consulting|project|other
     try {

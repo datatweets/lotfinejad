@@ -17,6 +17,7 @@ summaryLength = 40
   headline = "مشاور و مدرس داده و هوش مصنوعی"
   tagline = "مشاوره، اجرای پروژه و برگزاری دوره‌های آموزشی داده و هوش مصنوعی برای سازمان‌ها."
   email = "lotfinejad@gmail.com"
+  domain = "lotfinejad.ir"
   coverTag = "Data & AI"
   direction = "rtl"
   githubUser = "datatweets"

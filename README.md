@@ -146,3 +146,23 @@ submission arrives in that inbox. Until then (or if the service is unreachable)
 the form shows a prefilled "send by email" fallback, so no enquiry is lost.
 `?type=training|consulting|project|other` on `/consultation/` preselects the
 request type.
+
+## Course outlines (training page)
+
+`data/courses/<slug>.yaml` holds the Persian outline of each course (translated
+from datatweets.com): title, summary, level, outcomes, prerequisites, tools,
+project and every module/lesson. From these:
+
+- `content/outlines/_content.gotmpl` generates one printable page per course at
+  `/outlines/<slug>/` (template: `layouts/outlines/single.html`, A4 print styles,
+  static Vazirmatn weights in `static/fonts/vazirmatn/static/`);
+- the training page shows each course as a collapsible summary with its PDF;
+- `static/files/outlines/<slug>.pdf` are printed from the outline pages.
+
+After editing a course YAML, regenerate the PDFs and commit them:
+
+```bash
+hugo server                       # terminal 1
+npm i -D playwright               # once
+node scripts/build-outlines.mjs   # terminal 2 (default base http://localhost:1313)
+```

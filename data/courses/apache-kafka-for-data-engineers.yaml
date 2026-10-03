@@ -1,0 +1,42 @@
+slug: apache-kafka-for-data-engineers
+en: "Apache Kafka for Data Engineers"
+fa: "پردازش داده‌ی جریانی با Kafka"
+level: "مقدماتی تا پیشرفته"
+summary: "یادگیری عملی Apache Kafka برای جریان رویدادها روی سیستم محلی: نصب، تولید و مصرف پیام‌های واقعی و پیشروی تا Schema Registry، Kafka Connect و پردازش جریانی."
+project: "یک خوشه‌ی واقعی Kafka با سه Broker برای جریان رویدادهای سفر شرکت CityFlow"
+outcomes:
+  - "نصب و اجرای یک خوشه‌ی واقعی Apache Kafka 4.0 با سه Broker در حالت KRaft"
+  - "تولید و مصرف رویدادهای واقعی با گروه‌های مصرف‌کننده و تحویل قابل‌اعتماد"
+  - "اعمال قرارداد داده با Schema Registry و انتقال داده با Kafka Connect"
+  - "پردازش بلادرنگ جریان‌ها با Faust و Spark Structured Streaming"
+prereqs:
+  - "نیازی به تجربه‌ی قبلی Kafka نیست؛ دوره از اولین پیام شروع می‌شود"
+  - "آشنایی مقدماتی با پایتون: خواندن و اجرای اسکریپت و مدیریت وابستگی‌های پایه"
+  - "آشنایی با خط فرمان"
+  - "Docker Desktop (نصب آن در بخش ۱ آموزش داده می‌شود)"
+tools: ["Apache Kafka", "Docker", "Python", "Schema Registry", "Kafka Connect"]
+modules:
+  - t: "چرا Kafka؟ جریان رویداد و مسئله‌ی CityFlow"
+    l: ["پیام‌رسان (Message Broker) چه مسئله‌ای را حل می‌کند؟", "ایده‌ی اصلی Kafka: گزارش ثبت توزیع‌شده", "نصب Docker و راه‌اندازی یک خوشه‌ی واقعی Kafka", "KRaft، Kafdrop و اولین پیام‌ها", "پروژه‌ی راهنمادار: راه‌اندازی بستر Kafka شرکت CityFlow"]
+  - t: "Topic، Partition و پیام"
+    l: ["Topic و Partition", "ساختار یک پیام", "ساخت و بررسی Topicها", "اهمیت کلید پیام: راهبرد پارتیشن‌بندی", "پروژه‌ی راهنمادار: طراحی ساختار Topicهای CityFlow"]
+  - t: "Producer: نوشتن رویداد در Kafka"
+    l: ["ساخت KafkaProducer و ارسال پیام", "کلیدها و مسیریابی پارتیشن در عمل", "تنظیمات مهم Producer", "مدیریت خطا و Callbackهای تحویل", "پروژه‌ی راهنمادار: Producer بازپخش رویدادهای سفر CityFlow"]
+  - t: "Consumer و گروه‌های مصرف‌کننده"
+    l: ["ساخت KafkaConsumer و حلقه‌ی Poll", "گروه‌های مصرف‌کننده", "Offset و Commit", "تفاوت assign()‎ و subscribe()‎", "پروژه‌ی راهنمادار: گروه مصرف‌کننده برای جریان سفرهای CityFlow"]
+  - t: "ساختار درونی Kafka: تکثیر، Leader و خرابی"
+    l: ["عضویت در خوشه و Controller در KRaft", "Partition، Leader، Replica و ISR", "پردازش درخواست‌ها", "آزمایشگاه عملی: خاموش‌کردن یک Broker و مشاهده‌ی بازیابی", "پروژه‌ی راهنمادار: مستندسازی یک سناریوی واقعی خرابی"]
+  - t: "تحویل قابل‌اعتماد داده"
+    l: ["تضمین‌های تحویل", "قابلیت اطمینان در سمت Broker", "Producerهای Idempotent و تراکنشی", "Consumerهای قابل‌اعتماد", "پروژه‌ی راهنمادار: ایجاد کنترل‌شده‌ی خرابی و اطمینان از ازدست‌نرفتن داده"]
+  - t: "Schema Registry و قرارداد داده"
+    l: ["چرا داده‌های رویداد به Schema نیاز دارند", "Avro و دلیل انتخاب پیش‌فرض آن در Kafka", "اجرای Schema Registry و ثبت Schema", "حالت‌های سازگاری و تکامل Schema", "پروژه‌ی راهنمادار: تعریف و تکامل Schema رویداد سفر در CityFlow"]
+  - t: "Kafka Connect: از پایگاه داده تا موتور جست‌وجو"
+    l: ["معماری Kafka Connect", "Connector منبع JDBC", "Connector مقصد Elasticsearch", "Kafka Connect در برابر Producer و Consumer سفارشی", "پروژه‌ی راهنمادار: جریان واقعی MySQL به Kafka به Elasticsearch برای CityFlow"]
+  - t: "پردازش جریانی: Faust و Spark Structured Streaming"
+    l: ["مفاهیم پردازش جریانی", "Faust: تبدیل‌های بدون حالت", "Faust: تجمیع دارای حالت با Table", "Kafka و Spark Structured Streaming", "پروژه‌ی راهنمادار: درآمد بلادرنگ به تفکیک منطقه به دو روش"]
+  - t: "مدیریت و پایش جریان‌های Kafka"
+    l: ["چرا جریان داده‌ی بلادرنگ نیاز به مدیریت دارد", "ارتباط Airflow با Kafka", "پایش تأخیر مصرف‌کننده و سلامت Brokerها", "Kafka Connect و مدیریت خوشه", "پروژه‌ی راهنمادار: DAG در Airflow برای پایش جریان CityFlow"]
+  - t: "Kafka در مقیاس بزرگ: تکثیر، معماری و عملیات"
+    l: ["چرا داده را میان خوشه‌ها آینه کنیم", "MirrorMaker 2: تکثیر واقعی میان خوشه‌ها", "معماری‌های مرجع Kafka", "مقایسه‌ی Kafka با سامانه‌های دیگر", "پروژه‌ی راهنمادار: برنامه‌ی مکتوب توسعه‌ی مقیاس CityFlow"]
+  - t: "پروژه‌ی پایانی"
+    l: ["پروژه‌ی پایانی: بستر رویدادهای بلادرنگ شرکت CityFlow"]

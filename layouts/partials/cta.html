@@ -1,13 +1,21 @@
-{{- /* Closing call-to-action shared by every page; copy from data/home.yaml. */ -}}
+{{- /* Closing call-to-action shared by every page. Default copy comes from
+  data/home.yaml; pass a dict to override:
+  {{ partial "cta.html" (dict "title" "…" "text" "…" "button" "…") }} */ -}}
 {{ $c := site.Data.home.closing }}
+{{ $title := $c.title }}{{ $text := $c.text }}{{ $button := "درخواست جلسه‌ی مشاوره" }}
+{{ if reflect.IsMap . }}
+  {{ with .title }}{{ $title = . }}{{ end }}
+  {{ with .text }}{{ $text = . }}{{ end }}
+  {{ with .button }}{{ $button = . }}{{ end }}
+{{ end }}
 <section class="h-sec">
   <div class="h-end">
     <div>
-      <h2>{{ $c.title }}</h2>
-      <p>{{ $c.text }}</p>
+      <h2>{{ $title }}</h2>
+      <p>{{ $text }}</p>
     </div>
     <div class="h-end-actions">
-      <a class="btn btn-gold" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}درخواست جلسه‌ی آشنایی</a>
+      <a class="btn btn-gold" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}{{ $button }}</a>
       <a class="h-mail lat" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
     </div>
   </div>

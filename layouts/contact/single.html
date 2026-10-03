@@ -1,7 +1,7 @@
 {{ define "main" }}
 <div class="page">
   <div class="h-in">
-    {{ partial "page-head.html" (dict "eyebrow" "تماس" "title" .Title "lead" "برای هماهنگی جلسه‌ی آشنایی، درخواست دوره‌ی آموزشی یا بررسی یک پروژه، فرم زیر را تکمیل کنید. پیام شما در اولین فرصت پاسخ داده خواهد شد.") }}
+    {{ partial "page-head.html" (dict "eyebrow" "تماس" "title" .Title "lead" "برای هماهنگی جلسه‌ی مشاوره، برگزاری دوره‌ی آموزشی یا بررسی یک پروژه، فرم زیر را پر کنید. در اولین فرصت با شما تماس گرفته می‌شود.") }}
 
     <div class="contact-grid">
       <section class="panel">
@@ -13,9 +13,9 @@
           </div>
           <div class="row2">
             <div class="field"><label for="cmail">ایمیل</label><input id="cmail" name="cmail" type="email" dir="ltr" autocomplete="email" required></div>
-            <div class="field"><label for="csub">موضوع</label><input id="csub" name="csub" type="text" placeholder="مثلاً مشاوره‌ی پلتفرم داده"></div>
+            <div class="field"><label for="csub">موضوع</label><input id="csub" name="csub" type="text" placeholder="مثلاً برگزاری دوره‌ی تحلیل داده"></div>
           </div>
-          <div class="field"><label for="cmsg">شرح درخواست</label><textarea id="cmsg" name="cmsg" placeholder="به‌طور خلاصه نیاز، اهداف و زمان‌بندی مدنظر را شرح دهید." required></textarea></div>
+          <div class="field"><label for="cmsg">شرح درخواست</label><textarea id="cmsg" name="cmsg" placeholder="به‌طور خلاصه بنویسید چه نیازی دارید، چند نفر در دوره یا پروژه حضور دارند و چه زمانی مدنظر است." required></textarea></div>
           <div class="form-foot">
             <button class="btn btn-primary" type="submit">{{ partial "icon.html" "mail" }}ارسال پیام</button>
             <span id="cnote" class="form-note">با ارسال فرم، پیام در برنامه‌ی ایمیل شما آماده‌ی ارسال می‌شود.</span>
@@ -28,7 +28,7 @@
           <h2>اطلاعات تماس</h2>
           <ul class="info-list">
             <li>{{ partial "icon.html" "mail" }}<div><span>ایمیل</span><a class="lat" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></div></li>
-            <li>{{ partial "icon.html" "pin" }}<div><span>محل استقرار</span><b>{{ site.Data.resume.location }}</b></div></li>
+            <li>{{ partial "icon.html" "pin" }}<div><span>محل فعلی</span><b>{{ site.Data.resume.location }}</b></div></li>
             {{ range first 2 site.Data.links }}<li>{{ partial "icon.html" "ext" }}<div><span>{{ .title }}</span><a class="lat" dir="ltr" href="{{ .href }}" target="_blank" rel="noopener">{{ .label }}</a></div></li>{{ end }}
           </ul>
         </section>

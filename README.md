@@ -49,6 +49,8 @@ Persian — no first person:
 | ------------------------ | ---------------------------------------------------------------- |
 | `hugo.toml` `[params]`  | Name, headline, tagline, email, "how I work" list, `about` paragraphs |
 | `data/home.yaml`        | Home page: hero text, stats, "worked with" names, services      |
+| `data/training.yaml`    | Training page (`/training/`): formats, career paths, course catalogue (mirrors datatweets.com), FAQ |
+| `content/training.md`   | Training page (`type: training`)                                 |
 | `data/focus.yaml`       | The three "حوزه‌های تمرکز" focus-area cards (about page)        |
 | `data/resume.yaml`      | Resume: summary, stats, achievements, experience, skills, education, certifications, publications, languages |
 | `static/files/Mehdi_Lotfinejad_Resume.pdf` | Downloadable PDF resume linked from the resume page — keep in sync with `data/resume.yaml` |

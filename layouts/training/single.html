@@ -1,0 +1,126 @@
+{{ define "main" }}
+{{ $t := site.Data.training }}
+<div class="page">
+
+  {{/* ---------- intro ---------- */}}
+  <div class="h-in">
+    <header class="page-head">
+      <span class="h-eyebrow">{{ $t.eyebrow }}</span>
+      <h1>{{ $t.title }}</h1>
+      <p class="h-lead">{{ $t.lead }}</p>
+      <div class="h-cta">
+        <a class="btn btn-primary" href="{{ "contact/" | relLangURL }}">{{ partial "icon.html" "mail" }}درخواست برگزاری دوره</a>
+        <a class="btn btn-plain" href="#catalog">مشاهده‌ی فهرست دوره‌ها</a>
+      </div>
+    </header>
+    <div class="h-proof">
+      <dl class="h-stats tr-stats">
+        {{ range $t.highlights }}<div><dt>{{ .label }}</dt><dd><bdi>{{ .value }}</bdi></dd></div>{{ end }}
+      </dl>
+    </div>
+  </div>
+
+  {{/* ---------- delivery formats ---------- */}}
+  <section class="h-in h-sec">
+    <header class="h-sec-head">
+      <h2>شیوه‌های برگزاری</h2>
+      <p>دوره‌ها متناسب با شرایط سازمان، به یکی از این شکل‌ها برگزار می‌شوند.</p>
+    </header>
+    <div class="h-services h-services-3">
+      {{ range $t.formats }}
+      <div class="h-service">
+        <span class="h-ico">{{ partial "icon.html" .icon }}</span>
+        <h3>{{ .title }}</h3>
+        <p>{{ .desc }}</p>
+      </div>
+      {{ end }}
+    </div>
+  </section>
+
+  {{/* ---------- career paths ---------- */}}
+  <section class="h-in h-sec">
+    <header class="h-sec-head">
+      <h2>{{ $t.paths.title }}</h2>
+      <p>{{ $t.paths.intro }}</p>
+    </header>
+    <div class="tr-paths">
+      {{ range $t.paths.items }}
+      <div class="tr-path">
+        <div class="tr-path-head">
+          <h3>{{ .title }}</h3>
+          <span class="lat" dir="ltr">{{ .en }}</span>
+        </div>
+        <p>{{ .desc }}</p>
+        <span class="tr-level">{{ .level }}</span>
+      </div>
+      {{ end }}
+    </div>
+  </section>
+
+  {{/* ---------- full catalogue ---------- */}}
+  <section class="h-in h-sec" id="catalog">
+    <header class="h-sec-head">
+      <h2>{{ $t.catalog.title }}</h2>
+      <p>{{ $t.catalog.intro }}</p>
+    </header>
+    <div class="tr-groups">
+      {{ range $t.catalog.groups }}
+      <div class="tr-group">
+        <h3><span class="h-ico">{{ partial "icon.html" .icon }}</span>{{ .title }}</h3>
+        <ul>
+          {{ range .courses }}<li><b>{{ .fa }}</b><span class="lat" dir="ltr">{{ .en }}</span></li>{{ end }}
+        </ul>
+      </div>
+      {{ end }}
+    </div>
+    <div class="tr-exec">
+      <span class="tr-exec-label">{{ $t.executive.label }}</span>
+      <h3>{{ $t.executive.title }}</h3>
+      <p>{{ $t.executive.desc }}</p>
+    </div>
+  </section>
+
+  {{/* ---------- how it runs: a real sequence, so numbered ---------- */}}
+  <section class="h-in h-sec">
+    <header class="h-sec-head"><h2>روند برگزاری دوره</h2></header>
+    <ol class="h-steps">
+      {{ range $i, $s := $t.steps }}
+      <li>
+        <span class="h-step-n">{{ partial "fa-digits.html" (add $i 1) }}</span>
+        <h3>{{ .title }}</h3>
+        <p>{{ .desc }}</p>
+      </li>
+      {{ end }}
+    </ol>
+  </section>
+
+  {{/* ---------- what participants get ---------- */}}
+  <section class="h-in h-sec">
+    <div class="tr-outcomes">
+      <div>
+        <header class="h-sec-head">
+          <h2>آنچه شرکت‌کنندگان دریافت می‌کنند</h2>
+          <p>{{ $t.preview.text }}</p>
+        </header>
+        <a class="h-more" href="{{ $t.preview.url }}" target="_blank" rel="noopener">{{ $t.preview.label }} {{ partial "icon.html" "arrow" }}</a>
+      </div>
+      <ul class="check-list tr-checks">{{ range $t.outcomes }}<li>{{ partial "icon.html" "check" }}{{ . }}</li>{{ end }}</ul>
+    </div>
+  </section>
+
+  {{/* ---------- FAQ ---------- */}}
+  <section class="h-in h-sec">
+    <header class="h-sec-head"><h2>پرسش‌های متداول درباره‌ی دوره‌ها</h2></header>
+    <div class="h-faq">
+      {{ range $t.faq }}
+      <details>
+        <summary>{{ .q }}<span>{{ partial "icon.html" "plus" }}</span></summary>
+        <p>{{ .a }}</p>
+      </details>
+      {{ end }}
+    </div>
+  </section>
+
+  <div class="h-in">{{ partial "cta.html" (dict "title" "برای برگزاری دوره در سازمان خود هماهنگ کنید" "text" "موضوع، تعداد شرکت‌کنندگان و زمان مدنظر را بفرستید تا پیشنهاد آموزشی و برنامه‌ی دوره برای شما ارسال شود." "button" "درخواست برگزاری دوره") }}</div>
+</div>
+{{ end }}

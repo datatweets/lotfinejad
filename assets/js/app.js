@@ -118,8 +118,13 @@
 
     // Prefill from a course link: ?type=training&course=<Persian course title>
     try {
-      var course = new URLSearchParams(location.search).get("course");
+      var qs = new URLSearchParams(location.search);
+      var course = qs.get("course");
+      var service = qs.get("service");
       var msg = document.getElementById("lf-msg");
+      if (service && msg && !msg.value) {
+        msg.value = "درخواست خدمت «" + service + "».\nشرح مختصر وضعیت فعلی و هدف: ";
+      }
       if (course && msg && !msg.value) {
         msg.value = "درخواست برگزاری دوره‌ی «" + course + "» برای سازمان.\nتعداد تقریبی شرکت‌کنندگان: \nشیوه‌ی برگزاری مدنظر (حضوری / آنلاین): ";
       }

@@ -14,7 +14,7 @@
 
 {{- $person := dict
   "@type" "Person" "@id" $personID
-  "name" site.Params.author "alternateName" (slice "محمدمهدی لطفی‌نژاد" "محمدمهدی لطفینژاد" "مهدی لطفی نژاد" "مهدی لطفی‌نژاد" "مهدی لطفینژاد" "لطفی نژاد" "لطفی‌نژاد" "لطفینژاد" "Mohammad Mehdi Lotfinejad" "Mohammadmehdi Lotfinejad" "Mehdi Lotfinejad" "Mehdi Lotfi Nejad" "Lotfinejad")
+  "name" site.Params.author "alternateName" (slice "محمدمهدی لطفی‌نژاد" "محمدمهدی لطفینژاد" "محمد مهدی لطفی نژاد" "محمد مهدی لطفینژاد" "مهدی لطفی نژاد" "مهدی لطفی‌نژاد" "مهدی لطفینژاد" "لطفی نژاد" "لطفی‌نژاد" "لطفینژاد" "Mohammad Mehdi Lotfinejad" "Mohammadmehdi Lotfinejad" "Mehdi Lotfinejad" "Mehdi Lotfi Nejad" "Lotfinejad")
   "jobTitle" site.Params.headline "description" (index site.Params.about 0)
   "url" $base "image" $img "email" (printf "mailto:%s" site.Params.email)
   "sameAs" $sameAs

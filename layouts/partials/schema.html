@@ -14,7 +14,7 @@
 
 {{- $person := dict
   "@type" "Person" "@id" $personID
-  "name" site.Params.author "alternateName" "Mehdi Lotfinejad"
+  "name" site.Params.author "alternateName" (slice "محمدمهدی لطفی‌نژاد" "محمدمهدی لطفینژاد" "مهدی لطفی نژاد" "مهدی لطفی‌نژاد" "مهدی لطفینژاد" "لطفی نژاد" "لطفی‌نژاد" "لطفینژاد" "Mohammad Mehdi Lotfinejad" "Mohammadmehdi Lotfinejad" "Mehdi Lotfinejad" "Mehdi Lotfi Nejad" "Lotfinejad")
   "jobTitle" site.Params.headline "description" (index site.Params.about 0)
   "url" $base "image" $img "email" (printf "mailto:%s" site.Params.email)
   "sameAs" $sameAs
@@ -115,6 +115,7 @@
 {{- $faq := slice -}}
 {{- if .IsHome -}}{{- $faq = site.Data.home.faq -}}
 {{- else if eq .Type "consultation" -}}{{- $faq = site.Data.consultation.faq -}}
+{{- else if eq .Type "about" -}}{{- $faq = site.Data.about.faq -}}
 {{- else if and (eq .Type "training") .IsSection -}}{{- $faq = site.Data.training.faq -}}
 {{- else if and (eq .Type "services") .IsPage -}}{{- $faq = (partial "service-lookup.html" .Params.service).page.faq -}}{{- end -}}
 {{- with $faq -}}

@@ -6,25 +6,46 @@ name: Daily analytics report
 # and SMTP_PASSWORD (optional REPORT_TO); without them the job skips quietly.
 # Each is read from Secrets first, then Variables (keep SMTP_PASSWORD a Secret).
 # Run it by hand from Actions → Daily analytics report → Run workflow.
+# GitHub may delay or drop scheduled runs, so two later backup times also
+# fire; a scheduled run skips if today's report already went out.
 on:
   schedule:
     - cron: "45 3 * * *"
+    - cron: "17 5 * * *"
+    - cron: "37 7 * * *"
   workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   report:
     runs-on: ubuntu-latest
     steps:
+      - name: Skip if today's report was already sent
+        id: guard
+        if: github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          today=$(date -u +%Y-%m-%d)
+          sent=$(gh api "repos/${{ github.repository }}/actions/workflows/daily-report.yml/runs?status=success&created=>=${today}&per_page=1" --jq '.total_count')
+          if [ "${sent:-0}" -gt 0 ]; then
+            echo "Report already sent today; skipping."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/checkout@v4
+        if: steps.guard.outputs.skip != 'true'
       - uses: actions/setup-node@v4
+        if: steps.guard.outputs.skip != 'true'
         with:
           node-version: 20
       - name: Install mail client
+        if: steps.guard.outputs.skip != 'true'
         run: npm install --no-save --no-audit --no-fund nodemailer@6
       - name: Build and send report
+        if: steps.guard.outputs.skip != 'true'
         env:
           UMAMI_SHARE_ID: ${{ secrets.UMAMI_SHARE_ID || vars.UMAMI_SHARE_ID }}
           UMAMI_API_KEY: ${{ secrets.UMAMI_API_KEY || vars.UMAMI_API_KEY }}

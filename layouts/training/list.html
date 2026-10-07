@@ -1,5 +1,7 @@
 {{ define "main" }}
 {{ $t := site.Data.training }}
+{{ $courseCount := 0 }}{{ range $t.catalog.groups }}{{ $courseCount = add $courseCount (len .courses) }}{{ end }}
+{{ $courseData := slice }}
 <div class="page">
 
   {{/* ---------- intro ---------- */}}
@@ -15,7 +17,7 @@
     </header>
     <div class="trust">
       <dl class="trust-stats">
-        {{ range $t.highlights }}<div><dt>{{ .label }}</dt><dd><bdi>{{ .value }}</bdi></dd></div>{{ end }}
+        {{ range $t.highlights }}<div><dt>{{ .label }}</dt><dd><bdi>{{ if eq .label "دوره‌ی تخصصی" }}{{ partial "fa-digits.html" $courseCount }}{{ else }}{{ .value }}{{ end }}</bdi></dd></div>{{ end }}
       </dl>
     </div>
   </div>
@@ -64,6 +66,21 @@
       <p>{{ $t.catalog.intro }}</p>
     </header>
     <p class="tr-hint">{{ partial "icon.html" "doc" }}برای مشاهده‌ی معرفی و سرفصل هر دوره، عنوان آن را انتخاب کنید. فایل کامل سرفصل نیز به‌صورت PDF در دسترس است.</p>
+    <div class="course-controls panel" id="courseFilters" hidden>
+      <div class="course-filter-grid">
+        <div class="field"><label for="courseSearch">جست‌وجوی دوره</label><input id="courseSearch" type="search" placeholder="نام، ابزار یا موضوع دوره" autocomplete="off"></div>
+        <div class="field"><label for="courseRole">مسیر شغلی</label><select id="courseRole"><option value="">همه‌ی مسیرها</option>{{ range site.Data.course_selection.roles }}<option value="{{ .key }}">{{ .label }}</option>{{ end }}</select></div>
+        <div class="field"><label for="courseLevel">سطح یادگیری</label><select id="courseLevel"><option value="">همه‌ی سطوح</option><option>مقدماتی</option><option>متوسط</option><option>پیشرفته</option></select></div>
+      </div>
+      <div class="course-controls-foot"><p id="courseCount" role="status" aria-live="polite"></p><button type="button" class="link-btn" id="courseReset">پاک‌کردن فیلترها</button></div>
+      <p class="field-hint">مسیرها پیشنهاد آموزشی‌اند. پیش‌نیاز و خروجی هر دوره را پیش از انتخاب بررسی کنید؛ برای مقایسه، حداکثر سه دوره را انتخاب کنید.</p>
+    </div>
+    <section class="course-compare panel" id="courseCompare" hidden aria-labelledby="courseCompareTitle">
+      <div class="h-sec-head h-sec-head-row"><h3 id="courseCompareTitle">مقایسه‌ی دوره‌ها</h3><button class="link-btn" id="courseCompareClear" type="button">پاک‌کردن مقایسه</button></div>
+      <p id="courseCompareStatus" role="status" aria-live="polite"></p>
+      <div class="course-compare-scroll" tabindex="0" aria-label="جدول مقایسه‌ی دوره‌های انتخاب‌شده"><table id="courseCompareTable"></table></div>
+    </section>
+    <p class="empty" id="courseEmpty" hidden>دوره‌ای با این معیارها پیدا نشد. فیلترها را تغییر دهید یا پاک کنید.</p>
     {{ range $t.catalog.groups }}
     <div class="tr-group">
       <h3 class="tr-group-title"><span class="h-ico">{{ partial "icon.html" .icon }}</span>{{ .title }}</h3>
@@ -71,10 +88,12 @@
         {{ range .courses }}
         {{ $c := index site.Data.courses .slug }}
         {{ $dur := partial "course-duration.html" $c }}{{ $lessons := $dur.lessons }}
+        {{ $selection := index site.Data.course_selection.courses .slug }}
+        {{ $courseData = $courseData | append (dict "slug" .slug "title" $c.fa "level" $c.level "hours" $dur.hours "prereqs" $c.prereqs "project" ($c.project | default "") "url" (printf "training/%s/" .slug | relLangURL)) }}
         {{ $pdf := printf "files/outlines/%s.pdf" .slug | relURL }}
         {{/* The PDF link sits outside <summary> (no link nested in the toggle),
              positioned over the reserved slot in the row. */}}
-        <div class="tr-item">
+        <div class="tr-item" data-course="{{ .slug }}" data-level="{{ $c.level }}" data-roles="{{ delimit $selection.roles " " }}" data-search="{{ printf "%s %s %s %s" $c.fa $c.en $c.summary (delimit $c.tools " ") }}">
         <details class="tr-course" id="course-{{ .slug }}">
           <summary>
             <span class="tr-course-name"><b>{{ .fa }}</b><span class="lat" dir="ltr">{{ .en }}</span></span>
@@ -89,7 +108,7 @@
             <div class="tr-facts">
               <span>{{ partial "fa-digits.html" (len $c.modules) }} بخش</span>
               <span>{{ partial "fa-digits.html" $lessons }} درس</span>
-              <span>{{ partial "fa-digits.html" $dur.days }} روز ({{ partial "fa-digits.html" $dur.hours }} ساعت)</span>
+              <span>پیشنهادی: {{ partial "fa-digits.html" $dur.days }} روز ({{ partial "fa-digits.html" $dur.hours }} ساعت)</span>
               <span>حضوری یا آنلاین</span>
             </div>
             <div class="tr-course-cols">
@@ -103,6 +122,7 @@
               </div>
             </div>
             <p class="tr-pre"><b>پیش‌نیاز:</b> {{ partial "bidi.html" (index $c.prereqs 0) }}</p>
+            <label class="choice course-compare-choice" hidden><input type="checkbox" data-compare="{{ .slug }}" aria-label="افزودن دوره‌ی {{ .fa }} به مقایسه"><span>افزودن به مقایسه</span></label>
             <div class="h-cta tr-course-cta">
               <a class="btn btn-primary" href="{{ $pdf }}" target="_blank" rel="noopener" data-umami-event="pdf-outline" data-umami-event-course="{{ .slug }}">{{ partial "icon.html" "doc" }}دریافت سرفصل کامل (PDF)</a>
               <a class="btn btn-plain" href="{{ printf "training/%s/" .slug | relLangURL }}">صفحه‌ی کامل دوره</a>
@@ -116,6 +136,7 @@
       </div>
     </div>
     {{ end }}
+    <script type="application/json" id="courseData">{{ $courseData | jsonify | safeJS }}</script>
     <div class="tr-exec">
       <span class="tr-exec-label">{{ $t.executive.label }}</span>
       <h3>{{ $t.executive.title }}</h3>

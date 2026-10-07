@@ -57,6 +57,9 @@ enableGitInfo = true
   section = ["HTML", "RSS"]
 
 [markup]
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
   [markup.highlight]
     style = "github"
     lineNos = false
@@ -65,6 +68,17 @@ enableGitInfo = true
     noClasses = false
   [markup.goldmark.renderer]
     unsafe = true
+
+[related]
+  includeNewer = true
+  threshold = 70
+  toLower = true
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+  [[related.indices]]
+    name = "category"
+    weight = 30
 
 [[menu.main]]
   name = "خانه"

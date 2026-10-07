@@ -1,4 +1,6 @@
 {{- /* File key for a page's share image: its path with "/" → "-"
      (/training/sql/ → training-sql). Images live in static/images/og/<key>.jpg,
      printed by scripts/build-og.mjs from /print/og/. */ -}}
-{{- return (replace (strings.Trim .RelPermalink "/") "/" "-") -}}
+{{- $key := replace (strings.Trim .RelPermalink "/") "/" "-" -}}
+{{- if .IsHome -}}{{- $key = "home" -}}{{- end -}}
+{{- return $key -}}

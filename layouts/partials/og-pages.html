@@ -1,6 +1,5 @@
-{{- /* Pages that get their own share image (everything public except home,
-     which uses static/images/og.jpg, and the print/outline pages). */ -}}
-{{- $out := slice -}}
+{{- /* All public pages, including a dynamic home card. */ -}}
+{{- $out := slice site.Home -}}
 {{- range site.Pages -}}
   {{- if and (in (slice "page" "section") .Kind) (not (in (slice "outlines" "print") .Section)) (ne .Type "og") (ne .Type "resume-en") -}}
     {{- $out = $out | append . -}}

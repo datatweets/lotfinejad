@@ -5,7 +5,7 @@
 //   npm i -D playwright    # once
 //   node scripts/build-outlines.mjs [baseURL]   # default http://localhost:1313
 //
-// Commit the generated PDFs; the GitHub Pages build only runs Hugo.
+// npm run build also regenerates these automatically before deployment.
 import { readdirSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { chromium } from "playwright";
@@ -26,6 +26,8 @@ for (const slug of slugs) {
     format: "A4",
     printBackground: true,
     preferCSSPageSize: true,
+    tagged: true,
+    outline: true,
     displayHeaderFooter: true,
     headerTemplate: "<span></span>",
     footerTemplate: '<div style="width:100%;font-size:8px;color:#7A8394;text-align:center;font-family:sans-serif"><span class="pageNumber"></span> / <span class="totalPages"></span></div>',

@@ -81,11 +81,11 @@ draft: false
 
 این اعداد همین مجموعه‌داده‌ی گزینشی را توصیف می‌کنند و نباید آن‌ها را اندازه‌گیری کاملِ کل بازار کار آمریکا دانست. شمارش‌های تجمیعی به‌صورت [فایل CSV](https://datatweets.com/datasets/ai-engineer-skills-2026/cleaned-skill-counts.csv) هم در دسترس است.
 
-### پنج آگهی فعلی که این الگو را نشان می‌دهند
+### پنج آگهی بررسی‌شده که این الگو را نشان می‌دهند
 
 این آگهی‌ها وقتی در ۲۵ ژوئیه‌ی ۲۰۲۶ بررسی‌شان کردم فعال بودند. صفحه‌های شغلی ممکن است بسته یا جابه‌جا شوند، برای همین برای هر کدام کارفرما، نقش، محل، توانایی‌های خواسته‌شده و نکته‌ای را که آگهی پشتیبانی می‌کند ثبت کرده‌ام.
 
-{{< jobad company="Capital One" role="Lead AI/ML Engineer — Platform" place="سن‌خوزه، مک‌لین، نیویورک یا سان‌فرانسیسکو" url="https://www.capitalonecareers.com/en/job/san-jose/lead-ai-ml-engineer-platform-kubeflow/1732/94779281216" >}}
+{{< jobad company="Capital One" role="Lead AI/ML Engineer — Platform" place="سن‌خوزه، مک‌لین، نیویورک یا سان‌فرانسیسکو" url="https://www.capitalonecareers.com/en/job/san-jose/lead-ai-ml-engineer-platform-kubeflow/1732/94779281216" status="unavailable" checked="۷ اکتبر ۲۰۲۶" observed="۲۵ ژوئیه ۲۰۲۶" sourceId="94779281216" >}}
 **خواسته‌ها:** پایتون یا یک زبان عملیاتی دیگر؛ هوش مصنوعی ابری؛ استنتاج مدل زبانی؛ جست‌وجوی شباهت؛ سازوکارهای محافظتی؛ ارزیابی و مشاهده‌پذیری
 
 **چه چیزی را نشان می‌دهد:** نقش‌های پلتفرم کار با مدل را با استقرار، حاکمیت، هزینه، تأخیر و پشتیبانی عملیاتی ترکیب می‌کنند.
@@ -97,13 +97,13 @@ draft: false
 **چه چیزی را نشان می‌دهد:** مهندسی هوش مصنوعی در سازمان، تحویل فول‌استک، ارزیابی خودکار، امنیت و عملیات در محیط واقعی را انتظار دارد.
 {{< /jobad >}}
 
-{{< jobad company="Mastercard" role="Principal AI Platform Engineer" place="آرلینگتون، ویرجینیا" url="https://careers.mastercard.com/us/en/job/R-277316/Principal-AI-Platform-Engineer-AI-Center-of-Excellence" >}}
+{{< jobad company="Mastercard" role="Principal AI Platform Engineer" place="آرلینگتون، ویرجینیا" url="https://careers.mastercard.com/us/en/job/R-277316/Principal-AI-Platform-Engineer-AI-Center-of-Excellence" status="unavailable" checked="۷ اکتبر ۲۰۲۶" observed="۲۵ ژوئیه ۲۰۲۶" sourceId="R-277316" >}}
 **خواسته‌ها:** پردازش CPU و GPU؛ ذخیره‌سازی پرسرعت؛ شبکه؛ استنتاج کم‌تأخیر؛ مشاهده‌پذیری؛ حاکمیت
 
 **چه چیزی را نشان می‌دهد:** در عمق زیرساخت، مهندسی هوش مصنوعی شامل انتخاب سخت‌افزار، ظرفیت، تاب‌آوری و استانداردهای پلتفرم است.
 {{< /jobad >}}
 
-{{< jobad company="Best Egg" role="Senior Software Engineer II — AI Operations" place="دورکاری" url="https://jobs.lever.co/BestEgg/3b82aae9-9cdb-419e-9d07-5f0c43d82bde" >}}
+{{< jobad company="Best Egg" role="Senior Software Engineer II — AI Operations" place="دورکاری" url="https://jobs.lever.co/BestEgg/3b82aae9-9cdb-419e-9d07-5f0c43d82bde" status="unavailable" checked="۷ اکتبر ۲۰۲۶" observed="۲۵ ژوئیه ۲۰۲۶" sourceId="3b82aae9-9cdb-419e-9d07-5f0c43d82bde" >}}
 **خواسته‌ها:** پایتون؛ خط‌های RAG؛ AWS و Bedrock؛ ارزیابی؛ ردگیری؛ سازوکارهای محافظتی؛ CI/CD؛ هزینه و کارایی
 
 **چه چیزی را نشان می‌دهد:** عملیات هوش مصنوعی یعنی مالکیت مسیر از نمونه‌ی اولیه تا سرویسی پایش‌شده، برگشت‌پذیر و مقرون‌به‌صرفه.

@@ -9,7 +9,7 @@
 //   node scripts/build-og.mjs --only key1,key2 # rebuild these (e.g. a retitled page)
 //
 // Commit the generated images; the GitHub Pages build only runs Hugo.
-import { mkdirSync, existsSync } from "node:fs";
+import { mkdirSync, existsSync, copyFileSync } from "node:fs";
 import { join } from "node:path";
 import { chromium } from "playwright";
 
@@ -32,6 +32,7 @@ for (const id of ids) {
   const out = join(outDir, `${id}.jpg`);
   if (only ? !only.has(id) : !all && existsSync(out)) continue;
   await page.locator(`[id="${id}"]`).screenshot({ path: out, type: "jpeg", quality: 82 });
+  if (id === "home") copyFileSync(out, join(root, "static/images/og.jpg"));
   written++;
 }
 await browser.close();

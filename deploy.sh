@@ -5,7 +5,7 @@
 # and (by default) watches until that finishes.
 #
 # Usage:
-#   ./deploy.sh                     commit any changes (default message), push, watch the deploy
+#   ./deploy.sh                     commit staged changes (default message), push, watch the deploy
 #   ./deploy.sh "commit message"    same, with your own commit message
 #   ./deploy.sh --no-watch          push and exit immediately, don't wait for Actions
 set -euo pipefail
@@ -26,8 +26,8 @@ done
 
 echo "==> Building locally to catch errors before pushing…"
 rm -rf public resources
-if ! hugo --gc --minify > /tmp/lotfinejad-build.log 2>&1; then
-  echo "✗ Local Hugo build failed — not pushing. Build output:"
+if ! npm run build > /tmp/lotfinejad-build.log 2>&1; then
+  echo "✗ Local release build failed — not pushing. Build output:"
   cat /tmp/lotfinejad-build.log
   exit 1
 fi
@@ -41,13 +41,12 @@ if [ "$branch" != "main" ]; then
   [[ "$ans" =~ ^[Yy]$ ]] || exit 1
 fi
 
-if [ -n "$(git status --porcelain)" ]; then
-  git add -A
+if ! git diff --cached --quiet; then
   [ -z "$message" ] && message="Update site ($(date +'%Y-%m-%d %H:%M'))"
   git commit -q -m "$message"
   echo "✓ Committed: $message"
 else
-  echo "· No local changes to commit."
+  echo "· No staged changes to commit."
 fi
 
 git fetch -q origin main

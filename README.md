@@ -9,8 +9,7 @@ and deployed to GitHub Pages via GitHub Actions.
 - **Fonts:** [Vazirmatn](https://github.com/rastikerdar/vazirmatn) (SIL Open
   Font License) for Persian text, self-hosted as a variable font at
   `static/fonts/vazirmatn/` (license: `static/fonts/vazirmatn/LICENSE.txt`).
-  Source Sans 3 (Latin) and IBM Plex Mono (code/repo-names/numerals) load
-  from Google Fonts.
+  English résumé uses self-hosted Inter; site fonts do not load from Google Fonts.
 - **Design:** a consultant-style site with a "lapis & gold" palette —
   one 1080px content column shared by every page (common page header,
   section heads, cards, closing call to action and footer), sticky text
@@ -23,7 +22,21 @@ and deployed to GitHub Pages via GitHub Actions.
 ## Local development
 
 ```bash
-hugo server -D
+npm ci
+npx playwright install chromium
+npm run preview
+```
+
+Preview: `http://127.0.0.1:1323/`. This mode shows a review banner, disables
+production analytics, and sends forms only to a local simulator; it does not
+send email or store submitted field contents. Keep preview config out of
+production builds.
+
+For plain Hugo development (real form endpoint), use `hugo server -D`.
+For a complete production build with regenerated PDFs and share cards:
+
+```bash
+npm run build
 ```
 
 ## Deploying
@@ -34,8 +47,10 @@ hugo server -D
 ./deploy.sh --no-watch       # push and exit immediately, don't wait for GitHub Actions
 ```
 
-It runs a local Hugo build first and refuses to push if that fails, so a
-broken build never reaches GitHub Pages. Nothing to push (no local changes,
+It runs the full asset build and release guard first and refuses to push if
+that fails. It commits only changes explicitly staged with `git add`; review
+the staged diff first. Audit reports and unrelated article drafts must not be
+included in a release. Nothing to push (no local changes,
 already in sync with `origin/main`) is a normal, silent no-op.
 
 ## Content structure
@@ -72,8 +87,9 @@ Persian — no first person:
 | `content/resume.md`     | Resume page (`type: resume`)                                     |
 | `content/posts/`        | Blog posts — real Markdown content                                |
 
-`hugo.toml`'s `email` param is still the placeholder `you@lotfinejad.ir` —
-search for `TODO` across the repo before considering a page finished.
+The recipient and form endpoint are configured in `hugo.toml`. Receiving mail
+is a separate check: an accepted FormSubmit response does not confirm inbox
+delivery or a human response time.
 
 ### Post front matter
 
@@ -157,7 +173,8 @@ The topic is picked automatically, in this order:
    `?service=<service title>` (→ consultation, service preselected);
 2. the referring page: `/training/` or `/outlines/` → course, `/services/` →
    consultation;
-3. a saved draft (fields autosave in the visitor's browser until sent);
+3. a saved draft (browser storage expires after 24 hours of inactivity and is
+   cleared on successful submission or with the clear-draft control);
 4. the page default: `/contact/` → message, `/consultation/` → consultation.
 
 `/consultation/` is fixed (`"fixed" true`): it always opens on consultation
@@ -191,13 +208,17 @@ developed from the trainer's professional experience. From these:
   and a link to its course page;
 - `static/files/outlines/<slug>.pdf` are printed from the outline pages.
 
-After editing a course YAML, regenerate the PDFs and commit them:
+After editing course YAML, use `npm run build`. It builds a production-URL
+snapshot, generates all tagged outline PDFs, the English résumé PDF and all public share cards, then
+builds the final output and runs the release guard. GitHub Actions performs the
+same process before deployment. Do not generate release PDFs from localhost
+URLs: their internal links must point to the live site.
 
-```bash
-hugo server                       # terminal 1
-npm i -D playwright               # once
-node scripts/build-outlines.mjs   # terminal 2 (default base http://localhost:1313)
-```
+Derived duration is labelled a suggested duration, not a verified teaching
+commitment. Course schema omits derived `courseWorkload`; only explicit `hours`
+values are used. Validate teaching hours with the owner before treating them
+as final. Route recommendations live in `data/course_selection.yaml` and must
+not contradict a course's prerequisites.
 
 ## Résumé
 
@@ -210,8 +231,7 @@ node scripts/build-outlines.mjs   # terminal 2 (default base http://localhost:13
   layout. After editing the YAML (keep it to two pages):
 
 ```bash
-hugo server                      # terminal 1
-node scripts/build-resume.mjs    # terminal 2
+npm run build                    # regenerates the English résumé with other assets
 ```
 
 ## Notes (یادداشت‌ها)
@@ -233,16 +253,15 @@ their order inside RTL text:
 
 ## Share images
 
-Every page except the home page has its own 1200×630 share image
+Every public page, including the home page, has its own 1200×630 share image
 (`static/images/og/<page-key>.jpg`, key = path with `/` → `-`, e.g.
-`training-sql`). They are printed from `/print/og/` (`layouts/og/single.html`)
+`training-sql`; home uses `home.jpg`). They are printed from `/print/og/` (`layouts/og/single.html`)
 and picked up automatically by `partials/og-image.html` (og:image and JSON-LD);
 pages without one fall back to `static/images/og.jpg`. After adding pages or
 changing titles:
 
 ```bash
-hugo server                  # terminal 1
-node scripts/build-og.mjs    # terminal 2
+npm run build                # generates every public share card with PDFs
 ```
 
 ## Analytics
@@ -300,3 +319,20 @@ report → Run workflow. Local preview with sample data:
 - No third-party fonts: only self-hosted Vazirmatn (Google Fonts is slow or
   filtered for many Iranian visitors). The portrait is resized by Hugo from
   `assets/images/avatar.jpg` (`layouts/partials/avatar.html`).
+
+## Audit release checks and analytics
+
+The release guard checks course titles/assets, internal link targets, JSON-LD,
+local URL leaks, and the two corrected consultation/data-readiness FAQs. It is
+a build guard, not an inbox-delivery or Google-indexing guarantee.
+
+Form funnel events contain only topic, error count and allowlisted source
+categories. They do not contain names, email, message text or raw referral
+values. `form-submit` means FormSubmit accepted the request.
+
+The daily-report workflow suppresses repeats only when a `daily-report-sent`
+receipt exists for that UTC day. The receipt is written after SMTP accepts the
+message. Missing configuration is reported as skipped; a mock/build-only run
+cannot produce a sent receipt. SMTP acceptance still requires an independent
+inbox check. A failure to preserve the receipt after an accepted send can allow
+a retry to send again.

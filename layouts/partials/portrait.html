@@ -1,6 +1,12 @@
 {{- /* Hero portrait with name/role caption (home + about). */ -}}
 <figure class="h-portrait">
-  {{ partial "avatar.html" (dict "w" 340 "h" 425 "alt" site.Params.author) }}
+  {{ with resources.Get "images/avatar.jpg" }}
+  {{ $small := .Fill "340x425 webp q82 Top" }}{{ $large := .Fill "680x850 webp q82 Top" }}
+  <picture>
+    <source media="(min-width: 901px)" srcset="{{ $small.RelPermalink }} 1x, {{ $large.RelPermalink }} 2x" type="image/webp">
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='425'%3E%3C/svg%3E" alt="{{ site.Params.author }}" width="340" height="425">
+  </picture>
+  {{ end }}
   <figcaption>
     <b>{{ site.Params.author }}</b>
     <span>{{ site.Params.headline }}</span>

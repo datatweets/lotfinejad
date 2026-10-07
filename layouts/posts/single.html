@@ -17,10 +17,29 @@
       </div>
     </header>
 
+    {{ if ge (len (findRE "<h2[ >]" .Content)) 4 }}
+    <details class="article-toc"><summary>در این یادداشت</summary><nav aria-label="فهرست مطالب این یادداشت">{{ .TableOfContents }}</nav></details>
+    {{ end }}
+
     <div class="prose">{{ .Content }}</div>
 
     {{ with .Params.original }}
     <p class="article-original">نسخه‌ی انگلیسی این یادداشت در <a href="{{ . }}" target="_blank" rel="noopener" hreflang="en" lang="en">DATATWEETS</a> منتشر شده است.</p>
+    {{ end }}
+
+    {{ with site.RegularPages.Related . | first 3 }}
+    <section class="article-related" aria-labelledby="relatedPostsTitle">
+      <h2 id="relatedPostsTitle">یادداشت‌های مرتبط</h2>
+      <ul class="tr-dots">{{ range . }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ul>
+    </section>
+    {{ end }}
+    {{ with index site.Data.content_links .File.ContentBaseName }}
+    <section class="article-related" aria-labelledby="relatedOfferingsTitle">
+      <h2 id="relatedOfferingsTitle">خدمات و آموزش مرتبط</h2>
+      <div class="h-posts">
+        {{ range . }}<a class="h-post" href="{{ .url | relLangURL }}"><span class="h-post-cat">{{ .kind }}</span><h3>{{ .title }}</h3></a>{{ end }}
+      </div>
+    </section>
     {{ end }}
 
     {{ with .Params.tags }}

@@ -9,5 +9,7 @@
     {{ with .Get "place" }}<small>{{ . }}</small>{{ end }}
   </div>
   <div class="jobad-body">{{ .Inner | .Page.RenderString (dict "display" "block") }}</div>
-  {{ with .Get "url" }}<a class="jobad-link" href="{{ . }}" target="_blank" rel="noopener">مشاهده‌ی آگهی اصلی ↗</a>{{ end }}
+  {{ if eq (.Get "status") "unavailable" }}
+  <p class="field-hint">آگهی اصلی در بررسی {{ .Get "checked" }} در دسترس نبود. این شاهد تاریخی بر اساس بررسی {{ .Get "observed" }} حفظ شده است؛ فعال‌بودن فرصت استخدام را نشان نمی‌دهد.{{ with .Get "sourceId" }} شناسه‌ی منبع: <bdi>{{ . }}</bdi>.{{ end }}</p>
+  {{ else }}{{ with .Get "url" }}<a class="jobad-link" href="{{ . }}" target="_blank" rel="noopener">مشاهده‌ی آگهی اصلی ↗</a>{{ end }}{{ end }}
 </aside>

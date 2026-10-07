@@ -1,0 +1,38 @@
+ai-engineer-skills-2026:
+  - {kind: "خدمت", title: "خودکارسازی فرایندها با هوش مصنوعی", url: "services/agentic-process-automation/"}
+  - {kind: "دوره", title: "ساخت ایجنت‌های هوش مصنوعی با پایتون", url: "training/ai-agents/"}
+france-ai-engineer-job-market-2026:
+  - {kind: "دوره", title: "هوش مصنوعی مولد و مهندسی مدل‌های زبانی بزرگ", url: "training/generative-ai/"}
+  - {kind: "دوره", title: "معماری سازمانی هوش مصنوعی", url: "training/ai-architecture/"}
+germany-data-scientist-job-market-2026:
+  - {kind: "دوره", title: "یادگیری ماشین", url: "training/machine-learning/"}
+  - {kind: "دوره", title: "پایتون برای تحلیل داده", url: "training/python/"}
+vienna-data-science-job-listings:
+  - {kind: "دوره", title: "یادگیری ماشین", url: "training/machine-learning/"}
+  - {kind: "دوره", title: "آمار و احتمال", url: "training/statistics/"}
+ai-incident-response-triggers-fallbacks-recovery:
+  - {kind: "خدمت", title: "پایش مدل‌ها و سامانه‌های هوش مصنوعی", url: "services/model-monitoring/"}
+  - {kind: "دوره", title: "ارزیابی مدل‌های زبانی بزرگ", url: "training/llm-evaluation/"}
+variation-matrix-better-ai-decisions:
+  - {kind: "خدمت", title: "پایش مدل‌ها و سامانه‌های هوش مصنوعی", url: "services/model-monitoring/"}
+  - {kind: "دوره", title: "ارزیابی مدل‌های زبانی بزرگ", url: "training/llm-evaluation/"}
+technology-slas-that-work-in-practice:
+  - {kind: "خدمت", title: "پایش مدل‌ها و سامانه‌های هوش مصنوعی", url: "services/model-monitoring/"}
+  - {kind: "دوره", title: "MLOps با Azure", url: "training/mlops-azure/"}
+enterprise-ai-implementation-ownership:
+  - {kind: "دوره", title: "معماری سازمانی هوش مصنوعی", url: "training/ai-architecture/"}
+  - {kind: "خدمت", title: "طراحی و معماری پلتفرم داده", url: "services/data-platform-architecture/"}
+answer-ceo-ai-technology-questions:
+  - {kind: "دوره", title: "معماری سازمانی هوش مصنوعی", url: "training/ai-architecture/"}
+  - {kind: "خدمت", title: "طراحی و معماری پلتفرم داده", url: "services/data-platform-architecture/"}
+train-teams-for-ai-workflow-changes:
+  - {kind: "آموزش", title: "دوره‌ها و مسیرهای آموزشی سازمانی", url: "training/"}
+qualify-small-ai-projects-before-funding:
+  - {kind: "دوره", title: "معماری سازمانی هوش مصنوعی", url: "training/ai-architecture/"}
+  - {kind: "خدمت", title: "خودکارسازی فرایندها با هوش مصنوعی", url: "services/agentic-process-automation/"}
+design-information-intake-technical-teams:
+  - {kind: "خدمت", title: "دستیار دانش سازمانی", url: "services/enterprise-knowledge-assistant/"}
+  - {kind: "دوره", title: "هوش مصنوعی مولد و مهندسی مدل‌های زبانی بزرگ", url: "training/generative-ai/"}
+build-technology-asset-register:
+  - {kind: "خدمت", title: "طراحی و معماری پلتفرم داده", url: "services/data-platform-architecture/"}
+  - {kind: "دوره", title: "معماری سازمانی هوش مصنوعی", url: "training/ai-architecture/"}

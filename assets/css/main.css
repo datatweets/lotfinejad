@@ -933,6 +933,32 @@ fieldset.field legend { padding: 0; margin-block-end: 8px; font-size: 13.5px; fo
 .ft-top-link { display: inline-flex; align-items: center; min-height: 40px; font-weight: 600; }
 
 .print-only { display: none; }
+/* Audit proposals: use the site's existing type, colours and panels. */
+.preview-banner { padding: 8px 20px; text-align: center; background: var(--gold-wash); color: var(--ink); font-size: 13px; }
+.course-controls { margin-block: 24px; }
+.course-filter-grid { display: grid; grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr)); gap: 16px; }
+.course-controls-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-block-start: 14px; font-size: 14px; }
+.course-compare { margin-block-end: 24px; }
+.course-compare-scroll { overflow-x: auto; }
+.course-compare table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14px; line-height: 1.9; }
+.course-compare th, .course-compare td { text-align: start; vertical-align: top; padding: 14px; border-block-end: 1px solid var(--line); }
+.course-compare th { color: var(--accent); }
+.course-compare th[scope="row"] { width: 100px; }
+.course-compare-choice { margin-block: 14px; }
+.search-results { color: var(--ink-3); font-size: 14px; margin-block-end: 16px; }
+.form-error-summary { border: 1px solid #C2410C; border-radius: 10px; padding: 14px 18px; background: var(--surface-2); color: var(--ink); }
+.form-error-summary ul { list-style: disc; padding-inline-start: 22px; margin-block-start: 8px; }
+.field-error { color: #B53B11; font-size: 13px; line-height: 1.8; margin-block-start: 6px; }
+:root[data-theme="dark"] .field-error { color: #FDBA74; }
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .field-error { color: #FDBA74; }}
+.article-toc { border: 1px solid var(--line); border-radius: 12px; padding: 16px 22px; margin-block: 28px; background: var(--surface-2); font-size: 14px; }
+.article-toc summary { cursor: pointer; font-weight: 700; }
+.article-toc ul { list-style: disc; padding-inline-start: 22px; margin-block-start: 10px; }
+.article-toc li { margin-block: 5px; }
+.article-related { margin-block: 36px; }
+.article-related .h-posts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media(max-width:760px) { .course-filter-grid { grid-template-columns: 1fr; } .article-related .h-posts { grid-template-columns: 1fr; } }
+@media print { .course-controls, .course-compare, .course-compare-choice, .article-toc { display: none !important; } }
 @media print {
   .nav, .site-footer, .progress, .no-print, .h-end, .skip-link { display: none !important; }
   .print-only { display: block; }
@@ -1042,3 +1068,6 @@ fieldset.field legend { padding: 0; margin-block-end: 8px; font-size: 13.5px; fo
 @media (max-width: 30em) {
   body { font-size: 15px; }
 }
+
+/* Keep review targets and in-page links below the sticky navigation. */
+#catalog, #formTitle, .prose h2, .prose h3 { scroll-margin-top: 110px; }

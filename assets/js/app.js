@@ -93,6 +93,11 @@
         if (show) visible++;
       });
       if (emptyMsg) emptyMsg.hidden = visible !== 0;
+      var resultCount = document.getElementById("postCount");
+      if (resultCount) {
+        resultCount.hidden = false;
+        resultCount.textContent = visible.toLocaleString("fa-IR") + " یادداشت از " + items.length.toLocaleString("fa-IR") + " · جست‌وجو در عنوان، خلاصه و برچسب‌ها";
+      }
     }
 
     filterBar.addEventListener("click", function (e) {
@@ -112,6 +117,75 @@
         applyFilters();
       });
     }
+    applyFilters();
+  }
+
+  /* ---------- catalogue search, role/level filters and comparison ---------- */
+  var courseFilters = document.getElementById("courseFilters");
+  if (courseFilters) {
+    var courseItems = Array.prototype.slice.call(document.querySelectorAll(".tr-item[data-course]"));
+    var courseSearch = document.getElementById("courseSearch");
+    var courseRole = document.getElementById("courseRole");
+    var courseLevel = document.getElementById("courseLevel");
+    var compareBox = document.getElementById("courseCompare");
+    var compareTable = document.getElementById("courseCompareTable");
+    var compareChecks = Array.prototype.slice.call(document.querySelectorAll("input[data-compare]"));
+    var compareData = [];
+    try { compareData = JSON.parse(document.getElementById("courseData").textContent); } catch (e) {}
+    courseFilters.hidden = false;
+    document.querySelectorAll(".course-compare-choice").forEach(function (el) { el.hidden = false; });
+    function filterCourses() {
+      var q = normalizeSearch(courseSearch.value), visible = 0;
+      courseItems.forEach(function (item) {
+        var show = (!q || normalizeSearch(item.getAttribute("data-search")).indexOf(q) !== -1) &&
+          (!courseRole.value || item.getAttribute("data-roles").split(" ").indexOf(courseRole.value) !== -1) &&
+          (!courseLevel.value || item.getAttribute("data-level").indexOf(courseLevel.value) !== -1);
+        item.hidden = !show;
+        if (show) visible++;
+      });
+      document.querySelectorAll("#catalog .tr-group").forEach(function (group) {
+        group.hidden = !Array.prototype.some.call(group.querySelectorAll(".tr-item"), function (el) { return !el.hidden; });
+      });
+      document.getElementById("courseCount").textContent = visible.toLocaleString("fa-IR") + " دوره از " + courseItems.length.toLocaleString("fa-IR");
+      document.getElementById("courseEmpty").hidden = visible !== 0;
+    }
+    [courseSearch, courseRole, courseLevel].forEach(function (el) { el.addEventListener(el === courseSearch ? "input" : "change", filterCourses); });
+    document.getElementById("courseReset").addEventListener("click", function () {
+      courseSearch.value = courseRole.value = courseLevel.value = "";
+      filterCourses();
+      courseSearch.focus();
+    });
+    function paintComparison() {
+      var selected = compareChecks.filter(function (el) { return el.checked; }).map(function (el) { return el.getAttribute("data-compare"); });
+      compareChecks.forEach(function (el) { el.disabled = selected.length >= 3 && !el.checked; });
+      compareBox.hidden = selected.length === 0;
+      compareTable.replaceChildren();
+      if (!selected.length) return;
+      var courses = selected.map(function (slug) { return compareData.find(function (c) { return c.slug === slug; }); }).filter(Boolean);
+      var head = document.createElement("thead"), headerRow = document.createElement("tr");
+      var feature = document.createElement("th"); feature.scope = "col"; feature.textContent = "ویژگی"; headerRow.appendChild(feature);
+      courses.forEach(function (c) {
+        var cell = document.createElement("th"); cell.scope = "col";
+        var link = document.createElement("a"); link.href = c.url; link.textContent = c.title; cell.appendChild(link);
+        headerRow.appendChild(cell);
+      });
+      head.appendChild(headerRow); compareTable.appendChild(head);
+      var body = document.createElement("tbody");
+      [["سطح", "level"], ["مدت پیشنهادی", "hours"], ["پیش‌نیازها", "prereqs"], ["کار عملی", "project"]].forEach(function (row) {
+        var tr = document.createElement("tr"), th = document.createElement("th"); th.scope = "row"; th.textContent = row[0]; tr.appendChild(th);
+        courses.forEach(function (c) {
+          var td = document.createElement("td"), value = c[row[1]];
+          td.textContent = row[1] === "hours" ? Number(value).toLocaleString("fa-IR") + " ساعت" : Array.isArray(value) ? value.join("؛ ") : (value || "در برنامه‌ی سازمانی تعیین می‌شود");
+          tr.appendChild(td);
+        });
+        body.appendChild(tr);
+      });
+      compareTable.appendChild(body);
+      document.getElementById("courseCompareStatus").textContent = courses.length.toLocaleString("fa-IR") + " دوره انتخاب شده است. مدت نهایی بر اساس سطح و نیاز تیم تعیین می‌شود.";
+    }
+    compareChecks.forEach(function (el) { el.addEventListener("change", paintComparison); });
+    document.getElementById("courseCompareClear").addEventListener("click", function () { compareChecks.forEach(function (el) { el.checked = false; }); paintComparison(); courseSearch.focus(); });
+    filterCourses();
   }
 
   /* ---------- training catalogue: open the course named in the URL hash ---------- */
@@ -188,7 +262,7 @@
       toggle($("[data-org-req]", form), !!c.orgRequired);
       toggle($("[data-org-opt]", form), !c.orgRequired);
       $("#lf-submit").textContent = c.submit;
-      $("#leadDoneText").textContent = c.done;
+      $("#leadDoneText").textContent = cfg.preview ? "این ارسال فقط برای بازبینی نسخه‌ی محلی بود؛ ایمیلی ارسال نشده و درخواست واقعی ثبت نشده است." : c.done;
       var when = $('label[for="lf-when"]');
       if (when) when.firstChild.nodeValue = (key === "course" ? when.getAttribute("data-label-course") : when.getAttribute("data-label")) + " ";
     }
@@ -284,6 +358,7 @@
         syncUrl(current);
         ctx.hidden = true;
         form.classList.remove("was-validated");
+        clearValidationErrors();
         setStatus("", false);
         saveDraft();
       });
@@ -346,7 +421,59 @@
       $all("select", form).forEach(function (s) { s.dispatchEvent(new Event("change")); });
       $("#lf-draft").hidden = true;
       paintCount();
+      form.classList.remove("was-validated");
+      clearValidationErrors();
+      setStatus("", false);
     });
+    $("#lf-clear-saved").addEventListener("click", function () {
+      clearDraft();
+      $("#lf-draft").hidden = true;
+      setStatus("پیش‌نویس ذخیره‌شده پاک شد.", false);
+    });
+
+    var errorSummary = $("#lf-error-summary");
+    function clearValidationErrors() {
+      $all(".field-error", form).forEach(function (el) { el.remove(); });
+      $all("[aria-invalid]", form).forEach(function (el) { el.removeAttribute("aria-invalid"); });
+      $all("[aria-describedby]", form).forEach(function (el) {
+        var ids = el.getAttribute("aria-describedby").split(" ").filter(function (id) { return id.indexOf("lf-error-") !== 0; });
+        if (ids.length) el.setAttribute("aria-describedby", ids.join(" ")); else el.removeAttribute("aria-describedby");
+      });
+      errorSummary.hidden = true;
+      $("ul", errorSummary).replaceChildren();
+    }
+    function validateTextFields() {
+      $all("input:not([type=radio]):not([type=checkbox]), textarea", form).forEach(function (el) {
+        el.setCustomValidity(el.willValidate && el.required && !el.value.trim() ? "این فیلد را کامل کنید." : "");
+      });
+    }
+    function renderValidationErrors() {
+      validateTextFields();
+      clearValidationErrors();
+      var seen = {}, errors = [];
+      $all("input, select, textarea", form).forEach(function (el, i) {
+        if (!el.willValidate || el.validity.valid) return;
+        var key = el.type === "radio" ? el.name : el.id;
+        if (seen[key]) return;
+        seen[key] = true;
+        if (!el.id) el.id = "lf-radio-" + i;
+        var label = el.type === "radio" ? el.name : (el.labels && el.labels[0] ? el.labels[0].textContent.replace(/[*(（].*$/, "").trim() : el.name);
+        var message = el.validity.typeMismatch ? "نشانی ایمیل معتبر وارد کنید؛ برای نمونه name@example.com." :
+          el.tagName === "SELECT" || el.type === "radio" ? label + " را انتخاب کنید." : label + " را وارد کنید.";
+        var error = document.createElement("p");
+        error.id = "lf-error-" + el.id; error.className = "field-error"; error.textContent = message;
+        (el.closest(".field") || el.parentElement).appendChild(error);
+        var group = el.type === "radio" ? $all("input[type=radio]", form).filter(function (r) { return r.name === el.name; }) : [el];
+        group.forEach(function (r) { r.setAttribute("aria-invalid", "true"); r.setAttribute("aria-describedby", ((r.getAttribute("aria-describedby") || "") + " " + error.id).trim()); });
+        var li = document.createElement("li"), link = document.createElement("a"); link.href = "#" + el.id; link.textContent = message;
+        link.addEventListener("click", function (e) { e.preventDefault(); el.focus(); });
+        li.appendChild(link); $("ul", errorSummary).appendChild(li); errors.push(el);
+      });
+      errorSummary.hidden = errors.length === 0;
+      return errors;
+    }
+    form.addEventListener("input", function () { if (form.classList.contains("was-validated")) renderValidationErrors(); });
+    form.addEventListener("change", function () { if (form.classList.contains("was-validated")) renderValidationErrors(); });
 
     // Analytics event (Umami), a no-op when analytics is off or blocked.
     function track(name, data) {
@@ -396,14 +523,6 @@
       return [c.subject || "درخواست از وب‌سایت", topic, who].filter(Boolean).join(" — ");
     }
 
-    function validateTextFields() {
-      $all("input:not([type=radio]):not([type=checkbox]), textarea", form).forEach(function (el) {
-        el.setCustomValidity(el.willValidate && el.required && !el.value.trim() ? "این فیلد را کامل کنید." : "");
-      });
-    }
-    form.addEventListener("input", function () { if (form.classList.contains("was-validated")) validateTextFields(); });
-    form.addEventListener("change", function () { if (form.classList.contains("was-validated")) validateTextFields(); });
-
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (button.disabled) return;
@@ -413,6 +532,7 @@
       validateTextFields();
       if (!form.checkValidity()) {
         var bad = form.querySelector(":invalid:not(fieldset)");
+        renderValidationErrors();
         setStatus("لطفاً فیلدهای ستاره‌دار را کامل و درست وارد کنید.", true);
         form.classList.add("was-validated");
         track("form-validation-error", { topic: current, count: form.querySelectorAll("input:invalid, select:invalid, textarea:invalid").length });
@@ -421,6 +541,7 @@
       }
 
       var data = fields();
+      clearValidationErrors();
       if (data._honey) return; // bot
       Object.keys(data).forEach(function (k) { if (data[k] === "") delete data[k]; }); // keep the email table short
       data._subject = subjectFor(data);
@@ -473,6 +594,7 @@
       done.hidden = true;
       form.hidden = false;
       form.classList.remove("was-validated");
+      clearValidationErrors();
       formStarted = false;
       $("#lf-name").focus();
     });

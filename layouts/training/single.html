@@ -31,7 +31,7 @@
     <div class="trust">
       <dl class="trust-stats">
         <div><dt>سطح</dt><dd class="cr-fact">{{ $c.level }}</dd></div>
-        <div><dt>مدت دوره</dt><dd class="cr-fact">{{ partial "fa-digits.html" $dur.days }} روز ({{ partial "fa-digits.html" $dur.hours }} ساعت)</dd></div>
+        <div><dt>مدت پیشنهادی</dt><dd class="cr-fact">{{ partial "fa-digits.html" $dur.days }} روز ({{ partial "fa-digits.html" $dur.hours }} ساعت)</dd></div>
         <div><dt>درس در {{ partial "fa-digits.html" (len $c.modules) }} بخش</dt><dd>{{ partial "fa-digits.html" $lessons }}</dd></div>
         <div><dt>شیوه‌ی برگزاری</dt><dd class="cr-fact">حضوری یا آنلاین</dd></div>
       </dl>
@@ -50,6 +50,10 @@
         <section class="panel">
           <h2>پیش‌نیازها</h2>
           <ul class="tr-dots">{{ range $c.prereqs }}<li>{{ partial "bidi.html" . }}</li>{{ end }}</ul>
+          {{ with (index site.Data.course_selection.courses $slug).foundations }}
+          <p class="field-hint">دوره‌های پیشنهادی برای تقویت پیش‌نیاز:</p>
+          <ul class="tr-dots">{{ range . }}{{ $foundation := index site.Data.courses . }}<li><a href="{{ printf "training/%s/" . | relLangURL }}">{{ $foundation.fa }}</a></li>{{ end }}</ul>
+          {{ end }}
         </section>
         {{ with $c.tools }}
         <section class="panel">
@@ -65,7 +69,7 @@
   <section class="h-in h-sec" id="syllabus">
     <header class="h-sec-head">
       <h2>سرفصل دوره</h2>
-      <p>این دوره شامل {{ partial "fa-digits.html" (len $c.modules) }} بخش و {{ partial "fa-digits.html" $lessons }} درس در {{ partial "fa-digits.html" $dur.days }} روز آموزشی ({{ partial "fa-digits.html" $dur.hours }} ساعت) است. سرفصل، مدت و تمرین‌ها بر اساس سطح و نیاز تیم تنظیم می‌شوند.</p>
+      <p>سرفصل شامل {{ partial "fa-digits.html" (len $c.modules) }} بخش و {{ partial "fa-digits.html" $lessons }} درس است. برنامه‌ی پیشنهادی {{ partial "fa-digits.html" $dur.days }} روز آموزشی ({{ partial "fa-digits.html" $dur.hours }} ساعت) است؛ مدت نهایی، تمرین‌ها و شیوه‌ی ارزیابی بر اساس سطح و نیاز تیم پیش از برگزاری تعیین می‌شوند.</p>
     </header>
     <ol class="cr-mods">
       {{ range $i, $m := $c.modules }}

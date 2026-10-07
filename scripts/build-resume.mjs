@@ -5,7 +5,7 @@
 //   npm i -D playwright    # once
 //   node scripts/build-resume.mjs [baseURL]   # default http://localhost:1313
 //
-// Commit the generated PDF; the GitHub Pages build only runs Hugo.
+// npm run build also regenerates this PDF automatically before deployment.
 import { join } from "node:path";
 import { chromium } from "playwright";
 

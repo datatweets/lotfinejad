@@ -38,10 +38,14 @@ h1.long { font-size: 52px; }
   {{ $p := . }}
   {{ $eyebrow := site.Params.headline }}{{ $title := .Params.ogTitle | default (.Params.seoTitle | default .Title) }}
   {{ $sub := .Description | default .Params.description | default .Params.summary | default site.Params.description }}{{ $en := "" }}{{ $chips := slice }}
-  {{ if and (eq .Type "training") .IsPage }}
+  {{ if .IsHome }}
+    {{ $title = site.Data.home.title | plainify }}
+    {{ $n := 0 }}{{ range site.Data.training.catalog.groups }}{{ $n = add $n (len .courses) }}{{ end }}
+    {{ $sub = printf "%s دوره‌ی تخصصی · مشاوره، اجرای پروژه و آموزش سازمانی" (partial "fa-digits.html" $n) }}
+  {{ else if and (eq .Type "training") .IsPage }}
     {{ $c := index site.Data.courses .Params.course }}{{ $d := partial "course-duration.html" $c }}
     {{ $eyebrow = printf "دوره‌ی آموزشی · %s" .Params.group }}{{ $title = printf "دوره‌ی %s" $c.fa }}{{ $en = $c.en }}
-    {{ $chips = slice (printf "%s روز (%s ساعت)" (partial "fa-digits.html" $d.days) (partial "fa-digits.html" $d.hours)) $c.level "حضوری یا آنلاین" }}
+    {{ $chips = slice (printf "پیشنهادی: %s روز (%s ساعت)" (partial "fa-digits.html" $d.days) (partial "fa-digits.html" $d.hours)) $c.level "حضوری یا آنلاین" }}
   {{ else if and (eq .Type "services") .IsPage }}
     {{ $sv := partial "service-lookup.html" .Params.service }}
     {{ $eyebrow = printf "خدمات مشاوره · %s" $sv.group }}{{ $title = $sv.title }}{{ $en = $sv.en }}

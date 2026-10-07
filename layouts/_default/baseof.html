@@ -12,6 +12,7 @@
   {{ partial "head.html" . }}
 </head>
 <body id="top">
+  {{ if site.Params.preview }}<aside class="preview-banner">پیش‌نمایش لوکال برای بازبینی · فرم، پیام واقعی ارسال نمی‌کند.</aside>{{ end }}
   <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
   <div class="progress" id="progress"></div>
   {{ partial "header.html" . }}

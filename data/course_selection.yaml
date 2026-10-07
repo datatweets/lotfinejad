@@ -1,0 +1,36 @@
+# Suggested learning routes; prerequisites in each course remain authoritative.
+roles:
+  - {key: analyst, label: "تحلیلگر داده"}
+  - {key: scientist, label: "دانشمند داده"}
+  - {key: data-engineer, label: "مهندس داده"}
+  - {key: ml-engineer, label: "مهندس یادگیری ماشین"}
+  - {key: ai-engineer, label: "مهندس هوش مصنوعی"}
+courses:
+  python: {roles: [analyst, scientist, data-engineer, ml-engineer, ai-engineer], foundations: []}
+  sql: {roles: [analyst, scientist, data-engineer], foundations: []}
+  sql-server: {roles: [analyst, data-engineer], foundations: [sql]}
+  polars-for-python-developers: {roles: [analyst, scientist, data-engineer], foundations: [python]}
+  duckdb-for-data-analysis: {roles: [analyst, scientist, data-engineer], foundations: [sql]}
+  streamlit-for-data-apps: {roles: [analyst, scientist, ai-engineer], foundations: [python]}
+  power-bi-pl300: {roles: [analyst], foundations: [sql]}
+  statistics: {roles: [analyst, scientist, ml-engineer], foundations: []}
+  ab-testing: {roles: [analyst, scientist], foundations: [statistics]}
+  machine-learning: {roles: [scientist, ml-engineer, ai-engineer], foundations: [python, statistics]}
+  time-series-forecasting: {roles: [analyst, scientist, ml-engineer], foundations: [machine-learning]}
+  gradient-boosting: {roles: [scientist, ml-engineer], foundations: [machine-learning]}
+  transformers-from-scratch: {roles: [scientist, ml-engineer, ai-engineer], foundations: [machine-learning, python]}
+  generative-ai: {roles: [ai-engineer, ml-engineer], foundations: [python]}
+  ai-agents: {roles: [ai-engineer], foundations: [python, generative-ai]}
+  ai-architecture: {roles: [ai-engineer, data-engineer, ml-engineer], foundations: [generative-ai]}
+  llm-evaluation: {roles: [ai-engineer, ml-engineer], foundations: [generative-ai]}
+  loop-engineering: {roles: [ai-engineer, ml-engineer], foundations: []}
+  apache-kafka-for-data-engineers: {roles: [data-engineer], foundations: [python, sql]}
+  dbt-for-data-engineers: {roles: [data-engineer, analyst], foundations: [sql, git-and-github]}
+  docker-kubernetes-for-data: {roles: [data-engineer, ml-engineer, ai-engineer], foundations: [git-and-github]}
+  fastapi: {roles: [ml-engineer, ai-engineer, data-engineer], foundations: [python]}
+  git-and-github: {roles: [analyst, scientist, data-engineer, ml-engineer, ai-engineer], foundations: []}
+  mlops-azure: {roles: [ml-engineer, ai-engineer, data-engineer], foundations: [machine-learning, docker-kubernetes-for-data]}
+  orchestrating-pipelines-airflow: {roles: [data-engineer], foundations: [python, sql]}
+  pyspark-for-data-engineering: {roles: [data-engineer], foundations: [python, sql]}
+  scaling-python-for-data-engineering: {roles: [data-engineer], foundations: [python]}
+  software-engineering: {roles: [ml-engineer, ai-engineer, data-engineer], foundations: [python, git-and-github]}

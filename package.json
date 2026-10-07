@@ -1,0 +1,14 @@
+{
+  "name": "lotfinejad-site-tools",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node scripts/build-site.mjs",
+    "preview": "node scripts/preview-site.mjs",
+    "build:outlines": "node scripts/build-outlines.mjs",
+    "build:og": "node scripts/build-og.mjs --all"
+  },
+  "dependencies": { "nodemailer": "10.0.15" },
+  "devDependencies": { "playwright": "1.63.0", "yaml": "2.9.1" }
+}

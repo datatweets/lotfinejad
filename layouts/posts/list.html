@@ -11,6 +11,7 @@
       {{ range $cats }}<button class="chip" type="button" data-cat="{{ . }}" aria-pressed="false">{{ . }}</button>{{ end }}
       <span class="search">{{ partial "icon.html" "search" }}<input id="postSearch" type="search" placeholder="جست‌وجو در یادداشت‌ها" aria-label="جست‌وجو در یادداشت‌ها" autocomplete="off"></span>
     </div>
+    <p class="search-results" id="postCount" role="status" aria-live="polite" hidden></p>
 
     <div class="post-list" id="postList">
       {{ range $pages }}

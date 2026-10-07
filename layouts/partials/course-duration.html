@@ -7,4 +7,4 @@
 {{- if le $lessons 36 -}}{{- $days = 2 -}}{{- else if lt $lessons 50 -}}{{- $days = 3 -}}{{- end -}}
 {{- $hours := mul $days 8 -}}
 {{- with .hours -}}{{- $hours = . -}}{{- $days = div (add . 7) 8 -}}{{- end -}}
-{{- return (dict "days" $days "hours" $hours "lessons" $lessons) -}}
+{{- return (dict "days" $days "hours" $hours "lessons" $lessons "estimated" (not (isset . "hours"))) -}}

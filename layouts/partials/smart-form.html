@@ -22,7 +22,7 @@
 
 <form class="form lead-form smart-form" id="leadForm" novalidate
       data-endpoint="{{ site.Params.formEndpoint }}" data-email="{{ site.Params.email }}" data-default="{{ $default }}"{{ if .fixed }} data-fixed="1"{{ end }}>
-  <script type="application/json" id="lf-config">{{ dict "intents" $cfg "sources" $d.sources | jsonify | safeJS }}</script>
+  <script type="application/json" id="lf-config">{{ dict "intents" $cfg "sources" $d.sources "preview" (default false site.Params.preview) | jsonify | safeJS }}</script>
   <input type="hidden" name="_subject" value="{{ $def.subject }}">
   <input type="hidden" name="_template" value="table">
   <input type="hidden" name="_captcha" value="false">
@@ -47,6 +47,8 @@
   </fieldset>
   <p class="form-context" id="lf-context" role="status" hidden></p>
   <p class="form-context form-draft" id="lf-draft" hidden>اطلاعات پیشین فرم بازیابی شد. <button type="button" class="link-btn" id="lf-clear">پاک‌کردن اطلاعات</button></p>
+  <p class="field-hint draft-notice">اطلاعات واردشده برای ادامه‌ی تکمیل فرم، تا ۲۴ ساعت از آخرین ویرایش در همین مرورگر ذخیره می‌شود. <button type="button" class="link-btn" id="lf-clear-saved">پاک‌کردن پیش‌نویس</button></p>
+  <div id="lf-error-summary" class="form-error-summary" role="alert" tabindex="-1" hidden><b>لطفاً موارد زیر را بررسی کنید:</b><ul></ul></div>
 
   {{/* ---------- 2. topic-specific details ---------- */}}
   {{/* course */}}
@@ -173,7 +175,7 @@
 
 <div class="form-done" id="leadDone" hidden tabindex="-1">
   <span class="form-done-ico">{{ partial "icon.html" "check" }}</span>
-  <h3>درخواست با موفقیت ارسال شد</h3>
+  <h3>{{ if site.Params.preview }}ارسال فرم در پیش‌نمایش شبیه‌سازی شد{{ else }}درخواست با موفقیت ارسال شد{{ end }}</h3>
   <p id="leadDoneText">{{ $def.done }}</p>
   <div class="h-cta" style="justify-content:center">
     <button type="button" class="btn btn-plain" id="leadAgain">ارسال درخواست دیگر</button>

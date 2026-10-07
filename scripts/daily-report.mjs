@@ -13,7 +13,9 @@
 //
 // Local test without network or email:
 //   node scripts/daily-report.mjs --mock path/to/mock.json --out report.html
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, appendFileSync, mkdirSync } from "node:fs";
+import { dirname } from "node:path";
+import { createHash } from "node:crypto";
 
 const args = process.argv.slice(2);
 const opt = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined; };
@@ -34,6 +36,10 @@ const env = process.env;
 const site = env.SITE_DOMAIN || "lotfinejad.ir";
 const websiteId = env.UMAMI_WEBSITE_ID;
 const mockFile = opt("--mock");
+function reportStatus(status, detail) {
+  if (env.GITHUB_OUTPUT) appendFileSync(env.GITHUB_OUTPUT, `status=${status}\n`);
+  if (env.GITHUB_STEP_SUMMARY) appendFileSync(env.GITHUB_STEP_SUMMARY, `## Daily report\n\nStatus: **${status}**. ${detail}\n`);
+}
 // Accept either the share code or the whole Share URL (…/share/<code>[/…]).
 // A full URL also tells us the app's base path: …/analytics/us/share/<code>
 // → API at …/analytics/us/api.
@@ -54,7 +60,8 @@ if (!mockFile) {
 }
 
 if (!mockFile && (!(env.UMAMI_SHARE_ID || env.UMAMI_API_KEY) || !websiteId)) {
-  console.log("UMAMI_SHARE_ID (or UMAMI_API_KEY) and UMAMI_WEBSITE_ID are required; skipping the report.");
+  console.log("::warning::Analytics configuration is missing; no report was sent.");
+  reportStatus("skipped", "Analytics configuration is missing; this run must not count as a sent report.");
   process.exit(0);
 }
 
@@ -177,7 +184,10 @@ function change(cur, old, lowerIsBetter = false) {
   return `<span style="color:${good ? "#1B7A5A" : "#B42318"}">${pct > 0 ? "▲" : "▼"} ${fa(Math.abs(pct))}٪</span>`;
 }
 const EVENT_LABELS = {
-  "form-submit": "ارسال فرم",
+  "form-start": "شروع تکمیل فرم",
+  "form-validation-error": "خطای اعتبارسنجی فرم",
+  "form-submit-attempt": "تلاش برای ارسال فرم",
+  "form-submit": "پذیرش درخواست توسط سرویس فرم",
   "form-fallback": "ارسال ناموفق فرم (هدایت به ایمیل)",
   "pdf-outline": "دانلود سرفصل دوره",
   "pdf-resume": "دانلود رزومه",
@@ -212,7 +222,7 @@ function render(d) {
 
   const forms = (d.events || []).filter((e) => e.x === "form-submit").reduce((a, e) => a + e.y, 0);
   const highlight = forms
-    ? `<p style="margin:16px 0 0;padding:12px 14px;background:#F6EEDC;border-radius:10px;font-weight:700">${fa(forms)} درخواست از طریق فرم سایت ثبت شد. جزئیات در ایمیل‌های FormSubmit است.</p>`
+    ? `<p style="margin:16px 0 0;padding:12px 14px;background:#F6EEDC;border-radius:10px;font-weight:700">${fa(forms)} درخواست توسط سرویس فرم پذیرفته شد. دریافت در صندوق ایمیل و معتبر بودن درخواست جداگانه بررسی می‌شود.</p>`
     : "";
 
   return `<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><title>گزارش روزانه‌ی ${esc(site)}</title></head>
@@ -252,11 +262,13 @@ const subject = `گزارش روزانه‌ی ${site}: ${fa(num(data.stats.visit
 const out = opt("--out");
 if (out || mockFile) {
   writeFileSync(out || "daily-report.html", html);
+  reportStatus("built", "Rendered only; no email was sent.");
   console.log(`Wrote ${out || "daily-report.html"} — ${subject}`);
   process.exit(0);
 }
 if (!env.SMTP_USERNAME || !env.SMTP_PASSWORD) {
-  console.log("SMTP_USERNAME/SMTP_PASSWORD not set; report built but not sent.");
+  console.log("::warning::SMTP configuration is missing; report built but not sent.");
+  reportStatus("skipped", "SMTP configuration is missing; no receipt was created.");
   process.exit(0);
 }
 const { default: nodemailer } = await import("nodemailer");
@@ -264,9 +276,18 @@ const transport = nodemailer.createTransport({
   host: env.SMTP_HOST || "smtp.gmail.com", port: Number(env.SMTP_PORT || 465), secure: true,
   auth: { user: env.SMTP_USERNAME, pass: env.SMTP_PASSWORD },
 });
-await transport.sendMail({
+const delivery = await transport.sendMail({
   from: `"گزارش ${site}" <${env.SMTP_USERNAME}>`,
   to: env.REPORT_TO || env.SMTP_USERNAME,
   subject, html,
 });
+if (!delivery.accepted?.length) throw new Error("SMTP did not accept a recipient; no sent receipt will be recorded.");
+const receiptPath = env.REPORT_RECEIPT_PATH || ".build/daily-report-sent.json";
+mkdirSync(dirname(receiptPath), { recursive: true });
+writeFileSync(receiptPath, JSON.stringify({
+  status: "sent", acceptedBySMTP: true, sentAt: new Date().toISOString(),
+  period: day,
+  messageIdHash: createHash("sha256").update(String(delivery.messageId)).digest("hex")
+}, null, 2));
+reportStatus("sent", "The SMTP server accepted the message. This is not a guarantee of inbox delivery.");
 console.log(`Sent: ${subject}`);

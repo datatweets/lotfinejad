@@ -2,7 +2,7 @@ slug: docker-kubernetes-for-data
 en: "Docker & Kubernetes for Data Engineering"
 fa: "Docker و Kubernetes برای مهندسان داده"
 level: "متوسط"
-summary: "کانتینری‌کردن و مدیریت یک جریان داده‌ی واقعی با Docker و Kubernetes: Image، Dockerfile، Compose و یک خوشه‌ی محلی Kind؛ همه به‌صورت واقعی روی رایانه‌ی شخصی."
+summary: "آموزش استقرار و مدیریت جریان داده با Docker و Kubernetes؛ شامل Image، Dockerfile، Compose و خوشه‌ی محلی Kind، با تمرین‌های اجرایی روی رایانه‌ی شخصی."
 project: "ETL شرکت CityFlow، کانتینری‌شده و در حال اجرا روی Docker و Kubernetes واقعی"
 outcomes:
   - "نوشتن و سبک‌سازی Dockerfile برای پردازش‌های داده‌ای، از جمله ساخت چندمرحله‌ای"

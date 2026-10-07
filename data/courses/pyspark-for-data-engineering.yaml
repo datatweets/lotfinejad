@@ -2,7 +2,7 @@ slug: pyspark-for-data-engineering
 en: "PySpark for Data Engineering"
 fa: "پردازش کلان‌داده با PySpark"
 level: "متوسط"
-summary: "یادگیری عملی Apache Spark روی رایانه‌ی شخصی: منطق Spark در Driver، Executor و طرح‌های اجرای Lazy؛ DataFrame و Spark SQL روی ده میلیون سفر واقعی تاکسی؛ طرح اجرا، پارتیشن، Shuffle و کش؛ و یک جریان ETL در قالب محیط عملیاتی با Schema، کنترل کیفیت و ثبت رویداد."
+summary: "آموزش عملی Apache Spark در محیط محلی؛ شامل معماری اجرا، DataFrame و Spark SQL، بهینه‌سازی پارتیشن و Shuffle، و ساخت جریان ETL همراه با کنترل کیفیت و ثبت رویداد."
 project: "جریان کامل ETL با Spark روی داده‌های واقعی تاکسی نیویورک"
 outcomes:
   - "توضیح نقش واقعی Driver، Executor و طرح اجرای Lazy"

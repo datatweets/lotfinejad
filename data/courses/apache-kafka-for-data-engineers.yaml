@@ -2,7 +2,7 @@ slug: apache-kafka-for-data-engineers
 en: "Apache Kafka for Data Engineers"
 fa: "پردازش داده‌ی جریانی با Kafka"
 level: "مقدماتی تا پیشرفته"
-summary: "یادگیری عملی Apache Kafka برای جریان رویدادها روی سیستم محلی: نصب، تولید و مصرف پیام‌های واقعی و پیشروی تا Schema Registry، Kafka Connect و پردازش جریانی."
+summary: "آموزش عملی Apache Kafka برای پردازش جریان رویدادها در محیط محلی؛ از نصب و تولید و مصرف پیام تا Schema Registry، Kafka Connect و پردازش جریانی."
 project: "یک خوشه‌ی واقعی Kafka با سه Broker برای جریان رویدادهای سفر شرکت CityFlow"
 outcomes:
   - "نصب و اجرای یک خوشه‌ی واقعی Apache Kafka 4.0 با سه Broker در حالت KRaft"

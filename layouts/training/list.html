@@ -24,7 +24,7 @@
   <section class="h-in h-sec">
     <header class="h-sec-head">
       <h2>شیوه‌های برگزاری</h2>
-      <p>دوره‌ها متناسب با شرایط سازمان، به یکی از این شکل‌ها برگزار می‌شوند.</p>
+      <p>شیوه‌ی برگزاری بر اساس ساختار تیم و شرایط سازمان تعیین می‌شود.</p>
     </header>
     <div class="h-services h-services-3">
       {{ range $t.formats }}
@@ -63,7 +63,7 @@
       <h2>{{ $t.catalog.title }}</h2>
       <p>{{ $t.catalog.intro }}</p>
     </header>
-    <p class="tr-hint">{{ partial "icon.html" "doc" }}برای دیدن خلاصه و سرفصل هر دوره روی عنوان آن بزنید؛ سرفصل کامل هر دوره به‌صورت PDF نیز قابل دریافت است.</p>
+    <p class="tr-hint">{{ partial "icon.html" "doc" }}برای مشاهده‌ی معرفی و سرفصل هر دوره، عنوان آن را انتخاب کنید. فایل کامل سرفصل نیز به‌صورت PDF در دسترس است.</p>
     {{ range $t.catalog.groups }}
     <div class="tr-group">
       <h3 class="tr-group-title"><span class="h-ico">{{ partial "icon.html" .icon }}</span>{{ .title }}</h3>
@@ -164,6 +164,6 @@
     </div>
   </section>
 
-  <div class="h-in">{{ partial "cta.html" (dict "title" "برای برگزاری دوره در سازمان خود هماهنگ کنید" "text" "موضوع، تعداد شرکت‌کنندگان و زمان مدنظر را بفرستید تا برای نیازسنجی و هماهنگی برنامه‌ی دوره با شما تماس گرفته شود." "button" "درخواست برگزاری دوره" "href" "contact/?type=course") }}</div>
+  <div class="h-in">{{ partial "cta.html" (dict "title" "دوره‌ی سازمانی متناسب با نیاز تیم طراحی کنید" "text" "موضوع دوره، تعداد و سطح شرکت‌کنندگان و زمان‌بندی مدنظر را ارسال کنید تا جزئیات برنامه بررسی و هماهنگ شود." "button" "درخواست برگزاری دوره" "href" "contact/?type=course") }}</div>
 </div>
 {{ end }}

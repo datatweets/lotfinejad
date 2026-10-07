@@ -19,7 +19,7 @@
           <p class="h-note">{{ partial "icon.html" "shield" }}محرمانگی اطلاعات سازمان در همه‌ی مراحل رعایت می‌شود.</p>
         </section>
         <section class="panel panel-quiet">
-          <h2>راه‌های دیگر</h2>
+          <h2>راه‌های ارتباطی دیگر</h2>
           <ul class="info-list">
             <li>{{ partial "icon.html" "mail" }}<div><span>ایمیل مستقیم</span><a class="lat" dir="ltr" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></div></li>
             {{ range first 1 (where site.Data.links "title" "LinkedIn") }}<li>{{ partial "icon.html" "ext" }}<div><span>LinkedIn</span><a class="lat" dir="ltr" href="{{ .href }}" target="_blank" rel="noopener">{{ .label }}</a></div></li>{{ end }}

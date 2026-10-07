@@ -2,7 +2,7 @@ slug: orchestrating-pipelines-airflow
 en: "Orchestrating Data Pipelines with Airflow"
 fa: "مدیریت و زمان‌بندی جریان‌های داده با Airflow"
 level: "متوسط"
-summary: "مدیریت و زمان‌بندی جریان‌های داده با Apache Airflow: DAG، Operator، Sensor، Hook، آزمون، پایش و یک پروژه‌ی پایانی که Airflow، PySpark و Kubernetes را به هم متصل می‌کند."
+summary: "آموزش مدیریت و زمان‌بندی جریان‌های داده با Apache Airflow؛ شامل DAG، Operator، Sensor، Hook، آزمون و پایش، همراه با پروژه‌ای که Airflow، PySpark و Kubernetes را یکپارچه می‌کند."
 project: "یک DAG واقعی در Airflow که پردازش PySpark شرکت CityFlow را روی Kubernetes اجرا می‌کند"
 outcomes:
   - "طراحی و نوشتن DAG در Airflow با TaskFlow API و Operatorهای کلاسیک"

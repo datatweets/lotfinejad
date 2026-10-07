@@ -2,7 +2,7 @@ slug: polars-for-python-developers
 en: "Polars for Python Developers"
 fa: "پردازش سریع داده با Polars"
 level: "مقدماتی تا متوسط"
-summary: "ساخت جریان‌های پردازش داده‌ی سریع و قابل‌اعتماد با Polars: عبارت‌ها، Schema، Join، توابع پنجره‌ای، اجرای Lazy و یک پروژه‌ی پایانی واقعی."
+summary: "آموزش ساخت جریان‌های پردازش داده با Polars؛ شامل عبارت‌ها، Schema، Join، توابع پنجره‌ای و اجرای Lazy، همراه با پروژه‌ی پایانی."
 project: "جریان کامل تحلیل داده‌ی فروشگاه Thistlewood Goods"
 outcomes:
   - "تفکر بر پایه‌ی عبارت‌ها (Expression) با pl.col، select، with_columns و filter به‌عنوان الگوی اصلی کار"

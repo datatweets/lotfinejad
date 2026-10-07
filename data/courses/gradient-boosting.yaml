@@ -2,7 +2,7 @@ slug: gradient-boosting
 en: "Gradient Boosting & XGBoost"
 fa: "مدل‌های Gradient Boosting و XGBoost"
 level: "متوسط تا پیشرفته"
-summary: "تسلط بر الگوریتمی که در مسابقات برنده می‌شود و پشتوانه‌ی بسیاری از سامانه‌های واقعی روی داده‌های جدولی است: ساخت Gradient Boosting از پایه، شناخت کامل XGBoost و سپس تنظیم، تفسیر و استقرار یک مدل واقعی در پایتون."
+summary: "آموزش مبانی Gradient Boosting و کار با XGBoost برای مدل‌سازی داده‌های جدولی؛ شامل پیاده‌سازی از پایه، تنظیم مدل، تفسیر نتایج و استقرار در پایتون."
 project: "مدلی تنظیم‌شده و قابل تفسیر روی داده‌های واقعی"
 outcomes:
   - "توضیح سازوکار Boosting با پیاده‌سازی Gradient Boosting از پایه در NumPy"

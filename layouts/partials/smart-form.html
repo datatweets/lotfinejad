@@ -46,7 +46,7 @@
     </div>
   </fieldset>
   <p class="form-context" id="lf-context" role="status" hidden></p>
-  <p class="form-context form-draft" id="lf-draft" hidden>اطلاعات واردشده‌ی قبلی شما بازیابی شد. <button type="button" class="link-btn" id="lf-clear">پاک کردن فرم</button></p>
+  <p class="form-context form-draft" id="lf-draft" hidden>اطلاعات پیشین فرم بازیابی شد. <button type="button" class="link-btn" id="lf-clear">پاک‌کردن اطلاعات</button></p>
 
   {{/* ---------- 2. topic-specific details ---------- */}}
   {{/* course */}}
@@ -54,7 +54,7 @@
     <div class="field">
       <label for="lf-course">دوره‌ی موردنظر {{ $req | safeHTML }}</label>
       <select id="lf-course" name="دوره" required>
-        <option value="">یک دوره را انتخاب کنید</option>
+        <option value="">انتخاب دوره</option>
         <optgroup label="{{ $t.paths.title }}">
           {{ range $t.paths.items }}<option value="مسیر شغلی: {{ .title }}">مسیر جامع {{ .title }}</option>{{ end }}
         </optgroup>
@@ -145,7 +145,7 @@
     <div class="field"><label for="lf-name">نام و نام خانوادگی {{ $req | safeHTML }}</label><input id="lf-name" name="نام" type="text" autocomplete="name" required></div>
     <div class="field">
       <label for="lf-org">سازمان و سمت <span class="req" aria-hidden="true" data-org-req{{ if not $def.orgRequired }} hidden{{ end }}>*</span><small data-org-opt{{ if $def.orgRequired }} hidden{{ end }}>(اختیاری)</small></label>
-      <input id="lf-org" name="سازمان و سمت" type="text" autocomplete="organization" placeholder="مثلاً مدیر داده، شرکت …"{{ if $def.orgRequired }} required{{ end }}>
+    <input id="lf-org" name="سازمان و سمت" type="text" autocomplete="organization" placeholder="برای نمونه: مدیر داده، نام سازمان"{{ if $def.orgRequired }} required{{ end }}>
     </div>
   </div>
   <div class="row2">
@@ -168,12 +168,12 @@
     <span class="form-note">اطلاعات شما فقط برای پاسخ به همین درخواست استفاده می‌شود.</span>
   </div>
   <p class="form-status" role="status" aria-live="polite"></p>
-  <noscript><p class="form-context">برای ارسال فرم، جاوااسکریپت مرورگر را فعال کنید یا درخواست خود را به <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a> بفرستید.</p></noscript>
+  <noscript><p class="form-context">برای ارسال فرم، جاوااسکریپت مرورگر را فعال کنید یا درخواست را به <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a> ایمیل کنید.</p></noscript>
 </form>
 
 <div class="form-done" id="leadDone" hidden tabindex="-1">
   <span class="form-done-ico">{{ partial "icon.html" "check" }}</span>
-  <h3>درخواست شما ارسال شد</h3>
+  <h3>درخواست با موفقیت ارسال شد</h3>
   <p id="leadDoneText">{{ $def.done }}</p>
   <div class="h-cta" style="justify-content:center">
     <button type="button" class="btn btn-plain" id="leadAgain">ارسال درخواست دیگر</button>
@@ -181,7 +181,7 @@
 </div>
 
 <div class="form-fail" id="leadFail" hidden>
-  <p><b>ارسال فرم با مشکل روبه‌رو شد.</b> لطفاً درخواست خود را مستقیم به ایمیل زیر بفرستید؛ متن شما آماده شده است.</p>
+  <p><b>ارسال فرم انجام نشد.</b> درخواست را از طریق ایمیل زیر ارسال کنید؛ متن پیام آماده شده است.</p>
   <p class="form-why" id="leadWhy"></p>
   <div class="h-cta">
     <a class="btn btn-primary" id="leadMailto" href="mailto:{{ site.Params.email }}">{{ partial "icon.html" "mail" }}ارسال با ایمیل</a>

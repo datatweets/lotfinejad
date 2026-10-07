@@ -2,7 +2,7 @@ slug: dbt-for-data-engineers
 en: "dbt for Data Engineers"
 fa: "مدل‌سازی داده با dbt"
 level: "متوسط تا پیشرفته"
-summary: "یادگیری عملی مهندسی تحلیل با dbt روی سیستم محلی: نصب dbt Core، راه‌اندازی انبار داده‌ی Postgres در Docker و تبدیل داده‌های واقعی سفر از لایه‌ی Staging تا آزمون و Martها."
+summary: "آموزش مهندسی تحلیل با dbt در محیط محلی؛ شامل نصب dbt Core، راه‌اندازی انبار داده‌ی Postgres در Docker و تبدیل داده از لایه‌ی Staging تا آزمون و ساخت Mart."
 project: "یک DAG کامل، آزموده و مستند در dbt برای تبدیل داده‌های سفر CityFlow روی Postgres و DuckDB، با استقرار و زمان‌بندی در Airflow"
 outcomes:
   - "نصب و اجرای dbt Core روی یک انبار داده‌ی واقعی Postgres در Docker"

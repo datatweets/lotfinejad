@@ -28,7 +28,7 @@
   <section class="h-in h-sec">
     <div class="cr-grid">
       <div>
-        <header class="h-sec-head"><h2>چه زمانی به این خدمت نیاز دارید؟</h2></header>
+        <header class="h-sec-head"><h2>موارد کاربرد این خدمت</h2></header>
         <ul class="tr-dots cr-outcomes">{{ range $p.signs }}<li>{{ partial "bidi.html" . }}</li>{{ end }}</ul>
         <p class="cr-project">{{ partial "icon.html" "check" }}<span><b>تجربه‌ی مرتبط:</b> {{ partial "bidi.html" $sv.evidence }}</span></p>
       </div>
@@ -83,6 +83,6 @@
   </section>
   {{ end }}
 
-  <div class="h-in">{{ partial "cta.html" (dict "title" (printf "درباره‌ی «%s» گفت‌وگو کنید" $sv.title) "text" "در جلسه‌ی مشاوره‌ی رایگان، وضعیت سازمان شما بررسی و گام مناسب بعدی پیشنهاد می‌شود." "href" (printf "consultation/?type=consulting&service=%s" (urlquery $sv.title))) }}</div>
+  <div class="h-in">{{ partial "cta.html" (dict "title" (printf "بررسی نیاز سازمان در حوزه‌ی %s" $sv.title) "text" "در جلسه‌ی مشاوره، وضعیت فعلی و گام اجرایی مناسب بررسی می‌شود." "href" (printf "consultation/?type=consulting&service=%s" (urlquery $sv.title))) }}</div>
 </div>
 {{ end }}

@@ -2,7 +2,7 @@ slug: fastapi
 en: "FastAPI: Build Production APIs in Python"
 fa: "ساخت API با FastAPI"
 level: "مقدماتی تا متوسط"
-summary: "یادگیری FastAPI از اولین Endpoint تا یک API آزموده و مستقرشده: پارامترهای مسیر و پرس‌وجو، اعتبارسنجی با Pydantic، پایگاه داده، احراز هویت و استقرار؛ همه به‌صورت عملی."
+summary: "آموزش توسعه‌ی API با FastAPI، از ساخت نخستین Endpoint تا آزمون و استقرار؛ شامل پارامترها، اعتبارسنجی با Pydantic، پایگاه داده و احراز هویت."
 project: "یک API کامل و قابل استقرار برای مدیریت وظایف"
 outcomes:
   - "ساخت API مبتنی بر HTTP با پارامترهای مسیر، پرس‌وجو و بدنه‌ی درخواست دارای نوع مشخص"

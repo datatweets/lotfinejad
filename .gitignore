@@ -2,3 +2,11 @@
 /resources/_gen/
 .hugo_build.lock
 .DS_Store
+/node_modules/
+/.build/
+/tmp/
+
+# Private audit evidence and implementation tracking are not site content.
+/reports/site-audit-*
+/reports/site-improvements-*
+/reports/search-console-*

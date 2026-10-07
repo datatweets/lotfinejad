@@ -396,14 +396,21 @@
       return [c.subject || "درخواست از وب‌سایت", topic, who].filter(Boolean).join(" — ");
     }
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (button.disabled) return;
-      if (fail) fail.hidden = true;
-
+    function validateTextFields() {
       $all("input:not([type=radio]):not([type=checkbox]), textarea", form).forEach(function (el) {
         el.setCustomValidity(el.willValidate && el.required && !el.value.trim() ? "این فیلد را کامل کنید." : "");
       });
+    }
+    form.addEventListener("input", function () { if (form.classList.contains("was-validated")) validateTextFields(); });
+    form.addEventListener("change", function () { if (form.classList.contains("was-validated")) validateTextFields(); });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (button.disabled) return;
+      trackStart();
+      if (fail) fail.hidden = true;
+
+      validateTextFields();
       if (!form.checkValidity()) {
         var bad = form.querySelector(":invalid:not(fieldset)");
         setStatus("لطفاً فیلدهای ستاره‌دار را کامل و درست وارد کنید.", true);

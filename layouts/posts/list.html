@@ -7,8 +7,8 @@
     {{ partial "page-head.html" (dict "eyebrow" "یادداشت‌ها" "title" .Title "lead" (.Content | plainify | strings.TrimSpace)) }}
 
     <div class="filters" id="postFilters">
-      <button class="chip is-on" type="button" data-cat="همه">همه</button>
-      {{ range $cats }}<button class="chip" type="button" data-cat="{{ . }}">{{ . }}</button>{{ end }}
+      <button class="chip is-on" type="button" data-cat="همه" aria-pressed="true">همه</button>
+      {{ range $cats }}<button class="chip" type="button" data-cat="{{ . }}" aria-pressed="false">{{ . }}</button>{{ end }}
       <span class="search">{{ partial "icon.html" "search" }}<input id="postSearch" type="search" placeholder="جست‌وجو در یادداشت‌ها" aria-label="جست‌وجو در یادداشت‌ها" autocomplete="off"></span>
     </div>
 

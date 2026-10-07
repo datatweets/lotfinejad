@@ -6,18 +6,18 @@
     </a>
     <nav class="nav-links" aria-label="ناوبری اصلی">
       {{ range site.Menus.main }}
-        <a class="nav-link{{ if or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }} is-active{{ end }}" href="{{ .URL | relLangURL }}">{{ .Name }}</a>
+        <a class="nav-link{{ if or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }} is-active{{ end }}"{{ if $.IsMenuCurrent "main" . }} aria-current="page"{{ end }} href="{{ .URL | relLangURL }}">{{ .Name }}</a>
       {{ end }}
     </nav>
     <div class="nav-end">
       <button class="icon-btn" id="themeBtn" type="button" aria-label="تغییر پوسته‌ی نمایش"></button>
       <a class="btn btn-primary nav-cta" href="{{ "consultation/" | relLangURL }}" data-umami-event="cta-click" data-umami-event-where="nav">درخواست مشاوره</a>
-      <button class="icon-btn nav-toggle" id="menuBtn" type="button" aria-label="بازکردن فهرست ناوبری" aria-expanded="false"></button>
+      <button class="icon-btn nav-toggle" id="menuBtn" type="button" aria-label="بازکردن فهرست ناوبری" aria-expanded="false" aria-controls="drawer"></button>
     </div>
   </div>
   <nav class="drawer" id="drawer" aria-label="ناوبری موبایل">
     {{ range site.Menus.main }}
-      <a href="{{ .URL | relLangURL }}">{{ .Name }}</a>
+      <a{{ if $.IsMenuCurrent "main" . }} aria-current="page"{{ end }} href="{{ .URL | relLangURL }}">{{ .Name }}</a>
     {{ end }}
     <a class="drawer-cta" href="{{ "consultation/" | relLangURL }}" data-umami-event="cta-click" data-umami-event-where="drawer">درخواست مشاوره</a>
   </nav>

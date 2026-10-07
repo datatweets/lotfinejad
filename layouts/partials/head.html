@@ -1,6 +1,7 @@
 {{- if .IsHome }}{{ partial "config-check.html" . }}{{ end -}}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 {{- $is404 := eq .Kind "404" -}}
 {{- $title := cond .IsHome (printf "%s | %s" site.Title site.Params.headline) (printf "%s | %s" (cond $is404 "صفحه پیدا نشد" (.Params.seoTitle | default .Title)) site.Title) -}}
 {{- /* Content-adapter pages (courses, services) carry their description in

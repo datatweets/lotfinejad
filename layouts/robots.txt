@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /outlines/
-Disallow: /print/
 
 Sitemap: {{ "sitemap.xml" | absURL }}

@@ -17,7 +17,10 @@
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   }
   function paintThemeBtn() {
-    if (themeBtn) themeBtn.innerHTML = isDark() ? ICONS.sun : ICONS.moon;
+    if (themeBtn) {
+      themeBtn.innerHTML = isDark() ? ICONS.sun : ICONS.moon;
+      themeBtn.setAttribute("aria-label", isDark() ? "فعال‌کردن پوسته‌ی روشن" : "فعال‌کردن پوسته‌ی تاریک");
+    }
   }
   if (themeBtn) {
     paintThemeBtn();
@@ -33,12 +36,30 @@
   var menuBtn = document.getElementById("menuBtn");
   var drawer = document.getElementById("drawer");
   if (menuBtn && drawer) {
-    menuBtn.innerHTML = ICONS.menu;
-    menuBtn.addEventListener("click", function () {
-      var open = drawer.classList.toggle("is-open");
+    function setMenu(open) {
+      drawer.classList.toggle("is-open", open);
       menuBtn.setAttribute("aria-expanded", String(open));
+      menuBtn.setAttribute("aria-label", open ? "بستن فهرست ناوبری" : "بازکردن فهرست ناوبری");
       menuBtn.innerHTML = open ? ICONS.close : ICONS.menu;
+    }
+    setMenu(false);
+    menuBtn.addEventListener("click", function () {
+      setMenu(!drawer.classList.contains("is-open"));
     });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && drawer.classList.contains("is-open")) {
+        var restoreFocus = drawer.contains(document.activeElement);
+        setMenu(false);
+        if (restoreFocus) menuBtn.focus();
+      }
+    });
+  }
+
+  function normalizeSearch(text) {
+    return String(text || "").normalize("NFKC").toLowerCase()
+      .replace(/ي/g, "ی").replace(/ك/g, "ک")
+      .replace(/[\u064B-\u065F\u0670]/g, "")
+      .replace(/[\u200C\u200D\s]+/g, " ").trim();
   }
 
   /* ---------- reading progress (article pages only) ---------- */
@@ -62,11 +83,11 @@
     var state = { cat: "همه", q: "" };
 
     function applyFilters() {
-      var q = state.q.trim().toLowerCase();
+      var q = normalizeSearch(state.q);
       var visible = 0;
       items.forEach(function (item) {
         var matchesCat = state.cat === "همه" || item.getAttribute("data-cat") === state.cat;
-        var matchesQ = !q || (item.getAttribute("data-text") || "").indexOf(q) !== -1;
+        var matchesQ = !q || normalizeSearch(item.getAttribute("data-text")).indexOf(q) !== -1;
         var show = matchesCat && matchesQ;
         item.hidden = !show;
         if (show) visible++;
@@ -80,6 +101,7 @@
       state.cat = chip.getAttribute("data-cat");
       filterBar.querySelectorAll(".chip").forEach(function (c) {
         c.classList.toggle("is-on", c === chip);
+        c.setAttribute("aria-pressed", String(c === chip));
       });
       applyFilters();
     });
@@ -125,6 +147,7 @@
     var org = document.getElementById("lf-org");
     var courseSel = document.getElementById("lf-course");
     var DRAFT_KEY = "lnj-form-draft";
+    var DRAFT_TTL = 24 * 60 * 60 * 1000;
     var ALIASES = { training: "course", course: "course", consulting: "consulting", consultation: "consulting",
       project: "project", message: "message", other: "message", contact: "message" };
     var qs = new URLSearchParams(location.search);
@@ -190,19 +213,30 @@
         if (ru.host === location.host && ru.pathname !== location.pathname) {
           refKey = ru.pathname.split("/").filter(Boolean)[0] || "home";
         } else if (ru.host !== location.host) {
-          refKey = ru.host;
+          refKey = "external";
         }
       }
     } catch (e) {}
     if (refKey === "training" || refKey === "outlines" || refKey === "pdf") refIntent = "course";
     else if (refKey === "services") refIntent = "consulting";
-    var srcText = sources[refKey] || refKey;
-    if (qs.get("utm_source")) srcText = (srcText ? srcText + " · " : "") + "utm: " + qs.get("utm_source");
+    var sourceCategory = Object.prototype.hasOwnProperty.call(sources, refKey) ? refKey : (refKey ? "other" : "direct");
+    var srcText = sources[sourceCategory] || (sourceCategory === "other" ? "سایر منابع" : "");
+    var campaignSource = (qs.get("utm_source") || "").toLowerCase();
+    if (["linkedin", "telegram", "github", "google", "newsletter", "datatweets", "instagram", "whatsapp", "x"].indexOf(campaignSource) !== -1) {
+      srcText = (srcText ? srcText + " · " : "") + "utm: " + campaignSource;
+    }
     $("#lf-src").value = srcText || "مستقیم";
 
     /* Saved draft (per-browser convenience only). */
     var draft = null;
-    try { draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); } catch (e) {}
+    try {
+      draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null");
+      if (draft && (draft.version !== 2 || !Number.isFinite(draft.savedAt) ||
+          draft.savedAt > Date.now() || Date.now() - draft.savedAt >= DRAFT_TTL)) {
+        localStorage.removeItem(DRAFT_KEY);
+        draft = null;
+      }
+    } catch (e) { try { localStorage.removeItem(DRAFT_KEY); } catch (ignore) {} }
 
     /* Resolve the intent. */
     var course = qs.get("course"), service = qs.get("service");
@@ -294,14 +328,14 @@
       saveTimer = setTimeout(function () {
         var f = {};
         $all("input, select, textarea", form).forEach(function (el) {
-          if (!el.name || el.type === "hidden" || el.name.charAt(0) === "_" || el.name === "موضوع") return;
+          if (!el.name || el.matches(":disabled") || el.type === "hidden" || el.name.charAt(0) === "_" || el.name === "موضوع") return;
           if (el.type === "radio") { if (el.checked) f[el.name] = el.value; }
           else if (el.value) f[el.name] = el.value;
         });
-        try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ intent: current, fields: f })); } catch (e) {}
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ version: 2, savedAt: Date.now(), intent: current, fields: f })); } catch (e) {}
       }, 400);
     }
-    function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); } catch (e) {} }
+    function clearDraft() { clearTimeout(saveTimer); try { localStorage.removeItem(DRAFT_KEY); } catch (e) {} }
     form.addEventListener("input", saveDraft);
     form.addEventListener("change", saveDraft);
     $("#lf-clear").addEventListener("click", function () {
@@ -318,19 +352,24 @@
     function track(name, data) {
       try { if (window.umami && typeof window.umami.track === "function") window.umami.track(name, data); } catch (e) {}
     }
+    var formStarted = false;
+    function trackStart() {
+      if (formStarted) return;
+      formStarted = true;
+      track("form-start", { topic: current, source: sourceCategory });
+    }
+    form.addEventListener("input", trackStart);
+    form.addEventListener("change", trackStart);
 
     function setStatus(text, isError) {
       status.textContent = text;
       status.classList.toggle("is-error", !!isError);
     }
 
-    // Explain *why* sending failed, so the site owner can tell a pending
-    // FormSubmit activation from a network block (e.g. a filtered service).
+    // Keep service diagnostics out of the visitor-facing message.
     function reason(err) {
-      var m = String((err && err.message) || "");
-      if (/activat/i.test(m)) return "فرم هنوز فعال نشده است (مدیر سایت باید لینک فعال‌سازی ارسال‌شده به ایمیل را تأیید کند).";
-      if (err && (err.name === "AbortError" || err.name === "TypeError")) return "اتصال به سرویس ارسال فرم برقرار نشد؛ ممکن است اینترنت یا دسترسی به سرویس محدود باشد.";
-      return m ? "پاسخ سرویس: " + m : "";
+      if (err && (err.name === "AbortError" || err.name === "TypeError")) return "اتصال به سرویس ارسال برقرار نشد. دوباره تلاش کنید یا درخواست را با ایمیل ارسال کنید.";
+      return "درخواست از طریق فرم ارسال نشد. دوباره تلاش کنید یا از گزینه‌ی ارسال با ایمیل استفاده کنید.";
     }
 
     function showFallback(data, err) {
@@ -359,12 +398,17 @@
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (button.disabled) return;
       if (fail) fail.hidden = true;
 
+      $all("input:not([type=radio]):not([type=checkbox]), textarea", form).forEach(function (el) {
+        el.setCustomValidity(el.willValidate && el.required && !el.value.trim() ? "این فیلد را کامل کنید." : "");
+      });
       if (!form.checkValidity()) {
         var bad = form.querySelector(":invalid:not(fieldset)");
         setStatus("لطفاً فیلدهای ستاره‌دار را کامل و درست وارد کنید.", true);
         form.classList.add("was-validated");
+        track("form-validation-error", { topic: current, count: form.querySelectorAll("input:invalid, select:invalid, textarea:invalid").length });
         if (bad) bad.focus();
         return;
       }
@@ -376,6 +420,7 @@
       data["صفحه"] = location.pathname;
 
       button.disabled = true;
+      track("form-submit-attempt", { topic: current, source: sourceCategory });
       setStatus("در حال ارسال…", false);
 
       var ctrl = "AbortController" in window ? new AbortController() : null;
@@ -393,7 +438,7 @@
           var ok = r.ok && String(r.body.success) === "true";
           if (!ok) throw new Error(r.body.message || "send failed");
           clearDraft();
-          track("form-submit", { topic: current, source: $("#lf-src").value });
+          track("form-submit", { topic: current, source: sourceCategory });
           button.disabled = false;
           setStatus("", false);
           form.hidden = true;
@@ -403,7 +448,7 @@
           clearTimeout(timer);
           button.disabled = false;
           setStatus("", false);
-          if (window.console) console.warn("Lead form send failed:", err);
+          if (window.console) console.warn("Lead form send failed:", (err && err.name) || "Error");
           track("form-fallback", { topic: current, reason: (err && err.name) || "error" });
           showFallback(data, err);
         });
@@ -421,6 +466,7 @@
       done.hidden = true;
       form.hidden = false;
       form.classList.remove("was-validated");
+      formStarted = false;
       $("#lf-name").focus();
     });
   }

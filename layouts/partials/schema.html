@@ -1,21 +1,20 @@
 {{- /* schema.org JSON-LD for search engines and AI answer engines.
      Built from site data so it never drifts from the visible page:
      - every page: WebSite + Person (+ BreadcrumbList off the home page)
-     - home/about/services: ProfessionalService
+     - services: Service entities provided by the independent consultant
      - services: Service catalogue; training: Course list; course pages: Course
      - posts: BlogPosting; pages with an FAQ: FAQPage
 */ -}}
 {{- $base := site.BaseURL -}}
 {{- $personID := printf "%s#person" $base -}}
 {{- $siteID := printf "%s#website" $base -}}
-{{- $bizID := printf "%s#business" $base -}}
 {{- $img := "" -}}{{- with resources.Get "images/avatar.jpg" -}}{{- $img = (.Fill "400x400 jpg q85 Top").Permalink -}}{{- end -}}
 {{- $sameAs := slice -}}{{- range site.Data.links -}}{{- $sameAs = $sameAs | append .href -}}{{- end -}}
 
 {{- $person := dict
   "@type" "Person" "@id" $personID
   "name" site.Params.author "alternateName" (slice "محمدمهدی لطفی‌نژاد" "محمدمهدی لطفینژاد" "محمد مهدی لطفی نژاد" "محمد مهدی لطفینژاد" "مهدی لطفی نژاد" "مهدی لطفی‌نژاد" "مهدی لطفینژاد" "لطفی نژاد" "لطفی‌نژاد" "لطفینژاد" "Mohammad Mehdi Lotfinejad" "Mohammadmehdi Lotfinejad" "Mehdi Lotfinejad" "Mehdi Lotfi Nejad" "Lotfinejad")
-  "jobTitle" site.Params.headline "description" (index site.Params.about 0)
+  "jobTitle" site.Params.jobTitle "description" (index site.Params.about 0)
   "url" $base "image" $img "email" (printf "mailto:%s" site.Params.email)
   "sameAs" $sameAs
   "knowsLanguage" (slice "fa" "en")
@@ -25,20 +24,6 @@
 -}}
 {{- $website := dict "@type" "WebSite" "@id" $siteID "url" $base "name" site.Title "description" site.Params.description "inLanguage" "fa-IR" "publisher" (dict "@id" $personID) -}}
 {{- $graph := slice $website $person -}}
-
-{{- /* Professional service business */ -}}
-{{- if or .IsHome (in (slice "about" "services" "consultation" "training") .Type) -}}
-  {{- $types := slice -}}{{- range site.Data.services.services.groups -}}{{- range .items -}}{{- $types = $types | append .title -}}{{- end -}}{{- end -}}
-  {{- $biz := dict "@type" "ProfessionalService" "@id" $bizID
-      "name" (printf "%s — %s" site.Params.author site.Params.headline)
-      "description" site.Params.description "url" $base "image" $img
-      "founder" (dict "@id" $personID) "employee" (dict "@id" $personID)
-      "areaServed" (dict "@type" "Country" "name" "Iran")
-      "availableLanguage" (slice "fa" "en")
-      "serviceType" $types
-      "email" site.Params.email -}}
-  {{- $graph = $graph | append $biz -}}
-{{- end -}}
 
 {{- /* Breadcrumbs */ -}}
 {{- if and (not .IsHome) (ne .Kind "404") -}}
@@ -68,12 +53,12 @@
   {{- $sv := partial "service-lookup.html" .Params.service -}}
   {{- $graph = $graph | append (dict "@type" "Service" "@id" (printf "%s#service" .Permalink)
       "name" $sv.title "alternateName" $sv.en "description" $sv.page.intro "url" .Permalink
-      "serviceType" $sv.title "category" $sv.group "provider" (dict "@id" $bizID)
+      "serviceType" $sv.title "category" $sv.group "provider" (dict "@id" $personID)
       "areaServed" (dict "@type" "Country" "name" "Iran") "availableLanguage" (slice "fa" "en")) -}}
 {{- else if eq .Type "services" -}}
   {{- $list := slice -}}{{- $i := 0 -}}
   {{- range site.Data.services.services.groups -}}{{- $cat := .title -}}{{- range .items -}}{{- $i = add $i 1 -}}
-    {{- $list = $list | append (dict "@type" "ListItem" "position" $i "url" (cond (ne (.slug | default "") "") (printf "%sservices/%s/" $base (.slug | default "")) (printf "%sservices/" $base)) "item" (dict "@type" "Service" "name" .title "alternateName" .en "description" .desc "category" $cat "provider" (dict "@id" $bizID) "areaServed" (dict "@type" "Country" "name" "Iran"))) -}}
+    {{- $list = $list | append (dict "@type" "ListItem" "position" $i "url" (cond (ne (.slug | default "") "") (printf "%sservices/%s/" $base (.slug | default "")) (printf "%sservices/" $base)) "item" (dict "@type" "Service" "name" .title "alternateName" .en "description" .desc "category" $cat "provider" (dict "@id" $personID) "areaServed" (dict "@type" "Country" "name" "Iran"))) -}}
   {{- end -}}{{- end -}}
   {{- $graph = $graph | append (dict "@type" "ItemList" "name" "خدمات مشاوره‌ی داده و هوش مصنوعی" "itemListElement" $list) -}}
 {{- else if and (eq .Type "training") .IsPage -}}
@@ -92,7 +77,7 @@
       "inLanguage" "fa-IR" "educationalLevel" $c.level "teaches" $c.outcomes
       "coursePrerequisites" $c.prereqs "syllabusSections" $mods "keywords" (delimit ($c.tools | default slice) ", ")
       "image" (partial "og-image.html" .).url
-      "provider" (dict "@id" $bizID)
+      "provider" (dict "@id" $personID)
       "offers" (dict "@type" "Offer" "category" "Paid" "url" (printf "https://%s/contact/?course=%s" site.Params.domain (urlquery $c.fa)) "availability" "https://schema.org/InStock")
       "hasCourseInstance" $inst) -}}
 {{- else if eq .Type "training" -}}

@@ -21,7 +21,7 @@ const formServer = createServer((req, res) => {
   });
 });
 formServer.listen(1324, "127.0.0.1", () => {
-  const child = spawn("hugo", ["server", "--bind", "127.0.0.1", "--port", "1323", "--baseURL", previewURL, "--environment", "development", "--config", "hugo.toml,.build/preview.toml", "--destination", ".build/local"], { cwd: root, stdio: "inherit" });
+  const child = spawn("hugo", ["server", "--disableFastRender", "--noHTTPCache", "--bind", "127.0.0.1", "--port", "1323", "--baseURL", previewURL, "--environment", "development", "--config", "hugo.toml,.build/preview.toml", "--destination", ".build/local"], { cwd: root, stdio: "inherit" });
   child.on("exit", code => { formServer.close(); process.exitCode = code || 0; });
   for (const signal of ["SIGINT", "SIGTERM"]) process.on(signal, () => { child.kill(signal); formServer.close(); });
 });

@@ -46,22 +46,6 @@
   </section>
   {{ end }}
 
-  {{ with site.Data.about.faq }}
-  <section class="h-in h-sec" id="faq">
-    <header class="h-sec-head">
-      <h2>پرسش‌های متداول دربارهٔ {{ site.Params.author }}</h2>
-    </header>
-    <div class="h-faq">
-      {{ range . }}
-      <details>
-        <summary>{{ .q }}<span>{{ partial "icon.html" "plus" }}</span></summary>
-        <p>{{ .a }}</p>
-      </details>
-      {{ end }}
-    </div>
-  </section>
-  {{ end }}
-
   <div class="h-in">{{ partial "cta.html" . }}</div>
 </div>
 {{ end }}

@@ -100,7 +100,6 @@
 {{- $faq := slice -}}
 {{- if .IsHome -}}{{- $faq = site.Data.home.faq -}}
 {{- else if eq .Type "consultation" -}}{{- $faq = site.Data.consultation.faq -}}
-{{- else if eq .Type "about" -}}{{- $faq = site.Data.about.faq -}}
 {{- else if and (eq .Type "training") .IsSection -}}{{- $faq = site.Data.training.faq -}}
 {{- else if and (eq .Type "services") .IsPage -}}{{- $faq = (partial "service-lookup.html" .Params.service).page.faq -}}{{- end -}}
 {{- with $faq -}}

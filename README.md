@@ -50,7 +50,7 @@ Persian — no first person:
 | `hugo.toml` `[params]`  | Name, headline, tagline, email, `about` paragraphs |
 | `data/principles.yaml`  | «اصول کاری» on the About page (title + description per principle) |
 | `data/home.yaml`        | Home page: hero text, stats, "worked with" names, services      |
-| `data/training.yaml`    | Training page (`/training/`): formats, career paths, course catalogue (mirrors datatweets.com), FAQ |
+| `data/training.yaml`    | Training page (`/training/`): formats, career paths, course catalogue, FAQ |
 | `data/courses/<slug>.yaml` | One course: summary, level, outcomes, prerequisites, tools, modules/lessons. Duration is derived in `layouts/partials/course-duration.html` (≤36 lessons → 2 days, 37–49 → 3, 50+ → 4; 8 h/day); an optional `hours:` overrides it |
 | `content/training/_index.md` | Training page (`layouts/training/list.html`)                |
 | `content/training/_content.gotmpl` | Generates one page per course at `/training/<slug>/` (`layouts/training/single.html`) |
@@ -176,9 +176,10 @@ the form shows a prefilled "send by email" fallback, so no enquiry is lost.
 
 ## Course outlines (training page)
 
-`data/courses/<slug>.yaml` holds the Persian outline of each course (translated
-from datatweets.com): title, summary, level, outcomes, prerequisites, tools,
-project and every module/lesson. From these:
+`data/courses/<slug>.yaml` holds the Persian outline of each course: title,
+summary, level, outcomes, prerequisites, tools, project and every
+module/lesson. Some courses adapt material from datatweets.com; others are
+developed from the trainer's professional experience. From these:
 
 - `content/outlines/_content.gotmpl` generates one printable page per course at
   `/outlines/<slug>/` (template: `layouts/outlines/single.html`, A4 print styles,

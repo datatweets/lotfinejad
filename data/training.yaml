@@ -1,5 +1,5 @@
 # Training page (layouts/training/single.html) and the home-page teaser.
-# Course catalogue mirrors https://datatweets.com (24 courses, 6 areas, 5 career paths).
+# Course catalogue includes 28 courses across 8 areas and 5 career paths.
 # Tone: plain, formal Persian for an Iranian audience; English only for tool names.
 
 eyebrow: "آموزش سازمانی"
@@ -9,7 +9,7 @@ lead: >-
   سرفصل، سطح و تمرین‌های هر دوره بر اساس نیاز تیم شما تنظیم می‌شود و آموزش کاملاً به زبان فارسی است.
 
 highlights:
-  - value: "۲۴"
+  - value: "۲۸"
     label: "دوره‌ی تخصصی"
   - value: "۵"
     label: "مسیر شغلی جامع"
@@ -67,6 +67,9 @@ catalog:
         - fa: "SQL و پایگاه داده"
           en: "SQL & Databases"
           slug: "sql"
+        - fa: "مدیریت پایگاه داده با SQL Server و T-SQL"
+          en: "SQL Server Database Management & T-SQL"
+          slug: "sql-server"
         - fa: "پردازش سریع داده با Polars"
           en: "Polars for Python Developers"
           slug: "polars-for-python-developers"
@@ -76,6 +79,12 @@ catalog:
         - fa: "ساخت اپلیکیشن داده با Streamlit"
           en: "Streamlit for Data Apps"
           slug: "streamlit-for-data-apps"
+    - title: "هوش تجاری و تحلیل مدیریتی"
+      icon: "chart"
+      courses:
+        - fa: "تحلیل داده با Power BI و آمادگی PL-300"
+          en: "Power BI Data Analyst (PL-300)"
+          slug: "power-bi-pl300"
     - title: "آمار و طراحی آزمایش"
       icon: "chart"
       courses:
@@ -115,6 +124,15 @@ catalog:
         - fa: "هدایت هوش مصنوعی تا انجام کامل کار"
           en: "Loop Engineering"
           slug: "loop-engineering"
+    - title: "معماری و عملیات هوش مصنوعی"
+      icon: "cpu"
+      courses:
+        - fa: "معماری سازمانی هوش مصنوعی"
+          en: "Enterprise AI Architecture"
+          slug: "ai-architecture"
+        - fa: "MLOps در Azure"
+          en: "MLOps with Azure"
+          slug: "mlops-azure"
     - title: "مهندسی داده"
       icon: "db"
       courses:
